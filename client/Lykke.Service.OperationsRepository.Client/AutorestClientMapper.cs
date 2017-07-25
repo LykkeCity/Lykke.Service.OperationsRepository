@@ -1,4 +1,4 @@
-﻿namespace Lykke.Service.OpeationsRepository.Client
+﻿namespace Lykke.Service.OperationsRepository.Client
 {
     public static class AutorestClientMapper
     {

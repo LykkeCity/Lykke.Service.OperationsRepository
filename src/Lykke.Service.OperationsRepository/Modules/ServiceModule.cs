@@ -1,19 +1,19 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Common.Log;
-using Lykke.Service.OpeationsRepository.Core;
+using Lykke.Service.OperationsRepository.Core;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lykke.Service.OpeationsRepository.Modules
+namespace Lykke.Service.OperationsRepository.Modules
 {
     public class ServiceModule : Module
     {
-        private readonly OpeationsRepositorySettings _settings;
+        private readonly OperationsRepositorySettings _settings;
         private readonly ILog _log;
         // NOTE: you can remove it if you don't need to use IServiceCollection extensions to register service specific dependencies
         private readonly IServiceCollection _services;
 
-        public ServiceModule(OpeationsRepositorySettings settings, ILog log)
+        public ServiceModule(OperationsRepositorySettings settings, ILog log)
         {
             _settings = settings;
             _log = log;

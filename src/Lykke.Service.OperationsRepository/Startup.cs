@@ -6,8 +6,8 @@ using Common.Log;
 using Lykke.Common.ApiLibrary.Middleware;
 using Lykke.Common.ApiLibrary.Swagger;
 using Lykke.Logs;
-using Lykke.Service.OpeationsRepository.Core;
-using Lykke.Service.OpeationsRepository.Modules;
+using Lykke.Service.OperationsRepository.Core;
+using Lykke.Service.OperationsRepository.Modules;
 using Lykke.SettingsReader;
 using Lykke.SlackNotification.AzureQueue;
 using Microsoft.AspNetCore.Builder;
@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lykke.Service.OpeationsRepository
+namespace Lykke.Service.OperationsRepository
 {
     public class Startup
     {
@@ -45,7 +45,7 @@ namespace Lykke.Service.OpeationsRepository
 
             services.AddSwaggerGen(options =>
             {
-                options.DefaultLykkeConfiguration("v1", "OpeationsRepository API");
+                options.DefaultLykkeConfiguration("v1", "OperationsRepository API");
             });
 
             var builder = new ContainerBuilder();
@@ -54,7 +54,7 @@ namespace Lykke.Service.OpeationsRepository
                 : HttpSettingsLoader.Load<AppSettings>(Configuration.GetValue<string>("SettingsUrl"));
             var log = CreateLogWithSlack(services, appSettings);
 
-            builder.RegisterModule(new ServiceModule(appSettings.OpeationsRepositoryService, log));
+            builder.RegisterModule(new ServiceModule(appSettings.OperationsRepositoryService, log));
             builder.Populate(services);
             ApplicationContainer = builder.Build();
 
@@ -68,7 +68,7 @@ namespace Lykke.Service.OpeationsRepository
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseLykkeMiddleware("OpeationsRepository", ex => new {Message = "Technical problem"});
+            app.UseLykkeMiddleware("OperationsRepository", ex => new {Message = "Technical problem"});
 
             app.UseMvc();
             app.UseSwagger();
@@ -89,13 +89,13 @@ namespace Lykke.Service.OpeationsRepository
 
             logAggregate.AddLogger(logToConsole);
 
-            var dbLogConnectionString = settings.OpeationsRepositoryService.Db.LogsConnString;
+            var dbLogConnectionString = settings.OperationsRepositoryService.Db.LogsConnString;
 
             // Creating azure storage logger, which logs own messages to concole log
             if (!string.IsNullOrEmpty(dbLogConnectionString) && !(dbLogConnectionString.StartsWith("${") && dbLogConnectionString.EndsWith("}")))
             {
-                logToAzureStorage = new LykkeLogToAzureStorage("Lykke.Service.OpeationsRepository", new AzureTableStorage<LogEntity>(
-                    dbLogConnectionString, "OpeationsRepositoryLog", logToConsole));
+                logToAzureStorage = new LykkeLogToAzureStorage("Lykke.Service.OperationsRepository", new AzureTableStorage<LogEntity>(
+                    dbLogConnectionString, "OperationsRepositoryLog", logToConsole));
 
                 logAggregate.AddLogger(logToAzureStorage);
             }

@@ -1,9 +1,9 @@
 ﻿using System;
-using Lykke.Service.OpeationsRepository.Models;
+using Lykke.Service.OperationsRepository.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.SwaggerGen.Annotations;
 
-namespace Lykke.Service.OpeationsRepository.Controllers
+namespace Lykke.Service.OperationsRepository.Controllers
 {
     [Route("api/[controller]")]
     public class IsAliveController : Controller

@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
-    <AssemblyName>Lykke.Service.OpeationsRepository.Core</AssemblyName>
-    <RootNamespace>Lykke.Service.OpeationsRepository.Core</RootNamespace>
+    <AssemblyName>Lykke.Service.OperationsRepository.Core</AssemblyName>
+    <RootNamespace>Lykke.Service.OperationsRepository.Core</RootNamespace>
     <Version>1.0.0</Version>
   </PropertyGroup>
 

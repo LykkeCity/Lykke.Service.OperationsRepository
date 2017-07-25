@@ -4,7 +4,7 @@ using System.Runtime.Loader;
 using System.Threading;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Lykke.Service.OpeationsRepository
+namespace Lykke.Service.OperationsRepository
 {
     public class Program
     {

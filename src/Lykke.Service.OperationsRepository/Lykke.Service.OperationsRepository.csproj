@@ -4,17 +4,17 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <OutputType>Exe</OutputType>
     <Version>1.0.1</Version>
-    <AssemblyName>Lykke.Service.OpeationsRepository</AssemblyName>
-    <RootNamespace>Lykke.Service.OpeationsRepository</RootNamespace>
+    <AssemblyName>Lykke.Service.OperationsRepository</AssemblyName>
+    <RootNamespace>Lykke.Service.OperationsRepository</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp1.1\Lykke.Service.OpeationsRepository.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp1.1\Lykke.Service.OperationsRepository.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp1.1\Lykke.Service.OpeationsRepository.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp1.1\Lykke.Service.OperationsRepository.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
@@ -51,14 +51,14 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\Lykke.Service.OpeationsRepository.AzureRepositories\Lykke.Service.OpeationsRepository.AzureRepositories.csproj" />
-    <ProjectReference Include="..\Lykke.Service.OpeationsRepository.Core\Lykke.Service.OpeationsRepository.Core.csproj" />
-    <ProjectReference Include="..\Lykke.Service.OpeationsRepository.Services\Lykke.Service.OpeationsRepository.Services.csproj" />
+    <ProjectReference Include="..\Lykke.Service.OperationsRepository.AzureRepositories\Lykke.Service.OperationsRepository.AzureRepositories.csproj" />
+    <ProjectReference Include="..\Lykke.Service.OperationsRepository.Core\Lykke.Service.OperationsRepository.Core.csproj" />
+    <ProjectReference Include="..\Lykke.Service.OperationsRepository.Services\Lykke.Service.OperationsRepository.Services.csproj" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <ItemGroup>
-      <DocFile Include="bin\*\*\Lykke.Service.OpeationsRepository.xml" />
+      <DocFile Include="bin\*\*\Lykke.Service.OperationsRepository.xml" />
     </ItemGroup>
     <Copy SourceFiles="@(DocFile)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
   </Target>

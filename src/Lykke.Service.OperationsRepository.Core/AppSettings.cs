@@ -1,12 +1,12 @@
-﻿namespace Lykke.Service.OpeationsRepository.Core
+﻿namespace Lykke.Service.OperationsRepository.Core
 {
     public class AppSettings
     {
-        public OpeationsRepositorySettings OpeationsRepositoryService { get; set; }
+        public OperationsRepositorySettings OperationsRepositoryService { get; set; }
         public SlackNotificationsSettings SlackNotifications { get; set; }
     }
 
-    public class OpeationsRepositorySettings
+    public class OperationsRepositorySettings
     {
         public DbSettings Db { get; set; }
     }

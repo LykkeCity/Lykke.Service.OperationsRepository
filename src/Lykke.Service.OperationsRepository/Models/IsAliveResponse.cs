@@ -1,4 +1,4 @@
-﻿namespace Lykke.Service.OpeationsRepository.Models
+﻿namespace Lykke.Service.OperationsRepository.Models
 {
     public class IsAliveResponse
     {

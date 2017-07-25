@@ -1,13 +1,13 @@
 ﻿using System;
 using Common.Log;
 
-namespace Lykke.Service.OpeationsRepository.Client
+namespace Lykke.Service.OperationsRepository.Client
 {
-    public class OpeationsRepositoryClient : IOpeationsRepositoryClient, IDisposable
+    public class OperationsRepositoryClient : IOperationsRepositoryClient, IDisposable
     {
         private readonly ILog _log;
 
-        public OpeationsRepositoryClient(string serviceUrl, ILog log)
+        public OperationsRepositoryClient(string serviceUrl, ILog log)
         {
             _log = log;
         }

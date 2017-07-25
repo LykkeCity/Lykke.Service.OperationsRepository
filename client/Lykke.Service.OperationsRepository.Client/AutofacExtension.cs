@@ -2,11 +2,11 @@
 using Autofac;
 using Common.Log;
 
-namespace Lykke.Service.OpeationsRepository.Client
+namespace Lykke.Service.OperationsRepository.Client
 {
     public static class AutofacExtension
     {
-        public static void RegisterOpeationsRepositoryClient(this ContainerBuilder builder, string serviceUrl, ILog log)
+        public static void RegisterOperationsRepositoryClient(this ContainerBuilder builder, string serviceUrl, ILog log)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
             if (serviceUrl == null) throw new ArgumentNullException(nameof(serviceUrl));
@@ -14,7 +14,7 @@ namespace Lykke.Service.OpeationsRepository.Client
             if (string.IsNullOrWhiteSpace(serviceUrl))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(serviceUrl));
 
-            builder.RegisterInstance(new OpeationsRepositoryClient(serviceUrl, log)).As<IOpeationsRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new OperationsRepositoryClient(serviceUrl, log)).As<IOperationsRepositoryClient>().SingleInstance();
         }
     }
 }
