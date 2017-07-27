@@ -40,6 +40,10 @@ namespace Lykke.Service.OperationsRepository.Modules
                         "OperationsCash", _log),
                     new AzureTableStorage<AzureIndex>(_settings.Db.RepoConnectionString, "OperationsCash", _log)));
 
+            builder.RegisterInstance<IClientTradesRepository>(
+                new ClientTradesRepository(
+                    new AzureTableStorage<ClientTradeEntity>(_settings.Db.RepoConnectionString, "Trades", _log)));
+
             builder.Populate(_services);
         }
     }
