@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 
@@ -20,6 +21,13 @@ namespace Lykke.Service.OperationsRepository.Validation
         public static bool ValidateTransactionId(string transactionId)
         {
             return !string.IsNullOrWhiteSpace(transactionId);
+        }
+
+        public static bool ValidateClientTrades(IClientTrade[] trades)
+        {
+            if (trades.Length == 0) return false;
+
+            return trades.All(t => t != null);
         }
     }
 }

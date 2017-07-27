@@ -13,8 +13,4 @@
     <ProjectReference Include="..\Lykke.Service.OperationsRepository.Core\Lykke.Service.OperationsRepository.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CashOperations\" />
-  </ItemGroup>
-
 </Project>
