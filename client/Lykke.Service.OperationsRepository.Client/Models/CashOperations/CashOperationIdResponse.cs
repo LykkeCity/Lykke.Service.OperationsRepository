@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Text;
+using Lykke.Service.OperationsRepository.AutorestClient.Models;
+using Microsoft.Rest;
+
+namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
+{
+    public class CashOperationIdResponse: BaseCashOperationResponse
+    {
+        public string Id { get; set; }
+
+        public static CashOperationIdResponse Prepare(HttpOperationResponse<object> apiResponse)
+        {
+            var error = apiResponse.Body as ErrorResponse;
+            var result = apiResponse.Body as string;
+
+            if (error != null)
+            {
+                return new CashOperationIdResponse
+                {
+                    Error = new ErrorModel
+                    {
+                        Message = error.ErrorMessage
+                    }
+                };
+            }
+
+            if (result != null)
+            {
+                return new CashOperationIdResponse
+                {
+                    Id = result
+                };
+            }
+
+            throw new ArgumentException("Unknown response object");
+        }
+    }
+}
