@@ -29,5 +29,10 @@ namespace Lykke.Service.OperationsRepository.Validation
 
             return trades.All(t => t != null);
         }
+
+        public static bool ValidateTransferEvent(ITransferEvent transferEvent)
+        {
+            return transferEvent != null;
+        }
     }
 }
