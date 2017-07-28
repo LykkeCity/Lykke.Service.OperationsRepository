@@ -49,6 +49,11 @@ namespace Lykke.Service.OperationsRepository.Modules
                     new AzureTableStorage<TransferEventEntity>(_settings.Db.RepoConnectionString, "Transfers", _log),
                     new AzureTableStorage<AzureIndex>(_settings.Db.RepoConnectionString, "Transfers", _log)));
 
+            builder.RegisterInstance<ICashOutAttemptRepository>(
+                new CashOutAttemptRepository(
+                    new AzureTableStorage<CashOutAttemptEntity>(_settings.Db.RepoConnectionString, "CashOutAttempt",
+                        _log)));
+
             builder.Populate(_services);
         }
     }
