@@ -34,5 +34,20 @@ namespace Lykke.Service.OperationsRepository.Validation
         {
             return transferEvent != null;
         }
+
+        public static bool ValidateCashOutRequest(ICashOutRequest request)
+        {
+            return request != null;
+        }
+
+        public static bool ValidatePaymentSystem(PaymentSystem system)
+        {
+            return system != null;
+        }
+
+        public static bool ValidatePaymentFields(object fields)
+        {
+            return fields != null;
+        }
     }
 }
