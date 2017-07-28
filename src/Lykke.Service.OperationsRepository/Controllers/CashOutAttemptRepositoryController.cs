@@ -22,7 +22,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("InsertRequest")]
-        [SwaggerOperation("InsertRequest")]
+        [SwaggerOperation("CashOutAttemptOperations_InsertRequest")]
         [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> InsertRequestAsync([FromBody] ICashOutRequest request,
@@ -45,7 +45,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpGet("GetAllAttempts")]
-        [SwaggerOperation("GetAllAttempts")]
+        [SwaggerOperation("CashOutAttemptOperations_GetAllAttempts")]
         [ProducesResponseType(typeof(IEnumerable<ICashOutRequest>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAllAttempts()
@@ -54,7 +54,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("SetBlockchainHash")]
-        [SwaggerOperation("SetBlockchainHash")]
+        [SwaggerOperation("CashOutAttemptOperations_SetBlockchainHash")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetBlockchainHash([FromBody] string clientId, [FromBody] string requestId,
@@ -79,7 +79,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("SetPending")]
-        [SwaggerOperation("SetPending")]
+        [SwaggerOperation("CashOutAttemptOperations_SetPending")]
         [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetPending([FromBody] string clientId, [FromBody] string requestId)
@@ -97,7 +97,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("SetConfirmed")]
-        [SwaggerOperation("SetConfirmed")]
+        [SwaggerOperation("CashOutAttemptOperations_SetConfirmed")]
         [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetConfirmed([FromBody] string clientId, [FromBody] string requestId)
@@ -115,7 +115,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("SetDocsRequested")]
-        [SwaggerOperation("SetDocsRequested")]
+        [SwaggerOperation("CashOutAttemptOperations_SetDocsRequested")]
         [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetDocsRequested([FromBody] string clientId, [FromBody] string requestId)
@@ -133,7 +133,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("SetDeclined")]
-        [SwaggerOperation("SetDeclined")]
+        [SwaggerOperation("CashOutAttemptOperations_SetDeclined")]
         [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetDeclined([FromBody] string clientId, [FromBody] string requestId)
@@ -151,7 +151,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("SetCanceledByClient")]
-        [SwaggerOperation("SetCanceledByClient")]
+        [SwaggerOperation("CashOutAttemptOperations_SetCanceledByClient")]
         [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetCanceledByClient([FromBody] string clientId, [FromBody] string requestId)
@@ -169,7 +169,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("SetCanceledByTimeout")]
-        [SwaggerOperation("SetCanceledByTimeout")]
+        [SwaggerOperation("CashOutAttemptOperations_SetCanceledByTimeout")]
         [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetCanceledByTimeout([FromBody] string clientId, [FromBody] string requestId)
@@ -187,7 +187,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("SetProcessed")]
-        [SwaggerOperation("SetProcessed")]
+        [SwaggerOperation("CashOutAttemptOperations_SetProcessed")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetProcessed([FromBody] string clientId, [FromBody] string requestId)
@@ -207,7 +207,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("SetIsSettledOffchain")]
-        [SwaggerOperation("SetIsSettledOffchain")]
+        [SwaggerOperation("CashOutAttemptOperations_SetIsSettledOffchain")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetIsSettledOffchain([FromBody] string clientId, [FromBody] string requestId)
@@ -227,7 +227,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpGet("GetHistoryRecords")]
-        [SwaggerOperation("GetHistoryRecords")]
+        [SwaggerOperation("CashOutAttemptOperations_GetHistoryRecords")]
         [ProducesResponseType(typeof(IEnumerable<ICashOutRequest>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetHistoryRecordsAsync([FromQuery] DateTime @from, [FromQuery] DateTime to)
