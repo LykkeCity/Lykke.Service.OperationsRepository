@@ -44,6 +44,11 @@ namespace Lykke.Service.OperationsRepository.Modules
                 new ClientTradesRepository(
                     new AzureTableStorage<ClientTradeEntity>(_settings.Db.RepoConnectionString, "Trades", _log)));
 
+            builder.RegisterInstance<ITransferEventsRepository>(
+                new TransferEventsRepository(
+                    new AzureTableStorage<TransferEventEntity>(_settings.Db.RepoConnectionString, "Transfers", _log),
+                    new AzureTableStorage<AzureIndex>(_settings.Db.RepoConnectionString, "Transfers", _log)));
+
             builder.Populate(_services);
         }
     }
