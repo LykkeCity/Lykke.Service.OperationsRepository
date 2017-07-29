@@ -8,12 +8,12 @@ namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
 {
     public class CashOperationsResponse: BaseCashOperationResponse
     {
-        public IEnumerable<ICashInOutOperation> Operations { get; set; }
+        public IEnumerable<CashInOutOperation> Operations { get; set; }
 
         public static CashOperationsResponse Prepare(HttpOperationResponse<object> apiResponse)
         {
             var error = apiResponse.Body as ErrorResponse;
-            var result = apiResponse.Body as IEnumerable<ICashInOutOperation>;
+            var result = apiResponse.Body as IEnumerable<CashInOutOperation>;
 
             if (error != null)
             {
