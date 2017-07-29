@@ -38,7 +38,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet]
         [SwaggerOperation("CashOperations_Get")]
-        [ProducesResponseType(typeof(IEnumerable<ICashInOutOperation>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<CashInOutOperation>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync([FromQuery] string clientId)
         {
@@ -52,7 +52,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByRecordId")]
         [SwaggerOperation("CashOperations_GetByRecordId")]
-        [ProducesResponseType(typeof(ICashInOutOperation), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CashInOutOperation), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync([FromQuery] string clientId, [FromQuery] string recordId)
         {
@@ -138,7 +138,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByHash")]
         [SwaggerOperation("CashOperations_GetByHash")]
-        [ProducesResponseType(typeof(IEnumerable<ICashInOutOperation>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<CashInOutOperation>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetByHashAsync([FromQuery] string blockchainHash)
         {
@@ -152,7 +152,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByMultisig")]
         [SwaggerOperation("CashOperations_GetByMultisig")]
-        [ProducesResponseType(typeof(IEnumerable<ICashInOutOperation>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<CashInOutOperation>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetByMultisigAsync([FromQuery] string multisig)
         {
@@ -166,7 +166,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByMultisigs")]
         [SwaggerOperation("CashOperations_GetByMultisigs")]
-        [ProducesResponseType(typeof(IEnumerable<ICashInOutOperation>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<CashInOutOperation>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetByMultisigsAsync([FromQuery] string[] multisigs)
         {
