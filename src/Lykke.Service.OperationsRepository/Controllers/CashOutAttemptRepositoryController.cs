@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Validation;
@@ -46,7 +47,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetAllAttempts")]
         [SwaggerOperation("CashOutAttemptOperations_GetAllAttempts")]
-        [ProducesResponseType(typeof(IEnumerable<ICashOutRequest>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<CashOutAttemptEntity>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAllAttempts()
         {
@@ -80,7 +81,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("SetPending")]
         [SwaggerOperation("CashOutAttemptOperations_SetPending")]
-        [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetPending([FromBody] string clientId, [FromBody] string requestId)
         {
@@ -98,7 +99,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("SetConfirmed")]
         [SwaggerOperation("CashOutAttemptOperations_SetConfirmed")]
-        [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetConfirmed([FromBody] string clientId, [FromBody] string requestId)
         {
@@ -116,7 +117,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("SetDocsRequested")]
         [SwaggerOperation("CashOutAttemptOperations_SetDocsRequested")]
-        [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetDocsRequested([FromBody] string clientId, [FromBody] string requestId)
         {
@@ -134,7 +135,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("SetDeclined")]
         [SwaggerOperation("CashOutAttemptOperations_SetDeclined")]
-        [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetDeclined([FromBody] string clientId, [FromBody] string requestId)
         {
@@ -152,7 +153,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("SetCanceledByClient")]
         [SwaggerOperation("CashOutAttemptOperations_SetCanceledByClient")]
-        [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetCanceledByClient([FromBody] string clientId, [FromBody] string requestId)
         {
@@ -170,7 +171,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("SetCanceledByTimeout")]
         [SwaggerOperation("CashOutAttemptOperations_SetCanceledByTimeout")]
-        [ProducesResponseType(typeof(ICashOutRequest), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetCanceledByTimeout([FromBody] string clientId, [FromBody] string requestId)
         {
@@ -228,7 +229,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetHistoryRecords")]
         [SwaggerOperation("CashOutAttemptOperations_GetHistoryRecords")]
-        [ProducesResponseType(typeof(IEnumerable<ICashOutRequest>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<CashOutAttemptEntity>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetHistoryRecordsAsync([FromQuery] DateTime @from, [FromQuery] DateTime to)
         {

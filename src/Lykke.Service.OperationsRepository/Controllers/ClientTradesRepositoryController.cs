@@ -22,7 +22,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("Save")]
         [SwaggerOperation("ClientTradeOperations_Save")]
-        [ProducesResponseType(typeof(IClientTrade[]), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ClientTrade[]), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SaveAsync([FromBody] params IClientTrade[] clientTrades)
         {
@@ -36,7 +36,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet]
         [SwaggerOperation("ClientTradeOperations_Get")]
-        [ProducesResponseType(typeof(IEnumerable<IClientTrade>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<ClientTrade>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync([FromQuery] string clientId)
         {
@@ -50,7 +50,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByDates")]
         [SwaggerOperation("ClientTradeOperations_GetByDates")]
-        [ProducesResponseType(typeof(IEnumerable<IClientTrade>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<ClientTrade>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync([FromQuery] DateTime from, [FromQuery] DateTime to)
         {
@@ -59,7 +59,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByRecordId")]
         [SwaggerOperation("ClientTradeOperations_GetByRecordId")]
-        [ProducesResponseType(typeof(IClientTrade), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ClientTrade), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync([FromQuery] string clientId, [FromQuery] string recordId)
         {
@@ -169,7 +169,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByMultisig")]
         [SwaggerOperation("ClientTradeOperations_GetByMultisig")]
-        [ProducesResponseType(typeof(IEnumerable<IClientTrade>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<ClientTrade>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetByMultisigAsync([FromQuery] string multisig)
         {
@@ -183,7 +183,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByMultisigs")]
         [SwaggerOperation("ClientTradeOperations_GetByMultisigs")]
-        [ProducesResponseType(typeof(IEnumerable<IClientTrade>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<ClientTrade>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetByMultisigsAsync([FromQuery] string[] multisigs)
         {
