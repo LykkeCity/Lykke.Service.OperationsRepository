@@ -23,7 +23,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("Register")]
         [SwaggerOperation("TransferOperations_Register")]
-        [ProducesResponseType(typeof(ITransferEvent), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TransferEvent), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> RegisterAsync([FromBody] ITransferEvent transferEvent)
         {
@@ -37,7 +37,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet]
         [SwaggerOperation("TransferOperations_Get")]
-        [ProducesResponseType(typeof(IEnumerable<ITransferEvent>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<TransferEvent>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync([FromQuery] string clientId)
         {
@@ -51,7 +51,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByRecordId")]
         [SwaggerOperation("TransferOperations_GetByRecordId")]
-        [ProducesResponseType(typeof(ITransferEvent), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TransferEvent), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync([FromQuery] string clientId, [FromQuery] string id)
         {
@@ -140,7 +140,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByHash")]
         [SwaggerOperation("TransferOperations_GetByHash")]
-        [ProducesResponseType(typeof(IEnumerable<ITransferEvent>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<TransferEvent>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetByHashAsync([FromQuery] string blockchainHash)
         {
@@ -154,7 +154,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByMultisig")]
         [SwaggerOperation("TransferOperations_GetByMultisig")]
-        [ProducesResponseType(typeof(IEnumerable<ITransferEvent>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<TransferEvent>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetByMultisigAsync([FromQuery] string multisig)
         {
@@ -168,7 +168,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByMultisigs")]
         [SwaggerOperation("TransferOperations_GetByMultisigs")]
-        [ProducesResponseType(typeof(IEnumerable<ITransferEvent>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<TransferEvent>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetByMultisigsAsync([FromQuery] string[] multisigs)
         {
