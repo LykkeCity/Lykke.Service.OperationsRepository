@@ -26,7 +26,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_InsertRequest")]
         [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> InsertRequestAsync([FromBody] ICashOutRequest request,
+        public async Task<IActionResult> InsertRequestAsync([FromBody] CashOutAttemptEntity request,
             [FromBody] PaymentSystem paymentSystem, [FromBody] object paymentFields, [FromBody] CashOutRequestTradeSystem tradeSystem)
         {
             if (!CashOperationsValidator.ValidateCashOutRequest(request))
