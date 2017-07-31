@@ -22,7 +22,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             /// <param name='transferEvent'>
             /// </param>
-            public static object Register(this ITransferOperations operations, ITransferEvent transferEvent = default(ITransferEvent))
+            public static object Register(this ITransferOperations operations, TransferEvent transferEvent = default(TransferEvent))
             {
                 return operations.RegisterAsync(transferEvent).GetAwaiter().GetResult();
             }
@@ -35,7 +35,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> RegisterAsync(this ITransferOperations operations, ITransferEvent transferEvent = default(ITransferEvent), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> RegisterAsync(this ITransferOperations operations, TransferEvent transferEvent = default(TransferEvent), CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.RegisterWithHttpMessagesAsync(transferEvent, null, cancellationToken).ConfigureAwait(false))
                 {

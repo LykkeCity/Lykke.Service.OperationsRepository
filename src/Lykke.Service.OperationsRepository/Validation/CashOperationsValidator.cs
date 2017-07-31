@@ -23,7 +23,7 @@ namespace Lykke.Service.OperationsRepository.Validation
             return !string.IsNullOrWhiteSpace(transactionId);
         }
 
-        public static bool ValidateClientTrades(IClientTrade[] trades)
+        public static bool ValidateClientTrades(ClientTrade[] trades)
         {
             if (trades.Length == 0) return false;
 

@@ -45,6 +45,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// </summary>
         public OperationsRepositoryAPI Client { get; private set; }
 
+        /// <param name='request'>
+        /// </param>
         /// <param name='paymentSystem'>
         /// </param>
         /// <param name='paymentFields'>
@@ -67,9 +69,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<object>> InsertRequestWithHttpMessagesAsync(PaymentSystem paymentSystem = default(PaymentSystem), object paymentFields = default(object), string tradeSystem = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> InsertRequestWithHttpMessagesAsync(CashOutAttemptEntity request = default(CashOutAttemptEntity), PaymentSystem paymentSystem = default(PaymentSystem), object paymentFields = default(object), string tradeSystem = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            ICashOutRequest request = default(ICashOutRequest);
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -77,10 +78,10 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("request", request);
                 tracingParameters.Add("paymentSystem", paymentSystem);
                 tracingParameters.Add("paymentFields", paymentFields);
                 tracingParameters.Add("tradeSystem", tradeSystem);
-                tracingParameters.Add("request", request);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "InsertRequest", tracingParameters);
             }
@@ -109,9 +110,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(paymentSystem != null)
+            if(request != null)
             {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(paymentSystem, Client.SerializationSettings);
+                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(request, Client.SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
             }

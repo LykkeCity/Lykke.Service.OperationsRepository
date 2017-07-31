@@ -32,7 +32,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<object>> SaveWithHttpMessagesAsync(IList<IClientTrade> clientTrades = default(IList<IClientTrade>), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> SaveWithHttpMessagesAsync(IList<ClientTrade> clientTrades = default(IList<ClientTrade>), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='clientId'>
         /// </param>
         /// <param name='customHeaders'>
