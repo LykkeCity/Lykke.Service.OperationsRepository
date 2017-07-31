@@ -25,7 +25,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("TransferOperations_Register")]
         [ProducesResponseType(typeof(TransferEvent), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> RegisterAsync([FromBody] ITransferEvent transferEvent)
+        public async Task<IActionResult> RegisterAsync([FromBody] TransferEvent transferEvent)
         {
             if (!CashOperationsValidator.ValidateTransferEvent(transferEvent))
             {

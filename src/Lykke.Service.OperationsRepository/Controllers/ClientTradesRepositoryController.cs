@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
@@ -24,7 +25,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("ClientTradeOperations_Save")]
         [ProducesResponseType(typeof(ClientTrade[]), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SaveAsync([FromBody] params IClientTrade[] clientTrades)
+        public async Task<IActionResult> SaveAsync([FromBody] params ClientTrade[] clientTrades)
         {
             if (!CashOperationsValidator.ValidateClientTrades(clientTrades))
             {
