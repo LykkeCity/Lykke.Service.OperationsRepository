@@ -59,9 +59,9 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             return ClientTradeResponse.Prepare(response);
         }
 
-        public Task UpdateBlockChainHashAsync(string clientId, string recordId, string hash)
+        public async Task UpdateBlockChainHashAsync(string clientId, string recordId, string hash)
         {
-            throw new NotImplementedException();
+            await _apiClient.ClientTradeOperations.UpdateBlockchainHashWithHttpMessagesAsync(clientId, recordId, hash);
         }
 
         public Task SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations)
