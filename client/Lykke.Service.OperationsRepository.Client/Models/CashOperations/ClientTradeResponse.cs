@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Lykke.Service.OperationsRepository.AutorestClient.Models;
 using Microsoft.Rest;
 

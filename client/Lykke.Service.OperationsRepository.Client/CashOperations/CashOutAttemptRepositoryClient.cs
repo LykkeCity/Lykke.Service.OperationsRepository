@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Autofac;
-using Common.Log;
 using Lykke.Service.OperationsRepository.AutorestClient;
 using Lykke.Service.OperationsRepository.AutorestClient.Models;
 using Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations;
@@ -13,12 +9,10 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 {
     public class CashOutAttemptRepositoryClient: ICashOutAttemptOperationsRepositoryClient, IDisposable
     {
-        private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;
 
-        public CashOutAttemptRepositoryClient(string serviceUrl, ILog log)
+        public CashOutAttemptRepositoryClient(string serviceUrl)
         {
-            _log = log;
             _apiClient = new OperationsRepositoryAPI(new Uri(serviceUrl));
         }
 

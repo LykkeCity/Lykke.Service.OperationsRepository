@@ -4,8 +4,6 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient
 {
-    using Lykke.Service;
-    using Lykke.Service.OperationsRepository;
     using Models;
     using System.Threading;
     using System.Threading.Tasks;
