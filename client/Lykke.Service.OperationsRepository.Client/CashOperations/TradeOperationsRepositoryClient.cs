@@ -45,9 +45,11 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             return ClientTradesResponse.Prepare(response);
         }
 
-        public Task<ClientTradesResponse> GetAsync(DateTime @from, DateTime to)
+        public async Task<ClientTradesResponse> GetAsync(DateTime @from, DateTime to)
         {
-            throw new NotImplementedException();
+            var response = await _apiClient.ClientTradeOperations.GetByDatesWithHttpMessagesAsync(@from, @to);
+
+            return ClientTradesResponse.Prepare(response);
         }
 
         public Task<ClientTradeResponse> GetAsync(string clientId, string recordId)
