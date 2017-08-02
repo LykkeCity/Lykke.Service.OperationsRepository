@@ -12,7 +12,7 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
         Task<ClientTradesResponse> GetAsync(string clientId);
         Task<ClientTradesResponse> GetAsync(DateTime from, DateTime to);
         Task<ClientTradeResponse> GetAsync(string clientId, string recordId);
-        Task UpdateBlockChainHashAsync(string clientId, string recordId, string hash);
+        Task UpdateBlockchainHashAsync(string clientId, string recordId, string hash);
         Task SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations);
         Task SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId);
         Task SetIsSettledAsync(string clientId, string id, bool offchain);
