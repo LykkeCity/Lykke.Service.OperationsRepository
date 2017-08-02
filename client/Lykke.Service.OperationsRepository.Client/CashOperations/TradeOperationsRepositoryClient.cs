@@ -1,25 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Common.Log;
 using Lykke.Service.OperationsRepository.AutorestClient;
 using Lykke.Service.OperationsRepository.AutorestClient.Models;
 using Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations;
 using Lykke.Service.OperationsRepository.Client.Models.CashOperations;
-using Microsoft.Rest.Serialization;
 
 namespace Lykke.Service.OperationsRepository.Client.CashOperations
 {
     public class TradeOperationsRepositoryClient: ITradeOperationsRepositoryClient, IDisposable
     {
-        private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;
 
-        public TradeOperationsRepositoryClient(string serviceUrl, ILog log)
+        public TradeOperationsRepositoryClient(string serviceUrl)
         {
-            _log = log;
             _apiClient = new OperationsRepositoryAPI(new Uri(serviceUrl));
         }
 

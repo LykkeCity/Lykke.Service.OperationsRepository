@@ -4,11 +4,7 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
-    using Lykke.Service;
-    using Lykke.Service.OperationsRepository;
-    using Lykke.Service.OperationsRepository.AutorestClient;
     using Newtonsoft.Json;
-    using System.Linq;
 
     public partial class CashOutAttemptEntity
     {

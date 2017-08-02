@@ -4,14 +4,10 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient
 {
-    using Lykke.Service;
-    using Lykke.Service.OperationsRepository;
     using Microsoft.Rest;
     using Models;
     using Newtonsoft.Json;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.IO;
     using System.Net;
     using System.Net.Http;
     using System.Threading;

@@ -4,12 +4,8 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
-    using Lykke.Service;
-    using Lykke.Service.OperationsRepository;
-    using Lykke.Service.OperationsRepository.AutorestClient;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
-    using System.Runtime;
     using System.Runtime.Serialization;
 
     /// <summary>
