@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <PackageId>Lykke.Service.OperationsRepository.Client</PackageId>
+    <PackageId>Lykke.Service.OperationsRepository.Client.Republished</PackageId>
     <Version>1.0.1</Version>
     <Authors>Lykke</Authors>
     <Company>Lykke</Company>
