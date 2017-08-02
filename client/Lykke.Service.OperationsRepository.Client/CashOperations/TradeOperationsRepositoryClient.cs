@@ -47,14 +47,16 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public async Task<ClientTradesResponse> GetAsync(DateTime @from, DateTime to)
         {
-            var response = await _apiClient.ClientTradeOperations.GetByDatesWithHttpMessagesAsync(@from, @to);
+            var response = await _apiClient.ClientTradeOperations.GetByDatesWithHttpMessagesAsync(@from, to);
 
             return ClientTradesResponse.Prepare(response);
         }
 
-        public Task<ClientTradeResponse> GetAsync(string clientId, string recordId)
+        public async Task<ClientTradeResponse> GetAsync(string clientId, string recordId)
         {
-            throw new NotImplementedException();
+            var response = await _apiClient.ClientTradeOperations.GetByRecordIdWithHttpMessagesAsync(clientId, recordId);
+
+            return ClientTradeResponse.Prepare(response);
         }
 
         public Task UpdateBlockChainHashAsync(string clientId, string recordId, string hash)
