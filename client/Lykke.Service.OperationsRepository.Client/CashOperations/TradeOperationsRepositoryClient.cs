@@ -85,9 +85,9 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         {
             var response = _apiClient.ClientTradeOperations.GetByMultisigWithHttpMessagesAsync(multisig);
 
-            return null;
+            response.Wait();
 
-            //response.Wait();
+            return null;
 
             //var prepared = ClientTradesResponse.Prepare(response.Result);
 
