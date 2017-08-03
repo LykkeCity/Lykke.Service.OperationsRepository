@@ -64,21 +64,21 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             await _apiClient.ClientTradeOperations.UpdateBlockchainHashWithHttpMessagesAsync(clientId, recordId, hash);
         }
 
-        public Task SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations)
+        public async Task SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations)
         {
-            return _apiClient.ClientTradeOperations.SetDetectionTimeAndConfirmationsWithHttpMessagesAsync(clientId,
+            await _apiClient.ClientTradeOperations.SetDetectionTimeAndConfirmationsWithHttpMessagesAsync(clientId,
                 recordId, detectTime, confirmations);
         }
 
-        public Task SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId)
+        public async Task SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId)
         {
-            return _apiClient.ClientTradeOperations.SetBtcTransactionWithHttpMessagesAsync(clientId, recordId,
+            await _apiClient.ClientTradeOperations.SetBtcTransactionWithHttpMessagesAsync(clientId, recordId,
                 btcTransactionId);
         }
 
-        public Task SetIsSettledAsync(string clientId, string id, bool offchain)
+        public async Task SetIsSettledAsync(string clientId, string id, bool offchain)
         {
-            return _apiClient.ClientTradeOperations.SetIsSettledWithHttpMessagesAsync(clientId, id, offchain);
+            await _apiClient.ClientTradeOperations.SetIsSettledWithHttpMessagesAsync(clientId, id, offchain);
         }
 
         public async Task<ClientTradesResponse> GetByMultisigAsync(string multisig)
@@ -88,9 +88,11 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             return ClientTradesResponse.Prepare(response);
         }
 
-        public Task<ClientTradesResponse> GetByMultisigsAsync(string[] multisigs)
+        public async Task<ClientTradesResponse> GetByMultisigsAsync(string[] multisigs)
         {
-            throw new NotImplementedException();
+            var response = await _apiClient.ClientTradeOperations.GetByMultisigsWithHttpMessagesAsync(multisigs);
+
+            return ClientTradesResponse.Prepare(response);
         }
     }
 }
