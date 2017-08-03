@@ -72,12 +72,13 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public Task SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId)
         {
-            throw new NotImplementedException();
+            return _apiClient.ClientTradeOperations.SetBtcTransactionWithHttpMessagesAsync(clientId, recordId,
+                btcTransactionId);
         }
 
         public Task SetIsSettledAsync(string clientId, string id, bool offchain)
         {
-            throw new NotImplementedException();
+            return _apiClient.ClientTradeOperations.SetIsSettledWithHttpMessagesAsync(clientId, id, offchain);
         }
 
         public Task<ClientTradesResponse> GetByMultisigAsync(string multisig)
