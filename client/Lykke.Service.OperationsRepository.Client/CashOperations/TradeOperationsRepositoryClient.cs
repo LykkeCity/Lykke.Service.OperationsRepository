@@ -83,8 +83,9 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public Task<ClientTradesResponse> GetByMultisigAsync(string multisig)
         {
-            throw new NotImplementedException();
-            //var response = _apiClient.ClientTradeOperations.GetByMultisigWithHttpMessagesAsync(multisig);
+            var response = _apiClient.ClientTradeOperations.GetByMultisigWithHttpMessagesAsync(multisig);
+
+            return null;
 
             //response.Wait();
 
