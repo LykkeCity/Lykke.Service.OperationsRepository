@@ -1,7 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <PackageId>Lykke.Service.OperationsRepository.Client.Core</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>Lykke</Authors>
+    <Company>Lykke</Company>
+    <Product>Lykke.Service.OperationsRepository</Product>
+    <Description>Client core for Lykke.Service.OperationsRepository API</Description>
+    <Copyright>@2017 - Lykke</Copyright>
+    <PackageLicenseUrl>https://github.com/LykkeCity/Lykke.Service.OperationsRepository/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/LykkeCity/Lykke.Service.OperationsRepository</PackageProjectUrl>
+    <PackageIconUrl>https://avatars3.githubusercontent.com/u/14153330?v=3&amp;s=200</PackageIconUrl>
+    <RepositoryUrl>https://github.com/LykkeCity/Lykke.Service.OperationsRepository.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Lykke</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
