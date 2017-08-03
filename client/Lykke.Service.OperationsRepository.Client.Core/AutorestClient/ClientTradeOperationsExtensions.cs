@@ -22,7 +22,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             /// <param name='clientTrades'>
             /// </param>
-            public static object Save(this IClientTradeOperations operations, IList<IClientTrade> clientTrades = default(IList<IClientTrade>))
+            public static object Save(this IClientTradeOperations operations, IList<ClientTrade> clientTrades = default(IList<ClientTrade>))
             {
                 return operations.SaveAsync(clientTrades).GetAwaiter().GetResult();
             }
@@ -35,7 +35,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> SaveAsync(this IClientTradeOperations operations, IList<IClientTrade> clientTrades = default(IList<IClientTrade>), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> SaveAsync(this IClientTradeOperations operations, IList<ClientTrade> clientTrades = default(IList<ClientTrade>), CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.SaveWithHttpMessagesAsync(clientTrades, null, cancellationToken).ConfigureAwait(false))
                 {

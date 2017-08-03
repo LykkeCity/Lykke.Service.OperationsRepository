@@ -17,6 +17,9 @@ namespace Lykke.Service.OperationsRepository.Client
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(serviceUrl));
 
             builder.RegisterInstance(new CashOperationsRepositoryClient(serviceUrl, log)).As<ICashOperationsRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new CashOutAttemptRepositoryClient(serviceUrl, log)).As<ICashOutAttemptOperationsRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new TradeOperationsRepositoryClient(serviceUrl, log)).As<ITradeOperationsRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new TransferOperationsRepositoryClient(serviceUrl, log)).As<ITransferOperationsRepositoryClient>().SingleInstance();
         }
     }
 }
