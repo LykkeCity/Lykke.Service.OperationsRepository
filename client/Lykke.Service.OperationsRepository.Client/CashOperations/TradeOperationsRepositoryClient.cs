@@ -89,9 +89,7 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
             var prepared = ClientTradesResponse.Prepare(response.Result);
 
-            return null;
-
-            //return Task.FromResult(prepared);
+            return Task.FromResult(prepared);
         }
 
         public Task<ClientTradesResponse> GetByMultisigsAsync(string[] multisigs)
