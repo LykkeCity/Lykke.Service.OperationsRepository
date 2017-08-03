@@ -87,9 +87,9 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
             response.Wait();
 
-            return null;
+            var prepared = ClientTradesResponse.Prepare(response.Result);
 
-            //var prepared = ClientTradesResponse.Prepare(response.Result);
+            return null;
 
             //return Task.FromResult(prepared);
         }
