@@ -81,14 +81,18 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             return _apiClient.ClientTradeOperations.SetIsSettledWithHttpMessagesAsync(clientId, id, offchain);
         }
 
-        public Task<ClientTradesResponse> GetByMultisigAsync(string multisig)
+        public async Task<ClientTradesResponse> GetByMultisigAsync(string multisig)
         {
-            throw new NotImplementedException();
+            var response = await _apiClient.ClientTradeOperations.GetByMultisigWithHttpMessagesAsync(multisig);
+
+            return ClientTradesResponse.Prepare(response);
         }
 
-        public Task<ClientTradesResponse> GetByMultisigsAsync(string[] multisigs)
+        public async Task<ClientTradesResponse> GetByMultisigsAsync(string[] multisigs)
         {
-            throw new NotImplementedException();
+            var response = await _apiClient.ClientTradeOperations.GetByMultisigsWithHttpMessagesAsync(multisigs);
+
+            return ClientTradesResponse.Prepare(response);
         }
     }
 }
