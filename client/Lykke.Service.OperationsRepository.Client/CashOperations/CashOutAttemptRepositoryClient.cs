@@ -116,5 +116,19 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
             return CashOutAttemptsResponse.Prepare(response);
         }
+
+        public async Task<CashOutAttemptsResponse> GetRequestsAsync(string clientId)
+        {
+            var response = await _apiClient.CashOutAttemptOperations.GetRequestsWithHttpMessagesAsync(clientId);
+
+            return CashOutAttemptsResponse.Prepare(response);
+        }
+
+        public async Task<CashOutAttemptResponse> GetAsync(string clientId, string id)
+        {
+            var response = await _apiClient.CashOutAttemptOperations.GetWithHttpMessagesAsync(clientId, id);
+
+            return CashOutAttemptResponse.Prepare(response);
+        }
     }
 }
