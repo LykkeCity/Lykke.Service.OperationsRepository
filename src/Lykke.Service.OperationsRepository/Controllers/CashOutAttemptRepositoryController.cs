@@ -235,5 +235,37 @@ namespace Lykke.Service.OperationsRepository.Controllers
         {
             return Ok(await _cashOutAttemptRepo.GetHistoryRecordsAsync(from, to));
         }
+
+        [HttpGet("GetRequests")]
+        [SwaggerOperation("CashOutAttemptOperations_GetRequests")]
+        [ProducesResponseType(typeof(IEnumerable<CashOutAttemptEntity>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetRequestsAsync([FromQuery] string clientId)
+        {
+            if (!CommonValidator.ValidateClientId(clientId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(clientId)));
+            }
+
+            return Ok(await _cashOutAttemptRepo.GetRequestsAsync(clientId));
+        }
+
+        [HttpGet]
+        [SwaggerOperation("CashOutAttemptOperations_Get")]
+        [ProducesResponseType(typeof(CashOutAttemptEntity), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetAsync([FromQuery] string clientId, [FromQuery] string id)
+        {
+            if (!CommonValidator.ValidateClientId(clientId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(clientId)));
+            }
+            if (!CommonValidator.ValidateRecordId(id))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(id)));
+            }
+
+            return Ok(await _cashOutAttemptRepo.GetAsync(clientId, id));
+        }
     }
 }
