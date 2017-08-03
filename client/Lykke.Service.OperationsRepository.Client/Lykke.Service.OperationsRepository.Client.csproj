@@ -18,13 +18,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AutorestClient\**" />
+    <EmbeddedResource Remove="AutorestClient\**" />
+    <None Remove="AutorestClient\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
     <PackageReference Include="Lykke.Common" Version="1.1.79" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AutorestClient\" />
+    <ProjectReference Include="..\Lykke.Service.OperationsRepository.Client.Core\Lykke.Service.OperationsRepository.Client.Core.csproj" />
   </ItemGroup>
 
 </Project>
