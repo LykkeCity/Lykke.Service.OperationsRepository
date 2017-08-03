@@ -14,11 +14,11 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
     using System.Threading.Tasks;
 
     /// <summary>
-    /// ClientTradeOperations operations.
+    /// TransferOperations operations.
     /// </summary>
-    public partial interface IClientTradeOperations
+    public partial interface ITransferOperations
     {
-        /// <param name='clientTrades'>
+        /// <param name='transferEvent'>
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -32,7 +32,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<object>> SaveWithHttpMessagesAsync(IList<IClientTrade> clientTrades = default(IList<IClientTrade>), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> RegisterWithHttpMessagesAsync(TransferEvent transferEvent = default(TransferEvent), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='clientId'>
         /// </param>
         /// <param name='customHeaders'>
@@ -48,26 +48,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// Thrown when unable to deserialize the response
         /// </exception>
         Task<HttpOperationResponse<object>> GetWithHttpMessagesAsync(string clientId = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-        /// <param name='fromParameter'>
-        /// </param>
-        /// <param name='to'>
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        /// <exception cref="Microsoft.Rest.HttpOperationException">
-        /// Thrown when the operation returned an invalid status code
-        /// </exception>
-        /// <exception cref="Microsoft.Rest.SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
-        Task<HttpOperationResponse<object>> GetByDatesWithHttpMessagesAsync(System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='clientId'>
         /// </param>
-        /// <param name='recordId'>
+        /// <param name='id'>
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -81,12 +64,12 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<object>> GetByRecordIdWithHttpMessagesAsync(string clientId = default(string), string recordId = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> GetByRecordIdWithHttpMessagesAsync(string clientId = default(string), string id = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='clientId'>
         /// </param>
-        /// <param name='recordId'>
+        /// <param name='id'>
         /// </param>
-        /// <param name='hash'>
+        /// <param name='blockChainHash'>
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -100,14 +83,12 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<ErrorResponse>> UpdateBlockchainHashWithHttpMessagesAsync(string clientId = default(string), string recordId = default(string), string hash = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<ErrorResponse>> UpdateBlockchainHashWithHttpMessagesAsync(string clientId = default(string), string id = default(string), string blockChainHash = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='clientId'>
         /// </param>
-        /// <param name='recordId'>
+        /// <param name='id'>
         /// </param>
-        /// <param name='detectTime'>
-        /// </param>
-        /// <param name='confirmations'>
+        /// <param name='btcTransaction'>
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -121,26 +102,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<ErrorResponse>> SetDetectionTimeAndConfirmationsWithHttpMessagesAsync(string clientId = default(string), string recordId = default(string), System.DateTime? detectTime = default(System.DateTime?), int? confirmations = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-        /// <param name='clientId'>
-        /// </param>
-        /// <param name='recordId'>
-        /// </param>
-        /// <param name='btcTransactionId'>
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        /// <exception cref="Microsoft.Rest.HttpOperationException">
-        /// Thrown when the operation returned an invalid status code
-        /// </exception>
-        /// <exception cref="Microsoft.Rest.SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
-        Task<HttpOperationResponse<ErrorResponse>> SetBtcTransactionWithHttpMessagesAsync(string clientId = default(string), string recordId = default(string), string btcTransactionId = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<ErrorResponse>> SetBtcTransactionWithHttpMessagesAsync(string clientId = default(string), string id = default(string), string btcTransaction = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='clientId'>
         /// </param>
         /// <param name='id'>
@@ -159,7 +121,22 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<ErrorResponse>> SetIsSettledWithHttpMessagesAsync(string clientId = default(string), string id = default(string), bool? offchain = default(bool?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<ErrorResponse>> SetIsSettledIfExistsWithHttpMessagesAsync(string clientId = default(string), string id = default(string), bool? offchain = default(bool?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <param name='blockchainHash'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        /// <exception cref="Microsoft.Rest.HttpOperationException">
+        /// Thrown when the operation returned an invalid status code
+        /// </exception>
+        /// <exception cref="Microsoft.Rest.SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
+        Task<HttpOperationResponse<object>> GetByHashWithHttpMessagesAsync(string blockchainHash = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='multisig'>
         /// </param>
         /// <param name='customHeaders'>
