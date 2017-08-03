@@ -32,11 +32,16 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             _apiClient = null;
         }
 
-        public async Task<CashOperationIdResponse> RegisterAsync(CashInOutOperation operation)
-        {
-            var response = await _apiClient.CashOperations.RegisterWithHttpMessagesAsync(operation);
+        //public async Task<CashOperationIdResponse> RegisterAsync(CashInOutOperation operation)
+        //{
+        //    var response = await _apiClient.CashOperations.RegisterWithHttpMessagesAsync(operation);
 
-            return CashOperationIdResponse.Prepare(response);
+        //    return CashOperationIdResponse.Prepare(response);
+        //}
+
+        public Task<CashOperationIdResponse> RegisterAsync(CashInOutOperation operation)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<CashOperationsResponse> GetAsync(string clientId)
