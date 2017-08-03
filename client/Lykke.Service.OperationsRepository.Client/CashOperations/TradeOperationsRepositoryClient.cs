@@ -81,18 +81,23 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             return _apiClient.ClientTradeOperations.SetIsSettledWithHttpMessagesAsync(clientId, id, offchain);
         }
 
-        public async Task<ClientTradesResponse> GetByMultisigAsync(string multisig)
+        public Task<ClientTradesResponse> GetByMultisigAsync(string multisig)
         {
-            var response = await _apiClient.ClientTradeOperations.GetByMultisigWithHttpMessagesAsync(multisig);
+            var response = _apiClient.ClientTradeOperations.GetByMultisigWithHttpMessagesAsync(multisig);
 
-            return ClientTradesResponse.Prepare(response);
+            response.Wait();
+
+            var prepared = ClientTradesResponse.Prepare(response.Result);
+
+            return Task.FromResult(prepared);
         }
 
-        public async Task<ClientTradesResponse> GetByMultisigsAsync(string[] multisigs)
+        public Task<ClientTradesResponse> GetByMultisigsAsync(string[] multisigs)
         {
-            var response = await _apiClient.ClientTradeOperations.GetByMultisigsWithHttpMessagesAsync(multisigs);
+            throw new NotImplementedException();
+            //var response = await _apiClient.ClientTradeOperations.GetByMultisigsWithHttpMessagesAsync(multisigs);
 
-            return ClientTradesResponse.Prepare(response);
+            //return ClientTradesResponse.Prepare(response);
         }
     }
 }
