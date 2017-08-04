@@ -30,21 +30,27 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             _apiClient = null;
         }
 
-        public async Task<CashOutAttemptIdResponse> InsertRequestAsync<T>(CashOutAttemptEntity request, PaymentSystem paymentSystem, T paymentFields,
+        public async Task<string> InsertRequestAsync<T>(CashOutAttemptEntity request, PaymentSystem paymentSystem, T paymentFields,
             string tradeSystem)
         {
             var response =
                 await _apiClient.CashOutAttemptOperations.InsertRequestWithHttpMessagesAsync(
                     request, paymentSystem, paymentFields, tradeSystem);
 
-            return CashOutAttemptIdResponse.Prepare(response);
+            return CashOutAttemptIdResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOutAttemptsResponse> GetAllAttempts()
+        public async Task<IEnumerable<CashOutAttemptEntity>> GetAllAttempts()
         {
             var response = await _apiClient.CashOutAttemptOperations.GetAllAttemptsWithHttpMessagesAsync();
 
-            return CashOutAttemptsResponse.Prepare(response);
+            return CashOutAttemptsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
         public async Task SetBlockchainHash(string clientId, string requestId, string hash)
@@ -52,52 +58,70 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             await _apiClient.CashOutAttemptOperations.SetBlockchainHashWithHttpMessagesAsync(clientId, requestId, hash);
         }
 
-        public async Task<CashOutAttemptResponse> SetPending(string clientId, string requestId)
+        public async Task<CashOutAttemptEntity> SetPending(string clientId, string requestId)
         {
             var response =
                 await _apiClient.CashOutAttemptOperations.SetPendingWithHttpMessagesAsync(clientId, requestId);
 
-            return CashOutAttemptResponse.Prepare(response);
+            return CashOutAttemptResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOutAttemptResponse> SetConfirmed(string clientId, string requestId)
+        public async Task<CashOutAttemptEntity> SetConfirmed(string clientId, string requestId)
         {
             var response =
                 await _apiClient.CashOutAttemptOperations.SetConfirmedWithHttpMessagesAsync(clientId, requestId);
 
-            return CashOutAttemptResponse.Prepare(response);
+            return CashOutAttemptResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOutAttemptResponse> SetDocsRequested(string clientId, string requestId)
+        public async Task<CashOutAttemptEntity> SetDocsRequested(string clientId, string requestId)
         {
             var response =
                 await _apiClient.CashOutAttemptOperations.SetDocsRequestedWithHttpMessagesAsync(clientId, requestId);
 
-            return CashOutAttemptResponse.Prepare(response);
+            return CashOutAttemptResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOutAttemptResponse> SetDeclined(string clientId, string requestId)
+        public async Task<CashOutAttemptEntity> SetDeclined(string clientId, string requestId)
         {
             var response =
                 await _apiClient.CashOutAttemptOperations.SetDeclinedWithHttpMessagesAsync(clientId, requestId);
 
-            return CashOutAttemptResponse.Prepare(response);
+            return CashOutAttemptResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOutAttemptResponse> SetCanceledByClient(string clientId, string requestId)
+        public async Task<CashOutAttemptEntity> SetCanceledByClient(string clientId, string requestId)
         {
             var response =
                 await _apiClient.CashOutAttemptOperations.SetCanceledByClientWithHttpMessagesAsync(clientId, requestId);
 
-            return CashOutAttemptResponse.Prepare(response);
+            return CashOutAttemptResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOutAttemptResponse> SetCanceledByTimeout(string clientId, string requestId)
+        public async Task<CashOutAttemptEntity> SetCanceledByTimeout(string clientId, string requestId)
         {
             var response =
                 await _apiClient.CashOutAttemptOperations.SetCanceledByTimeoutWithHttpMessagesAsync(clientId, requestId);
 
-            return CashOutAttemptResponse.Prepare(response);
+            return CashOutAttemptResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
         public async Task SetProcessed(string clientId, string requestId)
@@ -110,25 +134,34 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             await _apiClient.CashOutAttemptOperations.SetIsSettledOffchainWithHttpMessagesAsync(clientId, requestId);
         }
 
-        public async Task<CashOutAttemptsResponse> GetHistoryRecordsAsync(DateTime @from, DateTime to)
+        public async Task<IEnumerable<CashOutAttemptEntity>> GetHistoryRecordsAsync(DateTime @from, DateTime to)
         {
             var response = await _apiClient.CashOutAttemptOperations.GetHistoryRecordsWithHttpMessagesAsync(@from, @to);
 
-            return CashOutAttemptsResponse.Prepare(response);
+            return CashOutAttemptsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOutAttemptsResponse> GetRequestsAsync(string clientId)
+        public async Task<IEnumerable<CashOutAttemptEntity>> GetRequestsAsync(string clientId)
         {
             var response = await _apiClient.CashOutAttemptOperations.GetRequestsWithHttpMessagesAsync(clientId);
 
-            return CashOutAttemptsResponse.Prepare(response);
+            return CashOutAttemptsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOutAttemptResponse> GetAsync(string clientId, string id)
+        public async Task<CashOutAttemptEntity> GetAsync(string clientId, string id)
         {
             var response = await _apiClient.CashOutAttemptOperations.GetWithHttpMessagesAsync(clientId, id);
 
-            return CashOutAttemptResponse.Prepare(response);
+            return CashOutAttemptResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.Rest;
 
 namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
 {
-    public class ClientTradeResponse: BaseCashOperationResponse
+    public class ClientTradeResponse: BaseCashOperationResponse<ClientTrade>
     {
         public ClientTrade Operation { get; set; }
 
@@ -35,6 +35,11 @@ namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
             }
 
             throw new ArgumentException("Unknown response object");
+        }
+
+        public override ClientTrade GetPayload()
+        {
+            return Operation;
         }
     }
 }

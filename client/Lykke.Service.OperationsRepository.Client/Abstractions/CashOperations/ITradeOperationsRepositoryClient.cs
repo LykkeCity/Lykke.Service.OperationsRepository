@@ -8,15 +8,15 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
 {
     public interface ITradeOperationsRepositoryClient
     {
-        Task<ClientTradesResponse> SaveAsync(params ClientTrade[] clientTrades);
-        Task<ClientTradesResponse> GetAsync(string clientId);
-        Task<ClientTradesResponse> GetAsync(DateTime from, DateTime to);
-        Task<ClientTradeResponse> GetAsync(string clientId, string recordId);
+        Task<IEnumerable<ClientTrade>> SaveAsync(params ClientTrade[] clientTrades);
+        Task<IEnumerable<ClientTrade>> GetAsync(string clientId);
+        Task<IEnumerable<ClientTrade>> GetAsync(DateTime from, DateTime to);
+        Task<ClientTrade> GetAsync(string clientId, string recordId);
         Task UpdateBlockchainHashAsync(string clientId, string recordId, string hash);
         Task SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations);
         Task SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId);
         Task SetIsSettledAsync(string clientId, string id, bool offchain);
-        Task<ClientTradesResponse> GetByMultisigAsync(string multisig);
-        Task<ClientTradesResponse> GetByMultisigsAsync(string[] multisigs);
+        Task<IEnumerable<ClientTrade>> GetByMultisigAsync(string multisig);
+        Task<IEnumerable<ClientTrade>> GetByMultisigsAsync(string[] multisigs);
     }
 }

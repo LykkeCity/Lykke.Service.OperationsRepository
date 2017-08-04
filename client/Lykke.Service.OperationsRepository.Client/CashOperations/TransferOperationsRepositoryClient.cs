@@ -29,25 +29,34 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             _apiClient = null;
         }
 
-        public async Task<TransferEventResponse> RegisterAsync(TransferEvent transferEvent)
+        public async Task<TransferEvent> RegisterAsync(TransferEvent transferEvent)
         {
             var response = await _apiClient.TransferOperations.RegisterWithHttpMessagesAsync(transferEvent);
 
-            return TransferEventResponse.Prepare(response);
+            return TransferEventResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<TransferEventsResponse> GetAsync(string clientId)
+        public async Task<IEnumerable<TransferEvent>> GetAsync(string clientId)
         {
             var response = await _apiClient.TransferOperations.GetWithHttpMessagesAsync(clientId);
 
-            return TransferEventsResponse.Prepare(response);
+            return TransferEventsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<TransferEventResponse> GetAsync(string clientId, string id)
+        public async Task<TransferEvent> GetAsync(string clientId, string id)
         {
             var response = await _apiClient.TransferOperations.GetByRecordIdWithHttpMessagesAsync(clientId, id);
 
-            return TransferEventResponse.Prepare(response);
+            return TransferEventResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
         public async Task UpdateBlockChainHashAsync(string clientId, string id, string blockChainHash)
@@ -65,25 +74,34 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             await _apiClient.TransferOperations.SetIsSettledIfExistsWithHttpMessagesAsync(clientId, id, offchain);
         }
 
-        public async Task<TransferEventsResponse> GetByHashAsync(string blockchainHash)
+        public async Task<IEnumerable<TransferEvent>> GetByHashAsync(string blockchainHash)
         {
             var response = await _apiClient.TransferOperations.GetByHashWithHttpMessagesAsync(blockchainHash);
 
-            return TransferEventsResponse.Prepare(response);
+            return TransferEventsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<TransferEventsResponse> GetByMultisigAsync(string multisig)
+        public async Task<IEnumerable<TransferEvent>> GetByMultisigAsync(string multisig)
         {
             var response = await _apiClient.TransferOperations.GetByMultisigWithHttpMessagesAsync(multisig);
 
-            return TransferEventsResponse.Prepare(response);
+            return TransferEventsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<TransferEventsResponse> GetByMultisigsAsync(string[] multisigs)
+        public async Task<IEnumerable<TransferEvent>> GetByMultisigsAsync(string[] multisigs)
         {
             var response = await _apiClient.TransferOperations.GetByMultisigsWithHttpMessagesAsync(multisigs);
 
-            return TransferEventsResponse.Prepare(response);
+            return TransferEventsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
     }
 }

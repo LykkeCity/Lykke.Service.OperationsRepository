@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
 using System.Threading.Tasks;
 using Common.Log;
 using Lykke.Service.OperationsRepository.AutorestClient;
 using Lykke.Service.OperationsRepository.AutorestClient.Models;
 using Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations;
-using Lykke.Service.OperationsRepository.Client.Models;
 using Lykke.Service.OperationsRepository.Client.Models.CashOperations;
-using Microsoft.Rest;
 
 namespace Lykke.Service.OperationsRepository.Client.CashOperations
 {
@@ -32,25 +28,34 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             _apiClient = null;
         }
 
-        public async Task<CashOperationIdResponse> RegisterAsync(CashInOutOperation operation)
+        public async Task<string> RegisterAsync(CashInOutOperation operation)
         {
             var response = await _apiClient.CashOperations.RegisterWithHttpMessagesAsync(operation);
 
-            return CashOperationIdResponse.Prepare(response);
+            return CashOperationIdResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOperationsResponse> GetAsync(string clientId)
+        public async Task<IEnumerable<CashInOutOperation>> GetAsync(string clientId)
         {
             var response = await _apiClient.CashOperations.GetWithHttpMessagesAsync(clientId);
 
-            return CashOperationsResponse.Prepare(response);
+            return CashOperationsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOperationResponse> GetAsync(string clientId, string recordId)
+        public async Task<CashInOutOperation> GetAsync(string clientId, string recordId)
         {
             var response = await _apiClient.CashOperations.GetByRecordIdWithHttpMessagesAsync(clientId, recordId);
 
-            return CashOperationResponse.Prepare(response);
+            return CashOperationResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
         public async Task UpdateBlockchainHashAsync(string clientId, string id, string hash)
@@ -68,25 +73,34 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             await _apiClient.CashOperations.SetIsSettledWithHttpMessagesAsync(clientId, id, offchain);
         }
 
-        public async Task<CashOperationsResponse> GetByHashAsync(string blockchainHash)
+        public async Task<IEnumerable<CashInOutOperation>> GetByHashAsync(string blockchainHash)
         {
             var response = await _apiClient.CashOperations.GetByHashWithHttpMessagesAsync(blockchainHash);
 
-            return CashOperationsResponse.Prepare(response);
+            return CashOperationsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOperationsResponse> GetByMultisigAsync(string multisig)
+        public async Task<IEnumerable<CashInOutOperation>> GetByMultisigAsync(string multisig)
         {
             var response = await _apiClient.CashOperations.GetByMultisigWithHttpMessagesAsync(multisig);
 
-            return CashOperationsResponse.Prepare(response);
+            return CashOperationsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<CashOperationsResponse> GetByMultisigsAsync(string[] multisigs)
+        public async Task<IEnumerable<CashInOutOperation>> GetByMultisigsAsync(string[] multisigs)
         {
             var response = await _apiClient.CashOperations.GetByMultisigsWithHttpMessagesAsync(multisigs);
 
-            return CashOperationsResponse.Prepare(response);
+            return CashOperationsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
     }
