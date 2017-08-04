@@ -9,20 +9,20 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
 {
     public interface ICashOutAttemptOperationsRepositoryClient
     {
-        Task<CashOutAttemptIdResponse> InsertRequestAsync<T>(CashOutAttemptEntity request, PaymentSystem paymentSystem,
+        Task<string> InsertRequestAsync<T>(CashOutAttemptEntity request, PaymentSystem paymentSystem,
             T paymentFields, string tradeSystem);
-        Task<CashOutAttemptsResponse> GetAllAttempts();
+        Task<IEnumerable<CashOutAttemptEntity>> GetAllAttempts();
         Task SetBlockchainHash(string clientId, string requestId, string hash);
-        Task<CashOutAttemptResponse> SetPending(string clientId, string requestId);
-        Task<CashOutAttemptResponse> SetConfirmed(string clientId, string requestId);
-        Task<CashOutAttemptResponse> SetDocsRequested(string clientId, string requestId);
-        Task<CashOutAttemptResponse> SetDeclined(string clientId, string requestId);
-        Task<CashOutAttemptResponse> SetCanceledByClient(string clientId, string requestId);
-        Task<CashOutAttemptResponse> SetCanceledByTimeout(string clientId, string requestId);
+        Task<CashOutAttemptEntity> SetPending(string clientId, string requestId);
+        Task<CashOutAttemptEntity> SetConfirmed(string clientId, string requestId);
+        Task<CashOutAttemptEntity> SetDocsRequested(string clientId, string requestId);
+        Task<CashOutAttemptEntity> SetDeclined(string clientId, string requestId);
+        Task<CashOutAttemptEntity> SetCanceledByClient(string clientId, string requestId);
+        Task<CashOutAttemptEntity> SetCanceledByTimeout(string clientId, string requestId);
         Task SetProcessed(string clientId, string requestId);
         Task SetIsSettledOffchain(string clientId, string requestId);
-        Task<CashOutAttemptsResponse> GetHistoryRecordsAsync(DateTime @from, DateTime to);
-        Task<CashOutAttemptsResponse> GetRequestsAsync(string clientId);
-        Task<CashOutAttemptResponse> GetAsync(string clientId, string id);
+        Task<IEnumerable<CashOutAttemptEntity>> GetHistoryRecordsAsync(DateTime @from, DateTime to);
+        Task<IEnumerable<CashOutAttemptEntity>> GetRequestsAsync(string clientId);
+        Task<CashOutAttemptEntity> GetAsync(string clientId, string id);
     }
 }

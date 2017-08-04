@@ -31,32 +31,44 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             _apiClient = null;
         }
 
-        public async Task<ClientTradesResponse> SaveAsync(params ClientTrade[] clientTrades)
+        public async Task<IEnumerable<ClientTrade>> SaveAsync(params ClientTrade[] clientTrades)
         {
             var response = await _apiClient.ClientTradeOperations.SaveWithHttpMessagesAsync(clientTrades);
 
-            return ClientTradesResponse.Prepare(response);
+            return ClientTradesResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<ClientTradesResponse> GetAsync(string clientId)
+        public async Task<IEnumerable<ClientTrade>> GetAsync(string clientId)
         {
             var response = await _apiClient.ClientTradeOperations.GetWithHttpMessagesAsync(clientId);
 
-            return ClientTradesResponse.Prepare(response);
+            return ClientTradesResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<ClientTradesResponse> GetAsync(DateTime @from, DateTime to)
+        public async Task<IEnumerable<ClientTrade>> GetAsync(DateTime @from, DateTime to)
         {
             var response = await _apiClient.ClientTradeOperations.GetByDatesWithHttpMessagesAsync(@from, to);
 
-            return ClientTradesResponse.Prepare(response);
+            return ClientTradesResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<ClientTradeResponse> GetAsync(string clientId, string recordId)
+        public async Task<ClientTrade> GetAsync(string clientId, string recordId)
         {
             var response = await _apiClient.ClientTradeOperations.GetByRecordIdWithHttpMessagesAsync(clientId, recordId);
 
-            return ClientTradeResponse.Prepare(response);
+            return ClientTradeResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
         public async Task UpdateBlockchainHashAsync(string clientId, string recordId, string hash)
@@ -81,18 +93,24 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             await _apiClient.ClientTradeOperations.SetIsSettledWithHttpMessagesAsync(clientId, id, offchain);
         }
 
-        public async Task<ClientTradesResponse> GetByMultisigAsync(string multisig)
+        public async Task<IEnumerable<ClientTrade>> GetByMultisigAsync(string multisig)
         {
             var response = await _apiClient.ClientTradeOperations.GetByMultisigWithHttpMessagesAsync(multisig);
 
-            return ClientTradesResponse.Prepare(response);
+            return ClientTradesResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
 
-        public async Task<ClientTradesResponse> GetByMultisigsAsync(string[] multisigs)
+        public async Task<IEnumerable<ClientTrade>> GetByMultisigsAsync(string[] multisigs)
         {
             var response = await _apiClient.ClientTradeOperations.GetByMultisigsWithHttpMessagesAsync(multisigs);
 
-            return ClientTradesResponse.Prepare(response);
+            return ClientTradesResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
         }
     }
 }
