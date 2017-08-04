@@ -6,7 +6,7 @@ using Microsoft.Rest;
 
 namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
 {
-    public class CashOperationsResponse: BaseCashOperationResponse
+    public class CashOperationsResponse: BaseCashOperationResponse<IEnumerable<CashInOutOperation>>
     {
         public IEnumerable<CashInOutOperation> Operations { get; set; }
 
@@ -35,6 +35,11 @@ namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
             }
 
             throw new ArgumentException("Unknown response object");
+        }
+
+        public override IEnumerable<CashInOutOperation> GetPayload()
+        {
+            return Operations;
         }
     }
 }
