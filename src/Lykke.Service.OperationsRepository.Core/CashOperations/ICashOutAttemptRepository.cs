@@ -15,7 +15,8 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         Task<ICashOutRequest> SetDeclined(string clientId, string requestId);
         Task<ICashOutRequest> SetCanceledByClient(string clientId, string requestId);
         Task<ICashOutRequest> SetCanceledByTimeout(string clientId, string requestId);
-        Task SetProcessed(string clientId, string requestId);
+        Task<ICashOutRequest> SetProcessed(string clientId, string requestId);
+        Task<ICashOutRequest> SetHighVolume(string clientId, string requestId);
 
         Task SetIsSettledOffchain(string clientId, string requestId);
 

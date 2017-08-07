@@ -35,5 +35,19 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 
         public int StatusVal { get; set; }
         public int StateVal { get; set; }
+
+        public CashOutVolumeSize VolumeSize { get; set; }
+        public string VolumeText
+        {
+            get { return VolumeSize.ToString(); }
+            set
+            {
+                CashOutVolumeSize volumeSize;
+                if (Enum.TryParse(value, out volumeSize))
+                    VolumeSize = volumeSize;
+                else
+                    VolumeSize = CashOutVolumeSize.Unknown;
+            }
+        }
     }
 }
