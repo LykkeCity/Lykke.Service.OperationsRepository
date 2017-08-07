@@ -31,11 +31,18 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         }
 
         public async Task<string> InsertRequestAsync<T>(CashOutAttemptEntity request, PaymentSystem paymentSystem, T paymentFields,
-            string tradeSystem)
+            CashOutRequestTradeSystem tradeSystem)
         {
             var response =
-                await _apiClient.CashOutAttemptOperations.InsertRequestWithHttpMessagesAsync(
-                    request, paymentSystem, paymentFields, tradeSystem);
+                await _apiClient
+                    .CashOutAttemptOperations
+                    .InsertRequestWithHttpMessagesAsync(new InsertRequestModel
+                    {
+                        Request = request,
+                        PaymentSystem = paymentSystem,
+                        PaymentFields = paymentFields,
+                        TradeSystem = tradeSystem
+                    });
 
             return CashOutAttemptIdResponse
                 .Prepare(response)
