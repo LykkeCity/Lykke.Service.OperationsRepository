@@ -19,7 +19,8 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
         Task<CashOutAttemptEntity> SetDeclined(string clientId, string requestId);
         Task<CashOutAttemptEntity> SetCanceledByClient(string clientId, string requestId);
         Task<CashOutAttemptEntity> SetCanceledByTimeout(string clientId, string requestId);
-        Task SetProcessed(string clientId, string requestId);
+        Task<CashOutAttemptEntity> SetProcessed(string clientId, string requestId);
+        Task<CashOutAttemptEntity> SetHighVolume(string clientId, string requestId);
         Task SetIsSettledOffchain(string clientId, string requestId);
         Task<IEnumerable<CashOutAttemptEntity>> GetHistoryRecordsAsync(DateTime @from, DateTime to);
         Task<IEnumerable<CashOutAttemptEntity>> GetRequestsAsync(string clientId);
