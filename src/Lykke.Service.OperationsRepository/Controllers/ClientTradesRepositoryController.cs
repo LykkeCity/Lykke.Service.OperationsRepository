@@ -25,7 +25,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("ClientTradeOperations_Save")]
         [ProducesResponseType(typeof(ClientTrade[]), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SaveAsync([FromBody] params ClientTrade[] clientTrades)
+        public async Task<IActionResult> SaveAsync([FromBody] ClientTrade[] clientTrades)
         {
             if (!CashOperationsValidator.ValidateClientTrades(clientTrades))
             {
@@ -80,8 +80,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("ClientTradeOperations_UpdateBlockchainHash")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> UpdateBlockChainHashAsync([FromBody] string clientId,
-            [FromBody] string recordId, [FromBody] string hash)
+        public async Task<IActionResult> UpdateBlockChainHashAsync([FromQuery] string clientId,
+            [FromQuery] string recordId, [FromQuery] string hash)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -105,8 +105,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("ClientTradeOperations_SetDetectionTimeAndConfirmations")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetDetectionTimeAndConfirmations([FromBody] string clientId, [FromBody] string recordId,
-            [FromBody] DateTime detectTime, [FromBody] int confirmations)
+        public async Task<IActionResult> SetDetectionTimeAndConfirmations([FromQuery] string clientId, [FromQuery] string recordId,
+            [FromQuery] DateTime detectTime, [FromQuery] int confirmations)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -126,8 +126,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("ClientTradeOperations_SetBtcTransaction")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetBtcTransactionAsync([FromBody] string clientId, [FromBody] string recordId,
-            [FromBody] string btcTransactionId)
+        public async Task<IActionResult> SetBtcTransactionAsync([FromQuery] string clientId, [FromQuery] string recordId,
+            [FromQuery] string btcTransactionId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -151,8 +151,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("ClientTradeOperations_SetIsSettled")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetIsSettledAsync([FromBody] string clientId, [FromBody] string id,
-            [FromBody] bool offchain)
+        public async Task<IActionResult> SetIsSettledAsync([FromQuery] string clientId, [FromQuery] string id,
+            [FromQuery] bool offchain)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {

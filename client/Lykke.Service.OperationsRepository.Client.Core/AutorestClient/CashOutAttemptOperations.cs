@@ -47,13 +47,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
         /// <param name='request'>
         /// </param>
-        /// <param name='paymentSystem'>
-        /// </param>
-        /// <param name='paymentFields'>
-        /// </param>
-        /// <param name='tradeSystem'>
-        /// Possible values include: 'Spot', 'Margin'
-        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -69,8 +62,12 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<object>> InsertRequestWithHttpMessagesAsync(CashOutAttemptEntity request = default(CashOutAttemptEntity), PaymentSystem paymentSystem = default(PaymentSystem), object paymentFields = default(object), string tradeSystem = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> InsertRequestWithHttpMessagesAsync(InsertRequestModel request = default(InsertRequestModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (request != null)
+            {
+                request.Validate();
+            }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -79,9 +76,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("request", request);
-                tracingParameters.Add("paymentSystem", paymentSystem);
-                tracingParameters.Add("paymentFields", paymentFields);
-                tracingParameters.Add("tradeSystem", tradeSystem);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "InsertRequest", tracingParameters);
             }
@@ -373,6 +367,23 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/CashOutAttemptRepository/SetBlockchainHash").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (clientId != null)
+            {
+                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
+            }
+            if (requestId != null)
+            {
+                _queryParameters.Add(string.Format("requestId={0}", System.Uri.EscapeDataString(requestId)));
+            }
+            if (hash != null)
+            {
+                _queryParameters.Add(string.Format("hash={0}", System.Uri.EscapeDataString(hash)));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -395,12 +406,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(clientId != null)
-            {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientId, Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
             // Send Request
             if (_shouldTrace)
             {
@@ -502,6 +507,19 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/CashOutAttemptRepository/SetPending").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (clientId != null)
+            {
+                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
+            }
+            if (requestId != null)
+            {
+                _queryParameters.Add(string.Format("requestId={0}", System.Uri.EscapeDataString(requestId)));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -524,12 +542,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(clientId != null)
-            {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientId, Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
             // Send Request
             if (_shouldTrace)
             {
@@ -649,6 +661,19 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/CashOutAttemptRepository/SetConfirmed").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (clientId != null)
+            {
+                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
+            }
+            if (requestId != null)
+            {
+                _queryParameters.Add(string.Format("requestId={0}", System.Uri.EscapeDataString(requestId)));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -671,12 +696,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(clientId != null)
-            {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientId, Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
             // Send Request
             if (_shouldTrace)
             {
@@ -796,6 +815,19 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/CashOutAttemptRepository/SetDocsRequested").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (clientId != null)
+            {
+                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
+            }
+            if (requestId != null)
+            {
+                _queryParameters.Add(string.Format("requestId={0}", System.Uri.EscapeDataString(requestId)));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -818,12 +850,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(clientId != null)
-            {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientId, Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
             // Send Request
             if (_shouldTrace)
             {
@@ -943,6 +969,19 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/CashOutAttemptRepository/SetDeclined").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (clientId != null)
+            {
+                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
+            }
+            if (requestId != null)
+            {
+                _queryParameters.Add(string.Format("requestId={0}", System.Uri.EscapeDataString(requestId)));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -965,12 +1004,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(clientId != null)
-            {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientId, Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1090,6 +1123,19 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/CashOutAttemptRepository/SetCanceledByClient").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (clientId != null)
+            {
+                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
+            }
+            if (requestId != null)
+            {
+                _queryParameters.Add(string.Format("requestId={0}", System.Uri.EscapeDataString(requestId)));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -1112,12 +1158,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(clientId != null)
-            {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientId, Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1237,6 +1277,19 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/CashOutAttemptRepository/SetCanceledByTimeout").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (clientId != null)
+            {
+                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
+            }
+            if (requestId != null)
+            {
+                _queryParameters.Add(string.Format("requestId={0}", System.Uri.EscapeDataString(requestId)));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -1259,12 +1312,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(clientId != null)
-            {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientId, Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1384,6 +1431,19 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/CashOutAttemptRepository/SetProcessed").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (clientId != null)
+            {
+                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
+            }
+            if (requestId != null)
+            {
+                _queryParameters.Add(string.Format("requestId={0}", System.Uri.EscapeDataString(requestId)));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -1406,12 +1466,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(clientId != null)
-            {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientId, Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1531,6 +1585,19 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/CashOutAttemptRepository/SetHighVolume").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (clientId != null)
+            {
+                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
+            }
+            if (requestId != null)
+            {
+                _queryParameters.Add(string.Format("requestId={0}", System.Uri.EscapeDataString(requestId)));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -1553,12 +1620,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(clientId != null)
-            {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientId, Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1678,6 +1739,19 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/CashOutAttemptRepository/SetIsSettledOffchain").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (clientId != null)
+            {
+                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
+            }
+            if (requestId != null)
+            {
+                _queryParameters.Add(string.Format("requestId={0}", System.Uri.EscapeDataString(requestId)));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -1700,12 +1774,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
-            if(clientId != null)
-            {
-                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientId, Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
             // Send Request
             if (_shouldTrace)
             {

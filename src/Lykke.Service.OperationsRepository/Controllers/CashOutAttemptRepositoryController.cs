@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
+using Lykke.Service.OperationsRepository.Models.CashOutAttempt;
 using Lykke.Service.OperationsRepository.Validation;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.SwaggerGen.Annotations;
@@ -26,23 +28,19 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_InsertRequest")]
         [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> InsertRequestAsync([FromBody] CashOutAttemptEntity request,
-            [FromBody] PaymentSystem paymentSystem, [FromBody] object paymentFields, [FromBody] CashOutRequestTradeSystem tradeSystem)
+        public async Task<IActionResult> InsertRequestAsync([FromBody] InsertRequestModel request)
         {
-            if (!CashOperationsValidator.ValidateCashOutRequest(request))
+            if (!ModelState.IsValid)
             {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(request)));
-            }
-            if (!CashOperationsValidator.ValidatePaymentSystem(paymentSystem))
-            {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(paymentSystem)));
-            }
-            if (!CashOperationsValidator.ValidatePaymentFields(paymentFields))
-            {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(paymentFields)));
+                var errorList = ModelState.Values.SelectMany(m => m.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(errorList);
             }
 
-            return Ok(await _cashOutAttemptRepo.InsertRequestAsync(request, paymentSystem, paymentFields, tradeSystem));
+            return Ok(await _cashOutAttemptRepo.InsertRequestAsync(request.Request, request.PaymentSystem,
+                request.PaymentFields, request.TradeSystem));
         }
 
         [HttpGet("GetAllAttempts")]
@@ -58,8 +56,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_SetBlockchainHash")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetBlockchainHash([FromBody] string clientId, [FromBody] string requestId,
-            [FromBody] string hash)
+        public async Task<IActionResult> SetBlockchainHash([FromQuery] string clientId, [FromQuery] string requestId,
+            [FromQuery] string hash)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -83,7 +81,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_SetPending")]
         [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetPending([FromBody] string clientId, [FromBody] string requestId)
+        public async Task<IActionResult> SetPending([FromQuery] string clientId, [FromQuery] string requestId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -101,7 +99,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_SetConfirmed")]
         [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetConfirmed([FromBody] string clientId, [FromBody] string requestId)
+        public async Task<IActionResult> SetConfirmed([FromQuery] string clientId, [FromQuery] string requestId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -119,7 +117,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_SetDocsRequested")]
         [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetDocsRequested([FromBody] string clientId, [FromBody] string requestId)
+        public async Task<IActionResult> SetDocsRequested([FromQuery] string clientId, [FromQuery] string requestId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -137,7 +135,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_SetDeclined")]
         [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetDeclined([FromBody] string clientId, [FromBody] string requestId)
+        public async Task<IActionResult> SetDeclined([FromQuery] string clientId, [FromQuery] string requestId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -155,7 +153,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_SetCanceledByClient")]
         [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetCanceledByClient([FromBody] string clientId, [FromBody] string requestId)
+        public async Task<IActionResult> SetCanceledByClient([FromQuery] string clientId, [FromQuery] string requestId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -173,7 +171,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_SetCanceledByTimeout")]
         [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetCanceledByTimeout([FromBody] string clientId, [FromBody] string requestId)
+        public async Task<IActionResult> SetCanceledByTimeout([FromQuery] string clientId, [FromQuery] string requestId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -191,7 +189,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_SetProcessed")]
         [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetProcessed([FromBody] string clientId, [FromBody] string requestId)
+        public async Task<IActionResult> SetProcessed([FromQuery] string clientId, [FromQuery] string requestId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -209,7 +207,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_SetHighVolume")]
         [ProducesResponseType(typeof(CashOutAttemptEntity), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetHighVolume([FromBody] string clientId, [FromBody] string requestId)
+        public async Task<IActionResult> SetHighVolume([FromQuery] string clientId, [FromQuery] string requestId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -227,7 +225,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_SetIsSettledOffchain")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetIsSettledOffchain([FromBody] string clientId, [FromBody] string requestId)
+        public async Task<IActionResult> SetIsSettledOffchain([FromQuery] string clientId, [FromQuery] string requestId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {

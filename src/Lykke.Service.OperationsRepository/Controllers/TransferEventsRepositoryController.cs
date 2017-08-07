@@ -71,8 +71,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("TransferOperations_UpdateBlockchainHash")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> UpdateBlockChainHashAsync([FromBody] string clientId, [FromBody] string id,
-            [FromBody] string blockChainHash)
+        public async Task<IActionResult> UpdateBlockChainHashAsync([FromQuery] string clientId, [FromQuery] string id,
+            [FromQuery] string blockChainHash)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -96,8 +96,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("TransferOperations_SetBtcTransaction")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetBtcTransactionAsync([FromBody] string clientId, [FromBody] string id,
-            [FromBody] string btcTransaction)
+        public async Task<IActionResult> SetBtcTransactionAsync([FromQuery] string clientId, [FromQuery] string id,
+            [FromQuery] string btcTransaction)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -121,8 +121,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("TransferOperations_SetIsSettledIfExists")]
         [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetIsSettledIfExistsAsync([FromBody] string clientId, [FromBody] string id,
-            [FromBody] bool offchain)
+        public async Task<IActionResult> SetIsSettledIfExistsAsync([FromQuery] string clientId, [FromQuery] string id,
+            [FromQuery] bool offchain)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
