@@ -72,7 +72,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOperations_UpdateBlockchainHash")]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> UpdateBlockchainHashAsync([FromBody] string clientId, [FromBody] string id, [FromBody] string hash)
+        public async Task<IActionResult> UpdateBlockchainHashAsync([FromQuery] string clientId, [FromQuery] string id, [FromQuery] string hash)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -96,7 +96,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOperations_SetBtcTransaction")]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetBtcTransaction([FromBody] string clientId,[FromBody] string id, [FromBody] string bcnTransactionId)
+        public async Task<IActionResult> SetBtcTransaction([FromQuery] string clientId,[FromQuery] string id, [FromQuery] string bcnTransactionId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
@@ -120,7 +120,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOperations_SetIsSettled")]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetIsSettledAsync([FromBody] string clientId, [FromBody] string id, [FromBody] bool offchain)
+        public async Task<IActionResult> SetIsSettledAsync([FromQuery] string clientId, [FromQuery] string id, [FromQuery] bool offchain)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
