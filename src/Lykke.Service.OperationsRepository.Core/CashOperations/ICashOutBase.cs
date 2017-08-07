@@ -38,6 +38,11 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         Processed = 3,
     }
 
+    public enum CashOutVolumeSize
+    {
+        Unknown, High, Low
+    }
+
     public enum CashOutRequestTradeSystem
     {
         Spot,
@@ -53,6 +58,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         TransactionStates State { get; }
         CashOutRequestTradeSystem TradeSystem { get; }
         string AccountId { get; }
+        CashOutVolumeSize VolumeSize { get; }
     }
 
     public class SwiftCashOutRequest : ICashOutRequest
@@ -70,6 +76,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         public DateTime DateTime { get; set; }
         public bool IsHidden { get; set; }
         public string AccountId { get; set; }
+        public CashOutVolumeSize VolumeSize { get; set; }
     }
 
     public interface ICashOutBaseRepository

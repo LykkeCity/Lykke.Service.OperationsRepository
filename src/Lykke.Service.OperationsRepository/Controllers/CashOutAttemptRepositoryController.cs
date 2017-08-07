@@ -189,7 +189,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("SetProcessed")]
         [SwaggerOperation("CashOutAttemptOperations_SetProcessed")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CashOutAttemptEntity), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SetProcessed([FromBody] string clientId, [FromBody] string requestId)
         {
@@ -202,9 +202,25 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(requestId)));
             }
 
-            await _cashOutAttemptRepo.SetProcessed(clientId, requestId);
+            return Ok(await _cashOutAttemptRepo.SetProcessed(clientId, requestId));
+        }
 
-            return Ok();
+        [HttpPost("SetHighVolume")]
+        [SwaggerOperation("CashOutAttemptOperations_SetHighVolume")]
+        [ProducesResponseType(typeof(CashOutAttemptEntity), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> SetHighVolume([FromBody] string clientId, [FromBody] string requestId)
+        {
+            if (!CommonValidator.ValidateClientId(clientId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(clientId)));
+            }
+            if (!CommonValidator.ValidateRecordId(requestId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(requestId)));
+            }
+
+            return Ok(await _cashOutAttemptRepo.SetHighVolume(clientId, requestId));
         }
 
         [HttpPost("SetIsSettledOffchain")]
