@@ -63,7 +63,8 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 DateTime = dt,
                 State = request.State,
                 TradeSystem = tradeSystem.ToString(),
-                AccountId = request.AccountId
+                AccountId = request.AccountId,
+                VolumeSize = request.VolumeSize
             };
         }
     }
@@ -155,9 +156,19 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             return await ChangeStatus(clientId, requestId, CashOutRequestStatus.CanceledByTimeout);
         }
 
-        public async Task SetProcessed(string clientId, string requestId)
+        public async Task<ICashOutRequest> SetProcessed(string clientId, string requestId)
         {
-            await ChangeStatus(clientId, requestId, CashOutRequestStatus.Processed);
+            return await ChangeStatus(clientId, requestId, CashOutRequestStatus.Processed);
+        }
+
+        public async Task<ICashOutRequest> SetHighVolume(string clientId, string requestId)
+        {
+            return await _tableStorage.MergeAsync(CashOutAttemptEntity.PendingRecords.GeneratePartition(clientId),
+                requestId, entity =>
+                {
+                    entity.VolumeSize = CashOutVolumeSize.High;
+                    return entity;
+                });
         }
 
         private async Task<ICashOutRequest> ChangeStatus(string clientId, string requestId, CashOutRequestStatus status)

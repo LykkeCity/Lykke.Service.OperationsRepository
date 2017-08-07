@@ -298,7 +298,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             /// <param name='requestId'>
             /// </param>
-            public static ErrorResponse SetProcessed(this ICashOutAttemptOperations operations, string clientId = default(string), string requestId = default(string))
+            public static object SetProcessed(this ICashOutAttemptOperations operations, string clientId = default(string), string requestId = default(string))
             {
                 return operations.SetProcessedAsync(clientId, requestId).GetAwaiter().GetResult();
             }
@@ -313,9 +313,39 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<ErrorResponse> SetProcessedAsync(this ICashOutAttemptOperations operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> SetProcessedAsync(this ICashOutAttemptOperations operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.SetProcessedWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object SetHighVolume(this ICashOutAttemptOperations operations, string clientId = default(string), string requestId = default(string))
+            {
+                return operations.SetHighVolumeAsync(clientId, requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SetHighVolumeAsync(this ICashOutAttemptOperations operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetHighVolumeWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }

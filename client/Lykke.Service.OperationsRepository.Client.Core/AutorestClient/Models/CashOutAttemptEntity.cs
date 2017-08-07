@@ -29,7 +29,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <param name="state">Possible values include: 'InProcessOnchain',
         /// 'SettledOnchain', 'InProcessOffchain', 'SettledOffchain',
         /// 'SettledNoChain'</param>
-        public CashOutAttemptEntity(string id = default(string), string clientId = default(string), string assetId = default(string), string paymentSystem = default(string), string paymentFields = default(string), string blockchainHash = default(string), string tradeSystem = default(string), string accountId = default(string), CashOutRequestStatus? status = default(CashOutRequestStatus?), TransactionStates? state = default(TransactionStates?), double? amount = default(double?), System.DateTime? dateTime = default(System.DateTime?), bool? isHidden = default(bool?), int? statusVal = default(int?), int? stateVal = default(int?), string partitionKey = default(string), string rowKey = default(string), System.DateTime? timestamp = default(System.DateTime?), string eTag = default(string))
+        /// <param name="volumeSize">Possible values include: 'Unknown',
+        /// 'High', 'Low'</param>
+        public CashOutAttemptEntity(string id = default(string), string clientId = default(string), string assetId = default(string), string paymentSystem = default(string), string paymentFields = default(string), string blockchainHash = default(string), string tradeSystem = default(string), string accountId = default(string), CashOutRequestStatus? status = default(CashOutRequestStatus?), TransactionStates? state = default(TransactionStates?), double? amount = default(double?), System.DateTime? dateTime = default(System.DateTime?), bool? isHidden = default(bool?), int? statusVal = default(int?), int? stateVal = default(int?), CashOutVolumeSize? volumeSize = default(CashOutVolumeSize?), string volumeText = default(string), string partitionKey = default(string), string rowKey = default(string), System.DateTime? timestamp = default(System.DateTime?), string eTag = default(string))
         {
             Id = id;
             ClientId = clientId;
@@ -46,6 +48,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
             IsHidden = isHidden;
             StatusVal = statusVal;
             StateVal = stateVal;
+            VolumeSize = volumeSize;
+            VolumeText = volumeText;
             PartitionKey = partitionKey;
             RowKey = rowKey;
             Timestamp = timestamp;
@@ -138,6 +142,17 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// </summary>
         [JsonProperty(PropertyName = "StateVal")]
         public int? StateVal { get; set; }
+
+        /// <summary>
+        /// Gets or sets possible values include: 'Unknown', 'High', 'Low'
+        /// </summary>
+        [JsonProperty(PropertyName = "VolumeSize")]
+        public CashOutVolumeSize? VolumeSize { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "VolumeText")]
+        public string VolumeText { get; set; }
 
         /// <summary>
         /// </summary>
