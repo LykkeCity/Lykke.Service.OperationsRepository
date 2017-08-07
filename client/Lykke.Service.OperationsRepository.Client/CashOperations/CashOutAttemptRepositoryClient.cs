@@ -124,11 +124,6 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
                 .GetPayload();
         }
 
-        public async Task SetProcessed(string clientId, string requestId)
-        {
-            await _apiClient.CashOutAttemptOperations.SetProcessedWithHttpMessagesAsync(clientId, requestId);
-        }
-
         public async Task SetIsSettledOffchain(string clientId, string requestId)
         {
             await _apiClient.CashOutAttemptOperations.SetIsSettledOffchainWithHttpMessagesAsync(clientId, requestId);
@@ -157,6 +152,26 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         public async Task<CashOutAttemptEntity> GetAsync(string clientId, string id)
         {
             var response = await _apiClient.CashOutAttemptOperations.GetWithHttpMessagesAsync(clientId, id);
+
+            return CashOutAttemptResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
+        }
+
+        public async Task<CashOutAttemptEntity> SetProcessed(string clientId, string requestId)
+        {
+            var response = await _apiClient.CashOutAttemptOperations.SetProcessedWithHttpMessagesAsync(clientId, requestId);
+
+            return CashOutAttemptResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
+        }
+
+        public async Task<CashOutAttemptEntity> SetHighVolume(string clientId, string requestId)
+        {
+            var response = await _apiClient.CashOutAttemptOperations.SetHighVolumeWithHttpMessagesAsync(clientId, requestId);
 
             return CashOutAttemptResponse
                 .Prepare(response)
