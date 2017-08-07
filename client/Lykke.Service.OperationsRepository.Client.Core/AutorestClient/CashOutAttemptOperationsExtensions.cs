@@ -20,16 +20,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             /// <param name='request'>
             /// </param>
-            /// <param name='paymentSystem'>
-            /// </param>
-            /// <param name='paymentFields'>
-            /// </param>
-            /// <param name='tradeSystem'>
-            /// Possible values include: 'Spot', 'Margin'
-            /// </param>
-            public static object InsertRequest(this ICashOutAttemptOperations operations, CashOutAttemptEntity request = default(CashOutAttemptEntity), PaymentSystem paymentSystem = default(PaymentSystem), object paymentFields = default(object), string tradeSystem = default(string))
+            public static object InsertRequest(this ICashOutAttemptOperations operations, InsertRequestModel request = default(InsertRequestModel))
             {
-                return operations.InsertRequestAsync(request, paymentSystem, paymentFields, tradeSystem).GetAwaiter().GetResult();
+                return operations.InsertRequestAsync(request).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -37,19 +30,12 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             /// <param name='request'>
             /// </param>
-            /// <param name='paymentSystem'>
-            /// </param>
-            /// <param name='paymentFields'>
-            /// </param>
-            /// <param name='tradeSystem'>
-            /// Possible values include: 'Spot', 'Margin'
-            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> InsertRequestAsync(this ICashOutAttemptOperations operations, CashOutAttemptEntity request = default(CashOutAttemptEntity), PaymentSystem paymentSystem = default(PaymentSystem), object paymentFields = default(object), string tradeSystem = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> InsertRequestAsync(this ICashOutAttemptOperations operations, InsertRequestModel request = default(InsertRequestModel), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.InsertRequestWithHttpMessagesAsync(request, paymentSystem, paymentFields, tradeSystem, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.InsertRequestWithHttpMessagesAsync(request, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }

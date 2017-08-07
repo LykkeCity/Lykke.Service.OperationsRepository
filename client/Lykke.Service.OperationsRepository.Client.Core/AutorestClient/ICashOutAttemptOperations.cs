@@ -20,13 +20,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
     {
         /// <param name='request'>
         /// </param>
-        /// <param name='paymentSystem'>
-        /// </param>
-        /// <param name='paymentFields'>
-        /// </param>
-        /// <param name='tradeSystem'>
-        /// Possible values include: 'Spot', 'Margin'
-        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
@@ -39,7 +32,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<object>> InsertRequestWithHttpMessagesAsync(CashOutAttemptEntity request = default(CashOutAttemptEntity), PaymentSystem paymentSystem = default(PaymentSystem), object paymentFields = default(object), string tradeSystem = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> InsertRequestWithHttpMessagesAsync(InsertRequestModel request = default(InsertRequestModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
