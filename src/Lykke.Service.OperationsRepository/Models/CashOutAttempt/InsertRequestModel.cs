@@ -12,7 +12,7 @@ namespace Lykke.Service.OperationsRepository.Models.CashOutAttempt
         [Required]
         public CashOutAttemptEntity Request { get; set; }
         [Required]
-        public PaymentSystem PaymentSystem { get; set; }
+        public PaymentSystemModel PaymentSystem { get; set; }
         [Required]
         public object PaymentFields { get; set; }
         [Required]

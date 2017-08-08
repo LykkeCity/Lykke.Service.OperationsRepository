@@ -33,14 +33,17 @@ namespace Lykke.Service.OperationsRepository.Controllers
             if (!ModelState.IsValid)
             {
                 var errorList = ModelState.Values.SelectMany(m => m.Errors)
-                    .Select(e => e.ErrorMessage)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? e.Exception?.Message : e.ErrorMessage)
                     .ToList();
 
                 return BadRequest(errorList);
             }
 
-            return Ok(await _cashOutAttemptRepo.InsertRequestAsync(request.Request, request.PaymentSystem,
-                request.PaymentFields, request.TradeSystem));
+            return Ok(await _cashOutAttemptRepo.InsertRequestAsync(
+                request.Request,
+                new PaymentSystem(request.PaymentSystem.Value),
+                request.PaymentFields,
+                request.TradeSystem));
         }
 
         [HttpGet("GetAllAttempts")]

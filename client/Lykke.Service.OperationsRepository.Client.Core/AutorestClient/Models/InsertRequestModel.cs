@@ -26,7 +26,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// </summary>
         /// <param name="tradeSystem">Possible values include: 'Spot',
         /// 'Margin'</param>
-        public InsertRequestModel(CashOutAttemptEntity request, PaymentSystem paymentSystem, object paymentFields, CashOutRequestTradeSystem tradeSystem)
+        public InsertRequestModel(CashOutAttemptEntity request, PaymentSystemModel paymentSystem, object paymentFields, CashOutRequestTradeSystem tradeSystem)
         {
             Request = request;
             PaymentSystem = paymentSystem;
@@ -48,7 +48,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "PaymentSystem")]
-        public PaymentSystem PaymentSystem { get; set; }
+        public PaymentSystemModel PaymentSystem { get; set; }
 
         /// <summary>
         /// </summary>
