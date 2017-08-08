@@ -30,7 +30,7 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             _apiClient = null;
         }
 
-        public async Task<string> InsertRequestAsync<T>(CashOutAttemptEntity request, PaymentSystem paymentSystem, T paymentFields,
+        public async Task<string> InsertRequestAsync<T>(CashOutAttemptEntity request, PaymentSystemModel paymentSystem, T paymentFields,
             CashOutRequestTradeSystem tradeSystem)
         {
             var response =

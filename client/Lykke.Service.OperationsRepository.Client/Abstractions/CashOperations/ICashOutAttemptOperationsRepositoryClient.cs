@@ -9,7 +9,7 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
 {
     public interface ICashOutAttemptOperationsRepositoryClient
     {
-        Task<string> InsertRequestAsync<T>(CashOutAttemptEntity request, PaymentSystem paymentSystem,
+        Task<string> InsertRequestAsync<T>(CashOutAttemptEntity request, PaymentSystemModel paymentSystem,
             T paymentFields, CashOutRequestTradeSystem tradeSystem);
         Task<IEnumerable<CashOutAttemptEntity>> GetAllAttempts();
         Task SetBlockchainHash(string clientId, string requestId, string hash);
