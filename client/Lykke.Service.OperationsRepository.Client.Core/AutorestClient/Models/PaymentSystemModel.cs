@@ -10,20 +10,20 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class PaymentSystem
+    public partial class PaymentSystemModel
     {
         /// <summary>
-        /// Initializes a new instance of the PaymentSystem class.
+        /// Initializes a new instance of the PaymentSystemModel class.
         /// </summary>
-        public PaymentSystem()
+        public PaymentSystemModel()
         {
           CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the PaymentSystem class.
+        /// Initializes a new instance of the PaymentSystemModel class.
         /// </summary>
-        public PaymentSystem(string value = default(string))
+        public PaymentSystemModel(string value = default(string))
         {
             Value = value;
             CustomInit();
@@ -37,7 +37,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "Value")]
-        public string Value { get; private set; }
+        public string Value { get; set; }
 
     }
 }

@@ -6,9 +6,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
 {
     public sealed class PaymentSystem
     {
-        public static readonly PaymentSystem Swift = new PaymentSystem("SWIFT");
-
-        private PaymentSystem(string value)
+        public PaymentSystem(string value)
         {
             Value = value;
         }
