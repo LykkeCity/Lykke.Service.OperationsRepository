@@ -26,7 +26,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("InsertRequest")]
         [SwaggerOperation("CashOutAttemptOperations_InsertRequest")]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IdResponseModel), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> InsertRequestAsync([FromBody] InsertRequestModel request)
         {
@@ -39,11 +39,13 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(errorList);
             }
 
-            return Ok(await _cashOutAttemptRepo.InsertRequestAsync(
+            var id = await _cashOutAttemptRepo.InsertRequestAsync(
                 request.Request,
                 new PaymentSystem(request.PaymentSystem.Value),
                 request.PaymentFields,
-                request.TradeSystem));
+                request.TradeSystem);
+
+            return Ok(new IdResponseModel {Id = id});
         }
 
         [HttpGet("GetAllAttempts")]
