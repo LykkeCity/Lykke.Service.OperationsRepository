@@ -31,7 +31,7 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             _apiClient = null;
         }
 
-        public async Task<IEnumerable<ClientTrade>> SaveAsync(params ClientTrade[] clientTrades)
+        public async Task<IEnumerable<ClientTrade>> SaveAsync(ClientTrade[] clientTrades)
         {
             var response = await _apiClient.ClientTradeOperations.SaveWithHttpMessagesAsync(clientTrades);
 

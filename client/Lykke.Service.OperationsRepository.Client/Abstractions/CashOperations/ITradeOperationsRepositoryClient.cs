@@ -8,7 +8,7 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
 {
     public interface ITradeOperationsRepositoryClient
     {
-        Task<IEnumerable<ClientTrade>> SaveAsync(params ClientTrade[] clientTrades);
+        Task<IEnumerable<ClientTrade>> SaveAsync(ClientTrade[] clientTrades);
         Task<IEnumerable<ClientTrade>> GetAsync(string clientId);
         Task<IEnumerable<ClientTrade>> GetAsync(DateTime from, DateTime to);
         Task<ClientTrade> GetAsync(string clientId, string recordId);
