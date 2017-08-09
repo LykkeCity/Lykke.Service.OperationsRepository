@@ -204,7 +204,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpGet("ScanByDt")]
-        [SwaggerOperation("ClientTradeOperationsScanByDt")]
+        [SwaggerOperation("ClientTradeOperations_ScanByDt")]
         [ProducesResponseType(typeof(IEnumerable<ClientTrade>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> ScanByDtAsync([FromQuery] DateTime from, [FromQuery] DateTime to)
