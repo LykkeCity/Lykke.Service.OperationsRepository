@@ -10,7 +10,7 @@ using Lykke.Service.OperationsRepository.Client.Models.CashOperations;
 
 namespace Lykke.Service.OperationsRepository.Client.CashOperations
 {
-    public class TransferOperationsRepositoryClient: ITransferOperationsRepositoryClient, IDisposable
+    public class TransferOperationsRepositoryClient: BaseRepositoryClient, ITransferOperationsRepositoryClient, IDisposable
     {
         private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;

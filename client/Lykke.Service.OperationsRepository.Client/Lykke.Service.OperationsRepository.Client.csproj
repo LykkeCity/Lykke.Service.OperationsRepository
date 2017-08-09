@@ -30,4 +30,10 @@
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
+      <HintPath>..\..\..\..\Users\atarutin\.nuget\packages\microsoft.aspnetcore.mvc.viewfeatures\1.1.3\lib\netstandard1.6\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
