@@ -271,6 +271,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [HttpGet]
         [SwaggerOperation("CashOutAttemptOperations_Get")]
         [ProducesResponseType(typeof(CashOutAttemptEntity), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync([FromQuery] string clientId, [FromQuery] string id)
         {
@@ -283,7 +284,14 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(id)));
             }
 
-            return Ok(await _cashOutAttemptRepo.GetAsync(clientId, id));
+            var record = await _cashOutAttemptRepo.GetAsync(clientId, id);
+
+            if (record == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(record);
         }
     }
 }

@@ -55,6 +55,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [HttpGet("GetByRecordId")]
         [SwaggerOperation("CashOperations_GetByRecordId")]
         [ProducesResponseType(typeof(CashInOutOperation), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync([FromQuery] string clientId, [FromQuery] string recordId)
         {
@@ -67,7 +68,14 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(recordId)));
             }
 
-            return Ok(await _cashOperationsRepo.GetAsync(clientId, recordId));
+            var record = await _cashOperationsRepo.GetAsync(clientId, recordId);
+
+            if (record == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(record);
         }
 
         [HttpPost("UpdateBlockchainHash")]
