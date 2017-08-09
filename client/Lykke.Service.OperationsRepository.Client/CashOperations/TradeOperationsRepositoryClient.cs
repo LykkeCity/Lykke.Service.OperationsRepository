@@ -112,5 +112,15 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
                 .Validate()
                 .GetPayload();
         }
+
+        public async Task<IEnumerable<ClientTrade>> ScanByDtAsync(DateTime @from, DateTime to)
+        {
+            var response = await _apiClient.ClientTradeOperations.ScanByDtWithHttpMessagesAsync(@from, to);
+
+            return ClientTradesResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
+        }
     }
 }

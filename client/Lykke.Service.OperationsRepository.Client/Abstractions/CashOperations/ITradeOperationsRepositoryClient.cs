@@ -18,5 +18,6 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
         Task SetIsSettledAsync(string clientId, string id, bool offchain);
         Task<IEnumerable<ClientTrade>> GetByMultisigAsync(string multisig);
         Task<IEnumerable<ClientTrade>> GetByMultisigsAsync(string[] multisigs);
+        Task<IEnumerable<ClientTrade>> ScanByDtAsync(DateTime from, DateTime to);
     }
 }
