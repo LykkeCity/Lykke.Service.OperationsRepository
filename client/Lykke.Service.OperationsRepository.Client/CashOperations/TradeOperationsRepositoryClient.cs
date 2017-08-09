@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,11 +9,12 @@ using Lykke.Service.OperationsRepository.AutorestClient;
 using Lykke.Service.OperationsRepository.AutorestClient.Models;
 using Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations;
 using Lykke.Service.OperationsRepository.Client.Models.CashOperations;
+using Microsoft.Rest;
 using Microsoft.Rest.Serialization;
 
 namespace Lykke.Service.OperationsRepository.Client.CashOperations
 {
-    public class TradeOperationsRepositoryClient: ITradeOperationsRepositoryClient, IDisposable
+    public class TradeOperationsRepositoryClient: BaseRepositoryClient, ITradeOperationsRepositoryClient, IDisposable
     {
         private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;
@@ -119,10 +121,13 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public async Task<IEnumerable<ClientTrade>> ScanByDtAsync(DateTime @from, DateTime to)
         {
-            var response = await _apiClient.ClientTradeOperations.ScanByDtWithHttpMessagesAsync(@from, to);
+            var measureResult = await this.MeasureTime(() => _apiClient.ClientTradeOperations
+                .ScanByDtWithHttpMessagesAsync(@from, to));
+
+            await this.LogMeasureTime(_log, measureResult.ElapsedTime, GetType().Name, "ScanByDtAsync");
 
             return ClientTradesResponse
-                .Prepare(response)
+                .Prepare(measureResult.ActionResult)
                 .Validate()
                 .GetPayload();
         }

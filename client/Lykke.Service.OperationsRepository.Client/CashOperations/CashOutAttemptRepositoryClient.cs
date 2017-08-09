@@ -11,7 +11,7 @@ using Lykke.Service.OperationsRepository.Client.Models.CashOperations;
 
 namespace Lykke.Service.OperationsRepository.Client.CashOperations
 {
-    public class CashOutAttemptRepositoryClient: ICashOutAttemptOperationsRepositoryClient, IDisposable
+    public class CashOutAttemptRepositoryClient: BaseRepositoryClient, ICashOutAttemptOperationsRepositoryClient, IDisposable
     {
         private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;
