@@ -1,4 +1,4 @@
-﻿namespace Lykke.Service.OperationsRepository.Models.CashOutAttempt
+﻿namespace Lykke.Service.OperationsRepository.Models
 {
     public class IdResponseModel
     {
