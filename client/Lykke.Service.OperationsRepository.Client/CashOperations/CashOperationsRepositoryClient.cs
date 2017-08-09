@@ -14,10 +14,14 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;
 
-        public CashOperationsRepositoryClient(string serviceUrl, ILog log)
+        public CashOperationsRepositoryClient(string serviceUrl, ILog log, int timeout)
         {
             _log = log;
-            _apiClient = new OperationsRepositoryAPI(new Uri(serviceUrl));
+            _apiClient =
+                new OperationsRepositoryAPI(new Uri(serviceUrl))
+                {
+                    HttpClient = {Timeout = TimeSpan.FromSeconds(timeout)}
+                };
         }
 
         public void Dispose()
