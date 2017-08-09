@@ -8,7 +8,7 @@ namespace Lykke.Service.OperationsRepository.Client
 {
     public static class AutofacExtension
     {
-        public static void RegisterOperationsRepositoryClients(this ContainerBuilder builder, string serviceUrl, ILog log)
+        public static void RegisterOperationsRepositoryClients(this ContainerBuilder builder, string serviceUrl, ILog log, int timeout)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
             if (serviceUrl == null) throw new ArgumentNullException(nameof(serviceUrl));
@@ -16,10 +16,10 @@ namespace Lykke.Service.OperationsRepository.Client
             if (string.IsNullOrWhiteSpace(serviceUrl))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(serviceUrl));
 
-            builder.RegisterInstance(new CashOperationsRepositoryClient(serviceUrl, log)).As<ICashOperationsRepositoryClient>().SingleInstance();
-            builder.RegisterInstance(new CashOutAttemptRepositoryClient(serviceUrl, log)).As<ICashOutAttemptOperationsRepositoryClient>().SingleInstance();
-            builder.RegisterInstance(new TradeOperationsRepositoryClient(serviceUrl, log)).As<ITradeOperationsRepositoryClient>().SingleInstance();
-            builder.RegisterInstance(new TransferOperationsRepositoryClient(serviceUrl, log)).As<ITransferOperationsRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new CashOperationsRepositoryClient(serviceUrl, log, timeout)).As<ICashOperationsRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new CashOutAttemptRepositoryClient(serviceUrl, log, timeout)).As<ICashOutAttemptOperationsRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new TradeOperationsRepositoryClient(serviceUrl, log, timeout)).As<ITradeOperationsRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new TransferOperationsRepositoryClient(serviceUrl, log, timeout)).As<ITransferOperationsRepositoryClient>().SingleInstance();
         }
     }
 }
