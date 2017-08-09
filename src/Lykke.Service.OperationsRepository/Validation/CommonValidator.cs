@@ -33,5 +33,15 @@ namespace Lykke.Service.OperationsRepository.Validation
 
             return !multisig.Any(string.IsNullOrWhiteSpace);
         }
+
+        public static bool ValidateDateTime(DateTime dt)
+        {
+            return dt > DateTime.MinValue;
+        }
+
+        public static bool ValidatePeriod(DateTime from, DateTime to)
+        {
+            return ValidateDateTime(from) && ValidateDateTime(to) && from <= to;
+        }
     }
 }
