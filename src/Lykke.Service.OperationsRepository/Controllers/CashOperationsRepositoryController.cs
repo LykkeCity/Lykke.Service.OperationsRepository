@@ -24,7 +24,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpPost("Register")]
         [SwaggerOperation("CashOperations_Register")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IdResponseModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Register([FromBody] CashInOutOperation operation)
         {
@@ -33,7 +33,9 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(operation)));
             }
 
-            return Ok(await _cashOperationsRepo.RegisterAsync(operation));
+            var id = await _cashOperationsRepo.RegisterAsync(operation);
+
+            return Ok(new IdResponseModel {Id = id});
         }
 
         [HttpGet]
