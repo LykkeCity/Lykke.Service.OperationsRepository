@@ -10,6 +10,8 @@ namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
     {
         public ClientTrade Operation { get; set; }
 
+        public static ClientTradeResponse NullResponse => new ClientTradeResponse {Operation = null};
+
         public static ClientTradeResponse Prepare(HttpOperationResponse<object> apiResponse)
         {
             var error = apiResponse.Body as ErrorResponse;
@@ -34,7 +36,7 @@ namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
                 };
             }
 
-            throw new ArgumentException("Unknown response object");
+            return NullResponse;
         }
 
         public override ClientTrade GetPayload()
