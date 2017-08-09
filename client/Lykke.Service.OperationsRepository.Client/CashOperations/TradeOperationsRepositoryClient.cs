@@ -21,6 +21,7 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         {
             _log = log;
             _apiClient = new OperationsRepositoryAPI(new Uri(serviceUrl));
+            _apiClient.HttpClient.Timeout = TimeSpan.FromMinutes(10);
         }
 
         public void Dispose()
