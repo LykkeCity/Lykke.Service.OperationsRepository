@@ -15,6 +15,36 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
     /// </summary>
     public static partial class OperationsRepositoryAPIExtensions
     {
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            public static object ClientTradeOperationsScanByDt(this IOperationsRepositoryAPI operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?))
+            {
+                return operations.ClientTradeOperationsScanByDtAsync(fromParameter, to).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> ClientTradeOperationsScanByDtAsync(this IOperationsRepositoryAPI operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.ClientTradeOperationsScanByDtWithHttpMessagesAsync(fromParameter, to, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
             /// <summary>
             /// Checks service is alive
             /// </summary>

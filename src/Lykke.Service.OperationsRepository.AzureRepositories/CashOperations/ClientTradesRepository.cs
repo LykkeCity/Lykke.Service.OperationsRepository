@@ -363,6 +363,21 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             return result;
         }
 
+        public async Task<IEnumerable<IClientTrade>> ScanByDtAsync(DateTime @from, DateTime to)
+        {
+            var rangeQuery = AzureStorageUtils.QueryGenerator<ClientTradeEntity>
+                .RowKeyOnly.BetweenQuery(ClientTradeEntity.ByDt.GetRowKeyPart(from),
+                    ClientTradeEntity.ByDt.GetRowKeyPart(to), ToIntervalOption.IncludeTo);
+
+            var result = new List<IClientTrade>();
+            await _tableStorage.ExecuteAsync(rangeQuery, yieldResult =>
+            {
+                result.AddRange(yieldResult);
+            });
+
+            return result;
+        }
+
         public Task ScanByDtAsync(Func<IEnumerable<IClientTrade>, Task> chunk, DateTime @from, DateTime to)
         {
             var rangeQuery = AzureStorageUtils.QueryGenerator<ClientTradeEntity>

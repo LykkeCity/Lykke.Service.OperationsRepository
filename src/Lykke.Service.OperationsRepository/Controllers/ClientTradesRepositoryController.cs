@@ -202,5 +202,27 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
             return Ok(await _clientTradesRepo.GetByMultisigsAsync(multisigs));
         }
+
+        [HttpGet("ScanByDt")]
+        [SwaggerOperation("ClientTradeOperationsScanByDt")]
+        [ProducesResponseType(typeof(IEnumerable<ClientTrade>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> ScanByDtAsync([FromQuery] DateTime from, [FromQuery] DateTime to)
+        {
+            if (!CommonValidator.ValidateDateTime(from))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(from)));
+            }
+            if (!CommonValidator.ValidateDateTime(to))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(to)));
+            }
+            if (!CommonValidator.ValidatePeriod(from, to))
+            {
+                return BadRequest(new ErrorResponse {ErrorMessage = "Date {from} must be less or equal to date {to}"});
+            }
+
+            return Ok(await _clientTradesRepo.ScanByDtAsync(from, to));
+        }
     }
 }
