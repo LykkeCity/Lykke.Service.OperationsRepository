@@ -321,5 +321,35 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
                 }
             }
 
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            public static object ScanByDt(this IClientTradeOperations operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?))
+            {
+                return operations.ScanByDtAsync(fromParameter, to).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> ScanByDtAsync(this IClientTradeOperations operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.ScanByDtWithHttpMessagesAsync(fromParameter, to, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
     }
 }
