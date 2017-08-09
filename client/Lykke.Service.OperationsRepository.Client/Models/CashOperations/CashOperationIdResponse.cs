@@ -14,7 +14,7 @@ namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
         public static CashOperationIdResponse Prepare(HttpOperationResponse<object> apiResponse)
         {
             var error = apiResponse.Body as ErrorResponse;
-            var result = apiResponse.Body as string;
+            var result = apiResponse.Body as IdResponseModel;
 
             if (error != null)
             {
@@ -31,7 +31,7 @@ namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
             {
                 return new CashOperationIdResponse
                 {
-                    Id = result
+                    Id = result.Id
                 };
             }
 
