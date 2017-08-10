@@ -56,7 +56,7 @@ namespace Lykke.Service.OperationsRepository.Modules
                     new AzureTableStorage<CashOutAttemptEntity>(_settings.Db.RepoConnectionString, "CashOutAttempt",
                         _log)));
 
-            builder.RegisterInstance<IHistoryWriter>(new HistoryWriter(_settings.Db.HistoryConnString));
+            builder.RegisterInstance<IHistoryWriter>(new HistoryWriter(_settings.Db.HistoryConnString, _log));
 
             builder.Populate(_services);
         }

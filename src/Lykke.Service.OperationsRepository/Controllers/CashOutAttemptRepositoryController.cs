@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Common.Log;
 using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
 using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
@@ -19,11 +20,13 @@ namespace Lykke.Service.OperationsRepository.Controllers
     {
         private readonly ICashOutAttemptRepository _cashOutAttemptRepo;
         private readonly IHistoryWriter _historyWriter;
+        private readonly ILog _log;
 
-        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo, IHistoryWriter historyWriter)
+        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo, IHistoryWriter historyWriter, ILog log)
         {
             _cashOutAttemptRepo = cashOutAttemptRepo;
             _historyWriter = historyWriter;
+            _log = log;
         }
 
         [HttpPost("InsertRequest")]
@@ -47,7 +50,15 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 request.PaymentFields,
                 request.TradeSystem);
 
-            await _historyWriter.Push(this.MapFrom(request.Request));
+            try
+            {
+                await _historyWriter.Push(this.MapFrom(request.Request));
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "InsertRequestAsync", "", e, DateTime.Now);
+            }
+            
 
             return Ok(new IdResponseModel {Id = id});
         }
@@ -82,6 +93,16 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             await _cashOutAttemptRepo.SetBlockchainHash(clientId, requestId, hash);
+
+            try
+            {
+                await _historyWriter.UpdateBlockChainHash(requestId, hash);
+                await _historyWriter.UpdateState(requestId, (int)TransactionStates.SettledOnchain);
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "SetBlockchainHash", "", e, DateTime.Now);
+            }
 
             return Ok();
         }
@@ -246,6 +267,15 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             await _cashOutAttemptRepo.SetIsSettledOffchain(clientId, requestId);
+
+            try
+            {
+                await _historyWriter.UpdateState(requestId, (int)TransactionStates.SettledOffchain);
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "SetIsSettledOffchain", "", e, DateTime.Now);
+            }
 
             return Ok();
         }

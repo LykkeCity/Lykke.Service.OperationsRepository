@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
 using System.Threading.Tasks;
+using Common.Log;
 using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
@@ -18,11 +17,13 @@ namespace Lykke.Service.OperationsRepository.Controllers
     {
         private readonly ICashOperationsRepository _cashOperationsRepo;
         private readonly IHistoryWriter _historyWriter;
+        private readonly ILog _log;
 
-        public CashOperationsRepositoryController(ICashOperationsRepository cashOperationsRepo, IHistoryWriter historyWriter)
+        public CashOperationsRepositoryController(ICashOperationsRepository cashOperationsRepo, IHistoryWriter historyWriter, ILog log)
         {
             _cashOperationsRepo = cashOperationsRepo;
             _historyWriter = historyWriter;
+            _log = log;
         }
 
         [HttpPost("Register")]
@@ -104,6 +105,16 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
             await _cashOperationsRepo.UpdateBlockchainHashAsync(clientId, id, hash);
 
+            try
+            {
+                await _historyWriter.UpdateBlockChainHash(id, hash);
+                await _historyWriter.UpdateState(id, (int)TransactionStates.SettledOnchain);
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "UpdateBlockchainHashAsync", "", e, DateTime.Now);
+            }
+
             return Ok();
         }
 
@@ -147,6 +158,18 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             await _cashOperationsRepo.SetIsSettledAsync(clientId, id, offchain);
+
+            try
+            {
+                if (offchain)
+                {
+                    await _historyWriter.UpdateState(id, (int) TransactionStates.SettledOffchain);
+                }
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "SetIsSettledAsync", "", e, DateTime.Now);
+            }
 
             return Ok();
         }
