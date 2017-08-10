@@ -145,7 +145,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             return await _tableStorage.GetDataAsync(partitionKey, rowKey);
         }
 
-        public async Task UpdateBlockChainHashAsync(string clientId, string id, string blockChainHash)
+        public async Task<bool> UpdateBlockChainHashAsync(string clientId, string id, string blockChainHash)
         {
             var partitionKey = TransferEventEntity.ByClientId.GeneratePartitionKey(clientId);
             var rowKey = TransferEventEntity.ByClientId.GenerateRowKey(id);
@@ -153,7 +153,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var item = await _tableStorage.GetDataAsync(partitionKey, rowKey);
 
             if (item.State == TransactionStates.SettledOffchain || item.State == TransactionStates.InProcessOffchain)
-                return;
+                return false;
 
             item.BlockChainHash = blockChainHash;
 
@@ -169,6 +169,8 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 
             await _tableStorage.InsertOrReplaceAsync(item);
             await _tableStorage.InsertOrReplaceAsync(multisigItem);
+
+            return true;
         }
 
         public async Task SetBtcTransactionAsync(string clientId, string id, string btcTransactionId)

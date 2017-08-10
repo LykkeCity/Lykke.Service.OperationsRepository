@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Common.Log;
+using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Validation;
@@ -15,10 +17,14 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class ClientTradesRepositoryController: Controller
     {
         private readonly IClientTradesRepository _clientTradesRepo;
+        private readonly IHistoryWriter _historyWriter;
+        private readonly ILog _log;
 
-        public ClientTradesRepositoryController(IClientTradesRepository clientTradesRepo)
+        public ClientTradesRepositoryController(IClientTradesRepository clientTradesRepo, IHistoryWriter historyWriter, ILog log)
         {
             _clientTradesRepo = clientTradesRepo;
+            _historyWriter = historyWriter;
+            _log = log;
         }
 
         [HttpPost("Save")]
@@ -32,7 +38,21 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(clientTrades)));
             }
 
-            return Ok(await _clientTradesRepo.SaveAsync(clientTrades));
+            var result = await _clientTradesRepo.SaveAsync(clientTrades);
+
+            try
+            {
+                foreach (var trade in clientTrades)
+                {
+                    await _historyWriter.Push(this.MapFrom(trade));
+                }
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "SaveAsync", "", e, DateTime.Now);
+            }
+
+            return Ok(result);
         }
 
         [HttpGet]
@@ -105,6 +125,16 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
             await _clientTradesRepo.UpdateBlockChainHashAsync(clientId, recordId, hash);
 
+            try
+            {
+                await _historyWriter.UpdateBlockChainHash(recordId, hash);
+                await _historyWriter.UpdateState(recordId, (int) TransactionStates.SettledOnchain);
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "UpdateBlockChainHashAsync", "", e, DateTime.Now);
+            }
+
             return Ok();
         }
 
@@ -125,6 +155,15 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             await _clientTradesRepo.SetDetectionTimeAndConfirmations(clientId, recordId, detectTime, confirmations);
+
+            try
+            {
+                await _historyWriter.UpdateState(recordId, (int)TransactionStates.SettledOnchain);
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "SetDetectionTimeAndConfirmations", "", e, DateTime.Now);
+            }
 
             return Ok();
         }
@@ -171,6 +210,18 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             await _clientTradesRepo.SetIsSettledAsync(clientId, id, offchain);
+
+            try
+            {
+                if (offchain)
+                {
+                    await _historyWriter.UpdateState(id, (int) TransactionStates.SettledOffchain);
+                }
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "SetIsSettledAsync", "", e, DateTime.Now);
+            }
 
             return Ok();
         }

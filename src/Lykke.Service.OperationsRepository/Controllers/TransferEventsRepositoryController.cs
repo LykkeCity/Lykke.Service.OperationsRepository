@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Log;
+using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Validation;
@@ -15,12 +17,16 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class TransferEventsRepositoryController : Controller
     {
         private readonly ITransferEventsRepository _transferEventsRepo;
+        private readonly IHistoryWriter _historyWriter;
+        private readonly ILog _log;
 
-        public TransferEventsRepositoryController(ITransferEventsRepository transferEventsRepo)
+        public TransferEventsRepositoryController(ITransferEventsRepository transferEventsRepo, IHistoryWriter historyWriter, ILog log)
         {
             _transferEventsRepo = transferEventsRepo;
+            _historyWriter = historyWriter;
+            _log = log;
         }
-
+         
         [HttpPost("Register")]
         [SwaggerOperation("TransferOperations_Register")]
         [ProducesResponseType(typeof(TransferEvent), (int) HttpStatusCode.OK)]
@@ -32,7 +38,19 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(transferEvent)));
             }
 
-            return Ok(await _transferEventsRepo.RegisterAsync(transferEvent));
+            var result = await _transferEventsRepo.RegisterAsync(transferEvent);
+
+            try
+            {
+                await _historyWriter.Push(this.MapFrom(transferEvent));
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "RegisterAsync", "", e, DateTime.Now);
+            }
+            
+
+            return Ok(result);
         }
 
         [HttpGet]
@@ -94,7 +112,20 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(blockChainHash)));
             }
 
-            await _transferEventsRepo.UpdateBlockChainHashAsync(clientId, id, blockChainHash);
+            var updated = await _transferEventsRepo.UpdateBlockChainHashAsync(clientId, id, blockChainHash);
+
+            try
+            {
+                if (updated)
+                {
+                    await _historyWriter.UpdateBlockChainHash(id, blockChainHash);
+                    await _historyWriter.UpdateState(id, (int) TransactionStates.SettledOnchain);
+                }
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "UpdateBlockChainHashAsync", "", e, DateTime.Now);
+            }
 
             return Ok();
         }
@@ -141,6 +172,22 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             await _transferEventsRepo.SetIsSettledIfExistsAsync(clientId, id, offchain);
+
+            try
+            {
+                if (offchain)
+                {
+                    await _historyWriter.UpdateState(id, (int) TransactionStates.SettledOffchain);
+                }
+                else
+                {
+                    await _historyWriter.UpdateState(id, (int)TransactionStates.SettledOnchain);
+                }
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "SetIsSettledIfExistsAsync", "", e, DateTime.Now);
+            }
 
             return Ok();
         }
