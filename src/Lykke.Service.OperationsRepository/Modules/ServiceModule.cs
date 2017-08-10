@@ -3,6 +3,8 @@ using Autofac.Extensions.DependencyInjection;
 using AzureStorage.Tables;
 using AzureStorage.Tables.Templates.Index;
 using Common.Log;
+using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
+using Lykke.Service.OperationsHistory.HistoryWriter.Implementation;
 using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
 using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
@@ -53,6 +55,8 @@ namespace Lykke.Service.OperationsRepository.Modules
                 new CashOutAttemptRepository(
                     new AzureTableStorage<CashOutAttemptEntity>(_settings.Db.RepoConnectionString, "CashOutAttempt",
                         _log)));
+
+            builder.RegisterInstance<IHistoryWriter>(new HistoryWriter(_settings.Db.HistoryConnString, _log));
 
             builder.Populate(_services);
         }

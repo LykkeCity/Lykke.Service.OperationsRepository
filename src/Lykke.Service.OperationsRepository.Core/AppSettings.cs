@@ -15,6 +15,7 @@
     {
         public string LogsConnString { get; set; }
         public string RepoConnectionString { get; set; }
+        public string HistoryConnString { get; set; }
     }
 
     public class SlackNotificationsSettings
