@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Validation;
@@ -15,10 +16,12 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class TransferEventsRepositoryController : Controller
     {
         private readonly ITransferEventsRepository _transferEventsRepo;
+        private readonly IHistoryWriter _historyWriter;
 
-        public TransferEventsRepositoryController(ITransferEventsRepository transferEventsRepo)
+        public TransferEventsRepositoryController(ITransferEventsRepository transferEventsRepo, IHistoryWriter historyWriter)
         {
             _transferEventsRepo = transferEventsRepo;
+            _historyWriter = historyWriter;
         }
 
         [HttpPost("Register")]
@@ -32,7 +35,11 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(transferEvent)));
             }
 
-            return Ok(await _transferEventsRepo.RegisterAsync(transferEvent));
+            var result = await _transferEventsRepo.RegisterAsync(transferEvent);
+
+            await _historyWriter.Push(this.MapFrom(transferEvent));
+
+            return Ok(result);
         }
 
         [HttpGet]

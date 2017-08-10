@@ -4,6 +4,7 @@ using System.Net;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Validation;
@@ -16,10 +17,12 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class CashOperationsRepositoryController : Controller
     {
         private readonly ICashOperationsRepository _cashOperationsRepo;
+        private readonly IHistoryWriter _historyWriter;
 
-        public CashOperationsRepositoryController(ICashOperationsRepository cashOperationsRepo)
+        public CashOperationsRepositoryController(ICashOperationsRepository cashOperationsRepo, IHistoryWriter historyWriter)
         {
             _cashOperationsRepo = cashOperationsRepo;
+            _historyWriter = historyWriter;
         }
 
         [HttpPost("Register")]
@@ -34,6 +37,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             var id = await _cashOperationsRepo.RegisterAsync(operation);
+
+            await _historyWriter.Push(this.MapFrom(operation));
 
             return Ok(new IdResponseModel {Id = id});
         }

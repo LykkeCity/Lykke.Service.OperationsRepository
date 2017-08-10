@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
 using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
@@ -17,10 +18,12 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class CashOutAttemptRepositoryController: Controller
     {
         private readonly ICashOutAttemptRepository _cashOutAttemptRepo;
+        private readonly IHistoryWriter _historyWriter;
 
-        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo)
+        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo, IHistoryWriter historyWriter)
         {
             _cashOutAttemptRepo = cashOutAttemptRepo;
+            _historyWriter = historyWriter;
         }
 
         [HttpPost("InsertRequest")]
@@ -43,6 +46,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 new PaymentSystem(request.PaymentSystem.Value),
                 request.PaymentFields,
                 request.TradeSystem);
+
+            await _historyWriter.Push(this.MapFrom(request.Request));
 
             return Ok(new IdResponseModel {Id = id});
         }

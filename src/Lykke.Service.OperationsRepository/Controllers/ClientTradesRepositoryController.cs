@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Validation;
@@ -15,10 +16,12 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class ClientTradesRepositoryController: Controller
     {
         private readonly IClientTradesRepository _clientTradesRepo;
+        private readonly IHistoryWriter _historyWriter;
 
-        public ClientTradesRepositoryController(IClientTradesRepository clientTradesRepo)
+        public ClientTradesRepositoryController(IClientTradesRepository clientTradesRepo, IHistoryWriter historyWriter)
         {
             _clientTradesRepo = clientTradesRepo;
+            _historyWriter = historyWriter;
         }
 
         [HttpPost("Save")]
@@ -32,7 +35,15 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(clientTrades)));
             }
 
-            return Ok(await _clientTradesRepo.SaveAsync(clientTrades));
+            var result = await _clientTradesRepo.SaveAsync(clientTrades);
+
+            foreach (var trade in clientTrades)
+            {
+                var historyEntry = this.MapFrom(trade);
+                await _historyWriter.Push(historyEntry);
+            }
+
+            return Ok(result);
         }
 
         [HttpGet]
