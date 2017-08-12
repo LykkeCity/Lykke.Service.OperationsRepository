@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AzureStorage;
 using Common;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 {
@@ -199,6 +200,19 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         public async Task<ICashOutRequest> GetAsync(string clientId, string requestId)
         {
             return await _tableStorage.GetDataAsync(CashOutAttemptEntity.PendingRecords.GeneratePartition(clientId), requestId);
+        }
+        
+        public async Task<IEnumerable<ICashOutRequest>> GetRelatedRequestsAsync(string requestId)
+        {
+            var rowKeyCond = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, requestId);
+            var previousIdCond = TableQuery.GenerateFilterCondition(nameof(ICashOutRequest.PreviousId), QueryComparisons.Equal, requestId);
+            var query = new TableQuery<CashOutAttemptEntity>
+            {
+                FilterString = TableQuery.CombineFilters(rowKeyCond, TableOperators.Or, previousIdCond)
+            };
+
+            var requests = await _tableStorage.WhereAsync(query);
+            return requests;
         }
     }
 }
