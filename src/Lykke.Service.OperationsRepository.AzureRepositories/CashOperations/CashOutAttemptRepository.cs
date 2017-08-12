@@ -64,7 +64,8 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 State = request.State,
                 TradeSystem = tradeSystem.ToString(),
                 AccountId = request.AccountId,
-                VolumeSize = request.VolumeSize
+                VolumeSize = request.VolumeSize,
+                PreviousId = request.PreviousId
             };
         }
     }
@@ -178,6 +179,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 
             entity.PartitionKey = CashOutAttemptEntity.HistoryRecords.GeneratePartition();
             entity.Status = status;
+            entity.PreviousId = requestId;
 
             return await _tableStorage.InsertAndGenerateRowKeyAsDateTimeAsync(entity, entity.DateTime);
         }
