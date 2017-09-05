@@ -19,5 +19,6 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
         Task<IEnumerable<ClientTrade>> GetByMultisigAsync(string multisig);
         Task<IEnumerable<ClientTrade>> GetByMultisigsAsync(string[] multisigs);
         Task<IEnumerable<ClientTrade>> ScanByDtAsync(DateTime from, DateTime to);
+        Task<IEnumerable<ClientTrade>> GetByOrderAsync(string orderId);
     }
 }
