@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Common.Log;
@@ -274,6 +273,20 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             return Ok(await _clientTradesRepo.ScanByDtAsync(from, to));
+        }
+
+        [HttpGet("GetByOrder")]
+        [SwaggerOperation("ClientTradeOperations_GetByOrder")]
+        [ProducesResponseType(typeof(IEnumerable<ClientTrade>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetByOrderAsync([FromQuery] string orderId)
+        {
+            if (!CashOperationsValidator.ValidateOrderId(orderId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
+            }
+
+            return Ok(await _clientTradesRepo.GetByOrderAsync(orderId));
         }
     }
 }

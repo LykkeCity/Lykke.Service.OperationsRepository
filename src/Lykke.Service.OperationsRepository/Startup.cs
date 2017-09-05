@@ -6,7 +6,6 @@ using Common.Log;
 using Lykke.Common.ApiLibrary.Middleware;
 using Lykke.Common.ApiLibrary.Swagger;
 using Lykke.Logs;
-using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Modules;
 using Lykke.SettingsReader;
 using Lykke.SlackNotification.AzureQueue;
@@ -14,6 +13,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Lykke.Service.OperationsRepository.Core;
 
 namespace Lykke.Service.OperationsRepository
 {
@@ -73,11 +73,24 @@ namespace Lykke.Service.OperationsRepository
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUi();
+            app.UseStaticFiles();
 
-            appLifetime.ApplicationStopped.Register(() =>
-            {
-                ApplicationContainer.Dispose();
-            });
+            appLifetime.ApplicationStopping.Register(StopApplication);
+            appLifetime.ApplicationStopped.Register(CleanUp);
+        }
+
+        private void StopApplication()
+        {
+            // TODO: Implement your shutdown logic here. 
+            // Service still can recieve and process requests here, so take care about it.
+        }
+
+        private void CleanUp()
+        {
+            // TODO: Implement your clean up logic here.
+            // Service can't recieve and process requests here, so you can destroy all resources
+
+            ApplicationContainer.Dispose();
         }
 
         private static ILog CreateLogWithSlack(IServiceCollection services, AppSettings settings)
