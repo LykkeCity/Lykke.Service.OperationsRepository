@@ -26,7 +26,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <param name="state">Possible values include: 'InProcessOnchain',
         /// 'SettledOnchain', 'InProcessOffchain', 'SettledOffchain',
         /// 'SettledNoChain'</param>
-        public ClientTrade(string id = default(string), string clientId = default(string), System.DateTime? dateTime = default(System.DateTime?), bool? isHidden = default(bool?), string limitOrderId = default(string), string marketOrderId = default(string), double? amount = default(double?), string assetId = default(string), string blockChainHash = default(string), string multisig = default(string), string transactionId = default(string), string addressFrom = default(string), string addressTo = default(string), bool? isSettled = default(bool?), TransactionStates? state = default(TransactionStates?), double? price = default(double?), System.DateTime? detectionTime = default(System.DateTime?), int? confirmations = default(int?))
+        public ClientTrade(string id = default(string), string clientId = default(string), System.DateTime? dateTime = default(System.DateTime?), bool? isHidden = default(bool?), string limitOrderId = default(string), string marketOrderId = default(string), double? amount = default(double?), string assetId = default(string), string blockChainHash = default(string), string multisig = default(string), string transactionId = default(string), string addressFrom = default(string), string addressTo = default(string), bool? isSettled = default(bool?), TransactionStates? state = default(TransactionStates?), double? price = default(double?), System.DateTime? detectionTime = default(System.DateTime?), int? confirmations = default(int?), string oppositeLimitOrderId = default(string), bool? isLimitOrderResult = default(bool?))
         {
             Id = id;
             ClientId = clientId;
@@ -46,6 +46,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
             Price = price;
             DetectionTime = detectionTime;
             Confirmations = confirmations;
+            OppositeLimitOrderId = oppositeLimitOrderId;
+            IsLimitOrderResult = isLimitOrderResult;
             CustomInit();
         }
 
@@ -146,6 +148,16 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// </summary>
         [JsonProperty(PropertyName = "Confirmations")]
         public int? Confirmations { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "OppositeLimitOrderId")]
+        public string OppositeLimitOrderId { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "IsLimitOrderResult")]
+        public bool? IsLimitOrderResult { get; set; }
 
     }
 }
