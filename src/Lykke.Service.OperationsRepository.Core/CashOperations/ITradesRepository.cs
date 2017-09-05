@@ -11,6 +11,8 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         double Price { get; }
         DateTime? DetectionTime { get; set; }
         int Confirmations { get; set; }
+        string OppositeLimitOrderId { get; set; }
+        bool IsLimitOrderResult { get; set; }
     }
 
 
@@ -34,6 +36,8 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         public double Price { get; set; }
         public DateTime? DetectionTime { get; set; }
         public int Confirmations { get; set; }
+        public string OppositeLimitOrderId { get; set; }
+        public bool IsLimitOrderResult { get; set; }
     }
 
     public interface IClientTradesRepository
@@ -50,8 +54,9 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         Task SetIsSettledAsync(string clientId, string id, bool offchain);
         Task<IEnumerable<IClientTrade>> GetByMultisigAsync(string multisig);
         Task<IEnumerable<IClientTrade>> GetByMultisigsAsync(string[] multisigs);
-        Task<IEnumerable<IClientTrade>> ScanByDtAsync(DateTime from, DateTime to);
+        Task<IEnumerable<IClientTrade>> GetByOrderAsync(string orderId);
 
+        Task<IEnumerable<IClientTrade>> ScanByDtAsync(DateTime from, DateTime to);
         Task ScanByDtAsync(Func<IEnumerable<IClientTrade>, Task> chunk, DateTime from, DateTime to);
         Task GetDataByChunksAsync(Func<IEnumerable<IClientTrade>, Task> chunk);
     }
