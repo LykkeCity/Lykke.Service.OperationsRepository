@@ -131,5 +131,15 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
                 .Validate()
                 .GetPayload();
         }
+
+        public async Task<IEnumerable<ClientTrade>> GetByOrderAsync(string orderId)
+        {
+            var response = await _apiClient.ClientTradeOperations.GetByOrderWithHttpMessagesAsync(orderId);
+
+            return ClientTradesResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
+        }
     }
 }
