@@ -57,6 +57,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         CashOutRequestTradeSystem TradeSystem { get; }
         string AccountId { get; }
         CashOutVolumeSize VolumeSize { get; }
+        string PreviousId { get; }
     }
 
     public class SwiftCashOutRequest : ICashOutRequest
@@ -75,6 +76,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         public bool IsHidden { get; set; }
         public string AccountId { get; set; }
         public CashOutVolumeSize VolumeSize { get; set; }
+        public string PreviousId { get; set; }
     }
 
     public interface ICashOutBaseRepository

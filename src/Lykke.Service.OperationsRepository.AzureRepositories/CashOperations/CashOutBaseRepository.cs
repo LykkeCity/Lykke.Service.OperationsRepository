@@ -49,5 +49,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                     VolumeSize = CashOutVolumeSize.Unknown;
             }
         }
+
+        public string PreviousId { get; set; }
     }
 }

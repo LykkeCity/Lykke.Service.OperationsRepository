@@ -351,5 +351,31 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
                 }
             }
 
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            public static object GetByOrder(this IClientTradeOperations operations, string orderId = default(string))
+            {
+                return operations.GetByOrderAsync(orderId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetByOrderAsync(this IClientTradeOperations operations, string orderId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetByOrderWithHttpMessagesAsync(orderId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
     }
 }
