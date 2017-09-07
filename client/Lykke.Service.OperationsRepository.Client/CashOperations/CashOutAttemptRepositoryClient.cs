@@ -160,6 +160,16 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
                 .GetPayload();
         }
 
+        public async Task<IEnumerable<CashOutAttemptEntity>> GetRelatedRequestsAsync(string requestId)
+        {
+            var response = await _apiClient.CashOutAttemptOperations.GetRelatedRequestsWithHttpMessagesAsync(requestId);
+
+            return CashOutAttemptsResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
+        }
+
         public async Task<CashOutAttemptEntity> GetAsync(string clientId, string id)
         {
             var response = await _apiClient.CashOutAttemptOperations.GetWithHttpMessagesAsync(clientId, id);
