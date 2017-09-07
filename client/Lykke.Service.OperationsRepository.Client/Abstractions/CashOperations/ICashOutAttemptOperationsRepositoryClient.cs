@@ -24,6 +24,7 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
         Task SetIsSettledOffchain(string clientId, string requestId);
         Task<IEnumerable<CashOutAttemptEntity>> GetHistoryRecordsAsync(DateTime @from, DateTime to);
         Task<IEnumerable<CashOutAttemptEntity>> GetRequestsAsync(string clientId);
+        Task<IEnumerable<CashOutAttemptEntity>> GetRelatedRequestsAsync(string requestId);
         Task<CashOutAttemptEntity> GetAsync(string clientId, string id);
     }
 }
