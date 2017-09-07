@@ -104,7 +104,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             {
                 _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(clientTrades, Client.SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
+                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
             // Send Request
             if (_shouldTrace)

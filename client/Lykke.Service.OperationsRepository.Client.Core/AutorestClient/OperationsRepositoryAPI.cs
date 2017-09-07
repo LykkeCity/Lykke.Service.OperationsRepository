@@ -165,9 +165,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             };
             CustomInitialize();
         }
-        /// <summary>
-        /// Checks service is alive
-        /// </summary>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
