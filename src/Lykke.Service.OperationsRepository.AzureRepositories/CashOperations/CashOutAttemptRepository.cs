@@ -29,6 +29,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 entity.PartitionKey = GeneratePartition(request.ClientId);
                 entity.RowKey = GenerateRowKey(reqId);
                 entity.Status = request.Status;
+                entity.PreviousId = request.PreviousId;
 
                 return entity;
             }

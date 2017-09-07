@@ -328,5 +328,19 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
             return Ok(record);
         }
+
+        [HttpGet("GetRelatedRequests")]
+        [SwaggerOperation("CashOutAttemptOperations_GetRelatedRequests")]
+        [ProducesResponseType(typeof(IEnumerable<CashOutAttemptEntity>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetRelatedRequestsAsync([FromQuery] string requestId)
+        {
+            if (!CommonValidator.ValidateRequestId(requestId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(requestId)));
+            }
+
+            return Ok(await _cashOutAttemptRepo.GetRelatedRequestsAsync(requestId));
+        }
     }
 }
