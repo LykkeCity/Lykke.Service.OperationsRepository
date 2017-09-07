@@ -453,5 +453,31 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
                 }
             }
 
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object GetRelatedRequests(this ICashOutAttemptOperations operations, string requestId = default(string))
+            {
+                return operations.GetRelatedRequestsAsync(requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetRelatedRequestsAsync(this ICashOutAttemptOperations operations, string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetRelatedRequestsWithHttpMessagesAsync(requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
     }
 }

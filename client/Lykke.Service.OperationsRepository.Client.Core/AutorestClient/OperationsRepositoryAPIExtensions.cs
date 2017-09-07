@@ -15,9 +15,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
     /// </summary>
     public static partial class OperationsRepositoryAPIExtensions
     {
-            /// <summary>
-            /// Checks service is alive
-            /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
@@ -26,9 +23,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
                 return operations.IsAliveAsync().GetAwaiter().GetResult();
             }
 
-            /// <summary>
-            /// Checks service is alive
-            /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
