@@ -6,8 +6,11 @@ using Common.Log;
 using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
 using Lykke.Service.OperationsHistory.HistoryWriter.Implementation;
 using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
+using Lykke.Service.OperationsRepository.AzureRepositories.Entities;
+using Lykke.Service.OperationsRepository.AzureRepositories.Exchange;
 using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
+using Lykke.Service.OperationsRepository.Core.Exchange;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lykke.Service.OperationsRepository.Modules
@@ -46,10 +49,22 @@ namespace Lykke.Service.OperationsRepository.Modules
                 new ClientTradesRepository(
                     new AzureTableStorage<ClientTradeEntity>(_settings.Db.RepoConnectionString, "Trades", _log)));
 
+            builder.RegisterInstance<ILimitTradeEventsRepository>(
+               new LimitTradeEventsRepository(
+                   new AzureTableStorage<LimitTradeEventEntity>(_settings.Db.RepoConnectionString, "LimitTradeEvents", _log)));
+
+            builder.RegisterInstance<ILimitOrdersRepository>(
+               new LimitOrdersRepository(
+                   new AzureTableStorage<LimitOrderEntity>(_settings.Db.HMarketOrdersConnString, "LimitOrders", _log)));
+
+            builder.RegisterInstance<IMarketOrdersRepository>(
+            new MarketOrdersRepository(
+                new AzureTableStorage<MarketOrderEntity>(_settings.Db.HMarketOrdersConnString, "MarketOrders", _log)));
+
             builder.RegisterInstance<ITransferEventsRepository>(
-                new TransferEventsRepository(
-                    new AzureTableStorage<TransferEventEntity>(_settings.Db.RepoConnectionString, "Transfers", _log),
-                    new AzureTableStorage<AzureIndex>(_settings.Db.RepoConnectionString, "Transfers", _log)));
+               new TransferEventsRepository(
+                   new AzureTableStorage<TransferEventEntity>(_settings.Db.RepoConnectionString, "Transfers", _log),
+                   new AzureTableStorage<AzureIndex>(_settings.Db.RepoConnectionString, "Transfers", _log)));
 
             builder.RegisterInstance<ICashOutAttemptRepository>(
                 new CashOutAttemptRepository(
