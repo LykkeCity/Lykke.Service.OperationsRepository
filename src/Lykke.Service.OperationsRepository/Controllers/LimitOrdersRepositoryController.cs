@@ -33,6 +33,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetOrderAsync([FromQuery] string orderId)
         {
+
             if (!CommonValidator.ValidateOrderId(orderId))
             {
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
