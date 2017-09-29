@@ -65,12 +65,20 @@ namespace Lykke.Service.OperationsRepository.Client.Exchange
 
         public async Task<IEnumerable<MarketOrder>> GetOrdersAsync(string clientId)
         {
-            var response = await _apiClient.MarketOrdersOperations.GetByClientIdWithHttpMessagesAsync(clientId);
+            try
+            {
+                var response = await _apiClient.MarketOrdersOperations.GetByClientIdWithHttpMessagesAsync(clientId);
 
-            return MarketOrdersResponse
-                .Prepare(response)
-                .Validate()
-                .GetPayload();
+                return MarketOrdersResponse
+                    .Prepare(response)
+                    .Validate()
+                    .GetPayload();
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task CreateAsync(MarketOrder marketOrder)

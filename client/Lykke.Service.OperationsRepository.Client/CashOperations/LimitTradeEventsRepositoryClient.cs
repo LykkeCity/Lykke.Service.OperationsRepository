@@ -34,22 +34,36 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public async Task<IEnumerable<LimitTradeEvent>> GetAsync(string clinetId)
         {
-            var response = await _apiClient.LimitTradeEvents.GetWithHttpMessagesAsync(clinetId);
+            try
+            {
+                var response = await _apiClient.LimitTradeEvents.GetWithHttpMessagesAsync(clinetId);
 
-            return LimitTradeEventResponse
-                .Prepare(response)
-                .Validate()
-                .GetPayload();
+                return LimitTradeEventResponse
+                    .Prepare(response)
+                    .Validate()
+                    .GetPayload();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task<IEnumerable<LimitTradeEvent>> GetAsync(string clientId, string orderId)
         {
-            var response = await _apiClient.LimitTradeEvents.GetByOrderIdWithHttpMessagesAsync(clientId, orderId);
+            try
+            {
+                var response = await _apiClient.LimitTradeEvents.GetByOrderIdWithHttpMessagesAsync(clientId, orderId);
 
-            return LimitTradeEventResponse
-                .Prepare(response)
-                .Validate()
-                .GetPayload();
+                return LimitTradeEventResponse
+                    .Prepare(response)
+                    .Validate()
+                    .GetPayload();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

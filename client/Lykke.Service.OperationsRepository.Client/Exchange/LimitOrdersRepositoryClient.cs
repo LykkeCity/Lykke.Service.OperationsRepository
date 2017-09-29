@@ -35,42 +35,70 @@ namespace Lykke.Service.OperationsRepository.Client.Exchange
 
         public async Task<LimitOrder> GetOrderAsync(string orderId)
         {
-            var response = await _apiClient.LimitOrdersOperations.GetOrderWithHttpMessagesAsync(orderId);
+            try
+            {
+                var response = await _apiClient.LimitOrdersOperations.GetOrderWithHttpMessagesAsync(orderId);
 
-            return LimitOrderResponse
-                .Prepare(response)
-                .Validate()
-                .GetPayload();
+                return LimitOrderResponse
+                    .Prepare(response)
+                    .Validate()
+                    .GetPayload();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public async Task<IEnumerable<LimitOrder>> GetActiveOrdersAsync(string clientId)
         {
-            var response = await _apiClient.LimitOrdersOperations.GetActiveOrdersWithHttpMessagesAsync(clientId);
+            try
+            {
+                var response = await _apiClient.LimitOrdersOperations.GetActiveOrdersWithHttpMessagesAsync(clientId);
 
-            return LimitOrdersResponse
-                .Prepare(response)
-                .Validate()
-                .GetPayload();
+                return LimitOrdersResponse
+                    .Prepare(response)
+                    .Validate()
+                    .GetPayload();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task<IEnumerable<LimitOrder>> GetOrdersAsync(string clientId)
         {
-            var response = await _apiClient.LimitOrdersOperations.GetByClientIdWithHttpMessagesAsync(clientId);
+            try
+            {
+                var response = await _apiClient.LimitOrdersOperations.GetByClientIdWithHttpMessagesAsync(clientId);
 
-            return LimitOrdersResponse
-                .Prepare(response)
-                .Validate()
-                .GetPayload();
+                return LimitOrdersResponse
+                    .Prepare(response)
+                    .Validate()
+                    .GetPayload();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task<IEnumerable<LimitOrder>> GetOrdersAsync(string[] orderIds)
         {
-            var response = await _apiClient.LimitOrdersOperations.GetByOrdersIdsWithHttpMessagesAsync(orderIds);
+            try
+            {
+                var response = await _apiClient.LimitOrdersOperations.GetByOrdersIdsWithHttpMessagesAsync(orderIds);
 
-            return LimitOrdersResponse
-                .Prepare(response)
-                .Validate()
-                .GetPayload();
+                return LimitOrdersResponse
+                    .Prepare(response)
+                    .Validate()
+                    .GetPayload();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }
