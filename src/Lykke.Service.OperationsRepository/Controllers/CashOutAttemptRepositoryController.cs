@@ -19,12 +19,14 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class CashOutAttemptRepositoryController: Controller
     {
         private readonly ICashOutAttemptRepository _cashOutAttemptRepo;
+        private readonly IWithdrawLimitsRepository _withdrawLimitsRepository;
         private readonly IHistoryWriter _historyWriter;
         private readonly ILog _log;
 
-        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo, IHistoryWriter historyWriter, ILog log)
+        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo, IWithdrawLimitsRepository withdrawLimitsRepository, IHistoryWriter historyWriter, ILog log)
         {
             _cashOutAttemptRepo = cashOutAttemptRepo;
+            _withdrawLimitsRepository = withdrawLimitsRepository;
             _historyWriter = historyWriter;
             _log = log;
         }
@@ -61,6 +63,40 @@ namespace Lykke.Service.OperationsRepository.Controllers
             
 
             return Ok(new IdResponseModel {Id = id});
+        }
+
+        [HttpPost("CreateSwiftRequest")]
+        [SwaggerOperation("CashOutAttemptOperations_CreateSwiftRequest")]
+        [ProducesResponseType(typeof(IdResponseModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateSwiftRequestAsync([FromBody] CreateSwiftRequestModel request)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorList = ModelState.Values.SelectMany(m => m.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? e.Exception?.Message : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(errorList);
+            }
+
+            var volumeSize = await _withdrawLimitsRepository.GetLimitByAssetAsync(request.AssetId) <= request.Amount
+                ? CashOutVolumeSize.High
+                : CashOutVolumeSize.Low;
+
+            var id = await _cashOutAttemptRepo.CreateSwiftRequestAsync(request.ClientId, request.AssetId, request.Amount, new PaymentSystem("SWIFT"), volumeSize, request.SwiftCredentials);
+
+            try
+            {
+                await _historyWriter.Push(this.MapFrom(request));
+            }
+            catch (Exception e)
+            {
+                await _log.WriteErrorAsync(GetType().Name, "CreateSwiftRequestAsync", "", e, DateTime.Now);
+            }
+
+
+            return Ok(new IdResponseModel { Id = id });
         }
 
         [HttpGet("GetAllAttempts")]

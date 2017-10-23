@@ -33,7 +33,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         public async Task<IActionResult> Register([FromBody] CashInOutOperation operation)
         {
             if (!CashOperationsValidator.ValidateOperation(operation))
-            {
+            {   
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(operation)));
             }
 

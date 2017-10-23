@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Lykke.Service.OperationsRepository.Core.Domain;
 
 namespace Lykke.Service.OperationsRepository.Core.CashOperations
 {
     public interface ICashOutAttemptRepository : ICashOutBaseRepository
     {
+        Task<string> CreateSwiftRequestAsync(string clientId, string assetId, double amount, string paymentSystem, CashOutVolumeSize volumeSize, Swift swift);
         Task<string> InsertRequestAsync<T>(ICashOutRequest request, PaymentSystem paymentSystem, T paymentFields, CashOutRequestTradeSystem tradeSystem);
         Task<IEnumerable<ICashOutRequest>> GetAllAttempts();
         Task SetBlockchainHash(string clientId, string requestId, string hash);

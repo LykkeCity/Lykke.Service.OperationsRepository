@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AzureStorage;
 using Common;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
+using Lykke.Service.OperationsRepository.Core.Domain;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
@@ -84,6 +85,29 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         public async Task<string> InsertRequestAsync<T>(ICashOutRequest request, PaymentSystem paymentSystem, T paymentFields, CashOutRequestTradeSystem tradeSystem)
         {
             var entity = CashOutAttemptEntity.PendingRecords.Create(request, paymentSystem, paymentFields, tradeSystem);
+            await _tableStorage.InsertAsync(entity);
+            return entity.RowKey;
+        }
+
+        public async Task<string> CreateSwiftRequestAsync(string clientId, string assetId, double amount, string paymentSystem, CashOutVolumeSize volumeSize, Swift swift)
+        {
+            var dt = DateTime.UtcNow;
+            var entity = new CashOutAttemptEntity
+            {
+                PartitionKey = clientId,
+                RowKey = Guid.NewGuid().ToString("N"),
+                Status = CashOutRequestStatus.Pending,
+                AssetId = assetId,
+                Amount = amount,
+                ClientId = clientId,
+                PaymentSystem = paymentSystem,
+                PaymentFields = swift.ToJson(),
+                DateTime = dt,
+                State = TransactionStates.InProcessOffchain,
+                TradeSystem = CashOutRequestTradeSystem.Spot.ToString(),                
+                VolumeSize = volumeSize
+            };
+
             await _tableStorage.InsertAsync(entity);
             return entity.RowKey;
         }

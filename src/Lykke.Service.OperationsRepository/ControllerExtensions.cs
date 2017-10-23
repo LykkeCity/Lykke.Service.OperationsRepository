@@ -1,6 +1,8 @@
-﻿using Lykke.Service.OperationsHistory.HistoryWriter.Model;
+﻿using System;
+using Lykke.Service.OperationsHistory.HistoryWriter.Model;
 using Lykke.Service.OperationsRepository.Controllers;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
+using Lykke.Service.OperationsRepository.Models.CashOutAttempt;
 using Newtonsoft.Json;
 
 namespace Lykke.Service.OperationsRepository
@@ -21,7 +23,7 @@ namespace Lykke.Service.OperationsRepository
             };
         }
 
-        public static HistoryEntry MapFrom(this CashOutAttemptRepositoryController controller, 
+        public static HistoryEntry MapFrom(this CashOutAttemptRepositoryController controller,
             ICashOutRequest source)
         {
             return new HistoryEntry
@@ -30,6 +32,20 @@ namespace Lykke.Service.OperationsRepository
                 Currency = source.AssetId,
                 OpType = "CashOutAttempt",
                 DateTime = source.DateTime,
+                Amount = source.Amount,
+                CustomData = JsonConvert.SerializeObject(source)
+            };
+        }
+
+        public static HistoryEntry MapFrom(this CashOutAttemptRepositoryController controller,
+            CreateSwiftRequestModel source)
+        {
+            return new HistoryEntry
+            {
+                ClientId = source.ClientId,
+                Currency = source.AssetId,
+                OpType = "SwiftCashOutAttempt",
+                DateTime = DateTime.UtcNow,
                 Amount = source.Amount,
                 CustomData = JsonConvert.SerializeObject(source)
             };
