@@ -1,10 +1,11 @@
 ﻿using Lykke.Service.OperationsRepository.AutorestClient.Models;
+using Lykke.Service.OperationsRepository.Client.Models.CashOperations;
 using Microsoft.Rest;
 using System;
 
-namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations
+namespace Lykke.Service.OperationsRepository.Client.Models.OperationsDetails
 {
-    public class CashOperationIdResponse : BaseCashOperationResponse<string>
+    public class OperationDetailsInformationIdResponse : BaseCashOperationResponse<string>
     {
         public string Id { get; set; }
 
