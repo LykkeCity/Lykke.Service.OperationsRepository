@@ -5,6 +5,8 @@ using Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations;
 using Lykke.Service.OperationsRepository.Client.CashOperations;
 using Lykke.Service.OperationsRepository.Client.Exchange;
 using Lykke.Service.OperationsRepository.Client.Abstractions.Exchange;
+using Lykke.Service.OperationsRepository.Client.OperationsDetails;
+using Lykke.Service.OperationsRepository.Client.Abstractions.OperationsDetails;
 
 namespace Lykke.Service.OperationsRepository.Client
 {
@@ -26,6 +28,8 @@ namespace Lykke.Service.OperationsRepository.Client
             builder.RegisterInstance(new LimitOrdersRepositoryClient(serviceUrl, log, timeout)).As<ILimitOrdersRepositoryClient>().SingleInstance();
             builder.RegisterInstance(new MarketOrdersRepositoryClient(serviceUrl, log, timeout)).As<IMarketOrdersRepositoryClient>().SingleInstance();
             builder.RegisterInstance(new LimitTradeEventsRepositoryClient(serviceUrl, log, timeout)).As<ILimitTradeEventsRepositoryClient>().SingleInstance();
+
+            builder.RegisterInstance(new OperationDetailsInformationClient(serviceUrl, log, timeout)).As<IOperationDetailsInformationClient>().SingleInstance();
         }
     }
 }
