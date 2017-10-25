@@ -65,11 +65,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         IMarketOrdersOperations MarketOrdersOperations { get; }
 
         /// <summary>
-        /// Gets the IOperationDetailsInformations.
-        /// </summary>
-        IOperationDetailsInformations OperationDetailsInformations { get; }
-
-        /// <summary>
         /// Gets the IOperationDetailsInformationOperations.
         /// </summary>
         IOperationDetailsInformationOperations OperationDetailsInformation { get; }
@@ -86,26 +81,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// The cancellation token.
         /// </param>
         Task<HttpOperationResponse<IsAliveResponse>> IsAliveWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <param name='operationDetailsInfo'>
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<ErrorResponse>> CreateOperationDetailsInformationWithHttpMessagesAsync(OperationDetailsInformation operationDetailsInfo = default(OperationDetailsInformation), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <param name='operationDetailsInfo'>
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<object>> RegisterOperationDetailsInformationWithHttpMessagesAsync(OperationDetailsInformation operationDetailsInfo = default(OperationDetailsInformation), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 }

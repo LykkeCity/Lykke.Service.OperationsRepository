@@ -14,23 +14,21 @@ using System.Threading.Tasks;
 
 namespace Lykke.Service.OperationsRepository.Controllers
 {
-    [Route("api/operationDetailsInformationRepository")]
+    [Route("api/[controller]")]
     public class OperationDetailsInformationRepositoryController : Controller
     {
         private readonly IOperationDetailsInformationRepository _operationDetailsInformationRepo;
-        private readonly IHistoryWriter _historyWriter;
         private readonly ILog _log;
 
         public OperationDetailsInformationRepositoryController(IOperationDetailsInformationRepository operationDetailsInformationRepo,
-                                                    IHistoryWriter historyWriter, ILog log)
+                                                    ILog log)
         {
             _operationDetailsInformationRepo = operationDetailsInformationRepo;
-            _historyWriter = historyWriter;
             _log = log;
         }
 
         [HttpPost]
-        [SwaggerOperation("CreateOperationDetailsInformation")]
+        [SwaggerOperation("OperationDetailsInformation_Create")]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateAsync([FromBody] OperationDetailsInformation operationDetailsInfo)
@@ -56,7 +54,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost("register")]
-        [SwaggerOperation("RegisterOperationDetailsInformation")]
+        [SwaggerOperation("OperationDetailsInformation_Register")]
         [ProducesResponseType(typeof(IdResponseModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Register([FromBody] OperationDetailsInformation operationDetailsInfo)
@@ -82,7 +80,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpGet]
-        [SwaggerOperation("OperationDetailsInformations_Get")]
+        [SwaggerOperation("OperationDetailsInformation_Get")]
         [ProducesResponseType(typeof(IEnumerable<OperationDetailsInformation>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync([FromQuery] string clientId)
@@ -95,8 +93,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
             return Ok(await _operationDetailsInformationRepo.GetAsync(clientId));
         }
 
-        [HttpGet("GetByRecordId")]
-        [SwaggerOperation("OperationDetailsInformation_Get")]
+        [HttpGet("getByRecordId")]
+        [SwaggerOperation("OperationDetailsInformation_GetByRecordId")]
         [ProducesResponseType(typeof(OperationDetailsInformation), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]

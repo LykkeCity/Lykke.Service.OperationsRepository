@@ -37,57 +37,5 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
                 }
             }
 
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='operationDetailsInfo'>
-            /// </param>
-            public static ErrorResponse CreateOperationDetailsInformation(this IOperationsRepositoryAPI operations, OperationDetailsInformation operationDetailsInfo = default(OperationDetailsInformation))
-            {
-                return operations.CreateOperationDetailsInformationAsync(operationDetailsInfo).GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='operationDetailsInfo'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<ErrorResponse> CreateOperationDetailsInformationAsync(this IOperationsRepositoryAPI operations, OperationDetailsInformation operationDetailsInfo = default(OperationDetailsInformation), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.CreateOperationDetailsInformationWithHttpMessagesAsync(operationDetailsInfo, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='operationDetailsInfo'>
-            /// </param>
-            public static object RegisterOperationDetailsInformation(this IOperationsRepositoryAPI operations, OperationDetailsInformation operationDetailsInfo = default(OperationDetailsInformation))
-            {
-                return operations.RegisterOperationDetailsInformationAsync(operationDetailsInfo).GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='operationDetailsInfo'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<object> RegisterOperationDetailsInformationAsync(this IOperationsRepositoryAPI operations, OperationDetailsInformation operationDetailsInfo = default(OperationDetailsInformation), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.RegisterOperationDetailsInformationWithHttpMessagesAsync(operationDetailsInfo, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
     }
 }
