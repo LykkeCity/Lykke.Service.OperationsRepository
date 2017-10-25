@@ -8,9 +8,11 @@ using Lykke.Service.OperationsHistory.HistoryWriter.Implementation;
 using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
 using Lykke.Service.OperationsRepository.AzureRepositories.Entities;
 using Lykke.Service.OperationsRepository.AzureRepositories.Exchange;
+using Lykke.Service.OperationsRepository.AzureRepositories.OperationsDetails;
 using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Core.Exchange;
+using Lykke.Service.OperationsRepository.Core.OperationsDetails;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lykke.Service.OperationsRepository.Modules
@@ -25,6 +27,7 @@ namespace Lykke.Service.OperationsRepository.Modules
         public ServiceModule(OperationsRepositorySettings settings, ILog log)
         {
             _settings = settings;
+
             _log = log;
 
             _services = new ServiceCollection();
@@ -69,6 +72,11 @@ namespace Lykke.Service.OperationsRepository.Modules
             builder.RegisterInstance<ICashOutAttemptRepository>(
                 new CashOutAttemptRepository(
                     new AzureTableStorage<CashOutAttemptEntity>(_settings.Db.RepoConnectionString, "CashOutAttempt",
+                        _log)));
+
+            builder.RegisterInstance<IOperationDetailsInformationRepository>(
+                new OperationDetailsInformationRepository(
+                    new AzureTableStorage<OperationDetailsInformationEntity>(_settings.Db.RepoConnectionString, "OperationDetailsInformation",
                         _log)));
 
             builder.RegisterInstance<IHistoryWriter>(new HistoryWriter(_settings.Db.HistoryConnString, _log));
