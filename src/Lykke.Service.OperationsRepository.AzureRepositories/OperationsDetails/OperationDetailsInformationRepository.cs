@@ -20,7 +20,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.OperationsDetails
             var newItem = OperationDetailsInformationEntity.Create(operation);
             await _tableStorage.InsertAsync(newItem);
 
-            return newItem.TransactionId;
+            return newItem.Id;
         }
 
         public async Task CreateAsync(IOperationDetailsInformation operation)
