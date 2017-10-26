@@ -4,7 +4,7 @@ namespace Lykke.Service.OperationsRepository.Core.OperationsDetails
 {
     public interface IOperationDetailsInformation
     {
-        string Id { get; set; }
+        string Id { get; }
         string TransactionId { get; set; }
         string ClientId { get; set; }
         DateTime CreatedAt { get; set; }

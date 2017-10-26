@@ -7,7 +7,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.Entities
 {
     public class OperationDetailsInformationEntity : TableEntity, IOperationDetailsInformation
     {
-        public string Id { get; set; }
+        public string Id => RowKey;
         public string TransactionId { get; set; }
         public string ClientId { get; set; }
         public DateTime CreatedAt { get; set; }
