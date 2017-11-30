@@ -168,7 +168,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             return await _tableStorage.GetDataAsync(partitionkey, rowKey);
         }
 
-        public async Task UpdateBlockchainHashAsync(string clientId, string id, string hash)
+        public async Task<ICashInOutOperation> UpdateBlockchainHashAsync(string clientId, string id, string hash)
         {
             var partitionkey = CashInOutOperationEntity.ByClientId.GeneratePartitionKey(clientId);
             var rowKey = CashInOutOperationEntity.ByClientId.GenerateRowKey(id);
@@ -181,7 +181,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var indexEntity = AzureIndex.Create(hash, rowKey, partitionkey, rowKey);
             await _blockChainHashIndices.InsertOrReplaceAsync(indexEntity);
 
-            await _tableStorage.MergeAsync(partitionkey, rowKey, entity =>
+            var result = await _tableStorage.MergeAsync(partitionkey, rowKey, entity =>
             {
                 entity.BlockChainHash = hash;
                 entity.State = TransactionStates.SettledOnchain;
@@ -194,9 +194,11 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 entity.State = TransactionStates.SettledOnchain;
                 return entity;
             });
+
+            return result;
         }
 
-        public async Task SetBtcTransaction(string clientId, string id, string bcnTransactionId)
+        public async Task<ICashInOutOperation> SetBtcTransaction(string clientId, string id, string bcnTransactionId)
         {
             var partitionkey = CashInOutOperationEntity.ByClientId.GeneratePartitionKey(clientId);
             var rowKey = CashInOutOperationEntity.ByClientId.GenerateRowKey(id);
@@ -206,7 +208,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var multisigPartitionkey = CashInOutOperationEntity.ByMultisig.GeneratePartitionKey(record.Multisig);
             var multisigRowKey = CashInOutOperationEntity.ByMultisig.GenerateRowKey(id);
 
-            await _tableStorage.MergeAsync(partitionkey, rowKey, entity =>
+            var result = await _tableStorage.MergeAsync(partitionkey, rowKey, entity =>
             {
                 entity.TransactionId = bcnTransactionId;
                 return entity;
@@ -217,9 +219,11 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 entity.TransactionId = bcnTransactionId;
                 return entity;
             });
+
+            return result;
         }
 
-        public async Task SetIsSettledAsync(string clientId, string id, bool offchain)
+        public async Task<ICashInOutOperation> SetIsSettledAsync(string clientId, string id, bool offchain)
         {
             var partitionkey = CashInOutOperationEntity.ByClientId.GeneratePartitionKey(clientId);
             var rowKey = CashInOutOperationEntity.ByClientId.GenerateRowKey(id);
@@ -229,25 +233,25 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var multisigPartitionkey = CashInOutOperationEntity.ByMultisig.GeneratePartitionKey(record.Multisig);
             var multisigRowKey = CashInOutOperationEntity.ByMultisig.GenerateRowKey(id);
 
-            await Task.WhenAll(
-                _tableStorage.MergeAsync(partitionkey, rowKey, entity =>
-                {
-                    if (offchain)
-                        entity.State = TransactionStates.SettledOffchain;
-                    else
-                        entity.IsSettled = true;
-                    return entity;
-                }),
+            var result = await _tableStorage.MergeAsync(partitionkey, rowKey, entity =>
+            {
+                if (offchain)
+                    entity.State = TransactionStates.SettledOffchain;
+                else
+                    entity.IsSettled = true;
+                return entity;
+            });
 
-                _tableStorage.MergeAsync(multisigPartitionkey, multisigRowKey, entity =>
-                {
-                    if (offchain)
-                        entity.State = TransactionStates.SettledOffchain;
-                    else
-                        entity.IsSettled = true;
-                    return entity;
-                })
-            );
+            await _tableStorage.MergeAsync(multisigPartitionkey, multisigRowKey, entity =>
+            {
+                if (offchain)
+                    entity.State = TransactionStates.SettledOffchain;
+                else
+                    entity.IsSettled = true;
+                return entity;
+            });
+
+            return result;
         }
 
         public async Task<IEnumerable<ICashInOutOperation>> GetByHashAsync(string blockchainHash)

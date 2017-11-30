@@ -70,10 +70,10 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         Task<IEnumerable<ITransferEvent>> GetAsync(string clientId);
         Task<ITransferEvent> GetAsync(string clientId, string id);
 
-        Task<bool> UpdateBlockChainHashAsync(string clientId, string id, string blockChainHash);
+        Task<ITransferEvent> UpdateBlockChainHashAsync(string clientId, string id, string blockChainHash);
 
-        Task SetBtcTransactionAsync(string clientId, string id, string btcTransaction);
-        Task SetIsSettledIfExistsAsync(string clientId, string id, bool offchain);
+        Task<ITransferEvent> SetBtcTransactionAsync(string clientId, string id, string btcTransaction);
+        Task<ITransferEvent> SetIsSettledIfExistsAsync(string clientId, string id, bool offchain);
 
         Task<IEnumerable<ITransferEvent>> GetByHashAsync(string blockchainHash);
         Task<IEnumerable<ITransferEvent>> GetByMultisigAsync(string multisig);

@@ -148,7 +148,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             return await _tableStorage.GetDataAsync(partitionKey, rowKey);
         }
 
-        public async Task<bool> UpdateBlockChainHashAsync(string clientId, string id, string blockChainHash)
+        public async Task<ITransferEvent> UpdateBlockChainHashAsync(string clientId, string id, string blockChainHash)
         {
             var partitionKey = TransferEventEntity.ByClientId.GeneratePartitionKey(clientId);
             var rowKey = TransferEventEntity.ByClientId.GenerateRowKey(id);
@@ -156,27 +156,32 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var item = await _tableStorage.GetDataAsync(partitionKey, rowKey);
 
             if (item.State == TransactionStates.SettledOffchain || item.State == TransactionStates.InProcessOffchain)
-                return false;
-
-            item.BlockChainHash = blockChainHash;
+                return null;
 
             var multisigPartitionKey = TransferEventEntity.ByMultisig.GeneratePartitionKey(item.Multisig);
             var multisigRowKey = TransferEventEntity.ByMultisig.GenerateRowKey(id);
 
-            var multisigItem = await _tableStorage.GetDataAsync(multisigPartitionKey, multisigRowKey);
-            multisigItem.BlockChainHash = blockChainHash;
-            multisigItem.State = TransactionStates.SettledOnchain;
+            var result = await _tableStorage.MergeAsync(partitionKey, rowKey, entity =>
+            {
+                entity.BlockChainHash = blockChainHash;
+                entity.State = TransactionStates.SettledOnchain;
+                return entity;
+            });
+
+            await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
+            {
+                entity.BlockChainHash = blockChainHash;
+                entity.State = TransactionStates.SettledOnchain;
+                return entity;
+            });
 
             var indexEntity = AzureIndex.Create(blockChainHash, rowKey, partitionKey, rowKey);
             await _blockChainHashIndices.InsertOrReplaceAsync(indexEntity);
 
-            await _tableStorage.InsertOrReplaceAsync(item);
-            await _tableStorage.InsertOrReplaceAsync(multisigItem);
-
-            return true;
+            return result;
         }
 
-        public async Task SetBtcTransactionAsync(string clientId, string id, string btcTransactionId)
+        public async Task<ITransferEvent> SetBtcTransactionAsync(string clientId, string id, string btcTransactionId)
         {
             var partitionKey = TransferEventEntity.ByClientId.GeneratePartitionKey(clientId);
             var rowKey = TransferEventEntity.ByClientId.GenerateRowKey(id);
@@ -188,14 +193,22 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 
             var multisigItem = await _tableStorage.GetDataAsync(multisigPartitionKey, multisigRowKey);
 
-            multisigItem.TransactionId = btcTransactionId;
-            item.TransactionId = btcTransactionId;
+            var result = await _tableStorage.MergeAsync(partitionKey, rowKey, entity =>
+            {
+                entity.TransactionId = btcTransactionId;
+                return entity;
+            });
 
-            await _tableStorage.InsertOrReplaceAsync(item);
-            await _tableStorage.InsertOrReplaceAsync(multisigItem);
+            await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
+            {
+                entity.TransactionId = btcTransactionId;
+                return entity;
+            });
+
+            return result;
         }
 
-        public async Task SetIsSettledIfExistsAsync(string clientId, string id, bool offchain)
+        public async Task<ITransferEvent> SetIsSettledIfExistsAsync(string clientId, string id, bool offchain)
         {
             var partitionKey = TransferEventEntity.ByClientId.GeneratePartitionKey(clientId);
             var rowKey = TransferEventEntity.ByClientId.GenerateRowKey(id);
@@ -203,25 +216,44 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var item = await _tableStorage.GetDataAsync(partitionKey, rowKey);
 
             if (item == null)
-                return;
+                return null;
 
             var multisigPartitionKey = TransferEventEntity.ByMultisig.GeneratePartitionKey(item.Multisig);
             var multisigRowKey = TransferEventEntity.ByMultisig.GenerateRowKey(id);
 
             var multisigItem = await _tableStorage.GetDataAsync(multisigPartitionKey, multisigRowKey);
 
-            if (offchain)
+            var result = await _tableStorage.MergeAsync(partitionKey, rowKey, entity =>
             {
-                multisigItem.State = item.State = TransactionStates.SettledOffchain;
-            }
-            else
-            {
-                multisigItem.IsSettled = item.IsSettled = true;
-                multisigItem.State = item.State = TransactionStates.SettledOnchain;
-            }
+                if (offchain)
+                {
+                    entity.State = TransactionStates.SettledOffchain;
+                }
+                else
+                {
+                    entity.IsSettled = true;
+                    entity.State = TransactionStates.SettledOnchain;
+                }
 
-            await _tableStorage.InsertOrReplaceAsync(item);
-            await _tableStorage.InsertOrReplaceAsync(multisigItem);
+                return entity;
+            });
+
+            await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
+            {
+                if (offchain)
+                {
+                    entity.State = TransactionStates.SettledOffchain;
+                }
+                else
+                {
+                    entity.IsSettled = true;
+                    entity.State = TransactionStates.SettledOnchain;
+                }
+
+                return entity;
+            });
+
+            return result;
         }
 
         public async Task<IEnumerable<ITransferEvent>> GetByHashAsync(string blockchainHash)

@@ -14,21 +14,21 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Lykke.Service.OperationsRepository.Core;
+using System.Threading.Tasks;
 
 namespace Lykke.Service.OperationsRepository
 {
     public class Startup
     {
         public IHostingEnvironment Environment { get; }
-        public IContainer ApplicationContainer { get; set; }
+        public IContainer ApplicationContainer { get; private set; }
         public IConfigurationRoot Configuration { get; }
+        public ILog Log { get; private set; }
 
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
 
@@ -37,96 +37,163 @@ namespace Lykke.Service.OperationsRepository
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .AddJsonOptions(options =>
+            try
+            {
+                services.AddMvc()
+                    .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
+                    });
+
+                services.AddSwaggerGen(options =>
                 {
-                    options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
+                    options.DefaultLykkeConfiguration("v1", "OperationsRepository API");
                 });
 
-            services.AddSwaggerGen(options =>
+                var builder = new ContainerBuilder();
+                var appSettings = Configuration.LoadSettings<AppSettings>();
+                Log = CreateLogWithSlack(services, appSettings);
+
+                builder.RegisterModule(new ServiceModule(appSettings.Nested(x => x.OperationsRepositoryService), Log));
+                builder.Populate(services);
+                ApplicationContainer = builder.Build();
+
+                return new AutofacServiceProvider(ApplicationContainer);
+            }
+            catch (Exception ex)
             {
-                options.DefaultLykkeConfiguration("v1", "OperationsRepository API");
-            });
-
-            var builder = new ContainerBuilder();
-            var appSettings = Environment.IsDevelopment()
-                ? Configuration.Get<AppSettings>()
-                : HttpSettingsLoader.Load<AppSettings>(Configuration.GetValue<string>("SettingsUrl"));
-            var log = CreateLogWithSlack(services, appSettings);
-
-            builder.RegisterModule(new ServiceModule(appSettings.OperationsRepositoryService, log));
-            builder.Populate(services);
-            ApplicationContainer = builder.Build();
-
-            return new AutofacServiceProvider(ApplicationContainer);
+                Log?.WriteFatalErrorAsync(nameof(Startup), nameof(ConfigureServices), "", ex).Wait();
+                throw;
+            }
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime appLifetime)
         {
-            if (env.IsDevelopment())
+            try
             {
-                app.UseDeveloperExceptionPage();
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                }
+
+                app.UseLykkeMiddleware("OperationsRepository", ex => new { Message = "Technical problem" });
+
+                app.UseMvc();
+                app.UseSwagger();
+                app.UseSwaggerUI(x =>
+                {
+                    x.RoutePrefix = "swagger/ui";
+                    x.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                });
+                app.UseStaticFiles();
+
+                appLifetime.ApplicationStarted.Register(() => StartApplication().Wait());
+                appLifetime.ApplicationStopping.Register(() => StopApplication().Wait());
+                appLifetime.ApplicationStopped.Register(() => CleanUp().Wait());
             }
-
-            app.UseLykkeMiddleware("OperationsRepository", ex => new {Message = "Technical problem"});
-
-            app.UseMvc();
-            app.UseSwagger();
-            app.UseSwaggerUi();
-            app.UseStaticFiles();
-
-            appLifetime.ApplicationStopping.Register(StopApplication);
-            appLifetime.ApplicationStopped.Register(CleanUp);
-        }
-
-        private void StopApplication()
-        {
-            // TODO: Implement your shutdown logic here. 
-            // Service still can recieve and process requests here, so take care about it.
-        }
-
-        private void CleanUp()
-        {
-            // TODO: Implement your clean up logic here.
-            // Service can't recieve and process requests here, so you can destroy all resources
-
-            ApplicationContainer.Dispose();
-        }
-
-        private static ILog CreateLogWithSlack(IServiceCollection services, AppSettings settings)
-        {
-            LykkeLogToAzureStorage logToAzureStorage = null;
-
-            var logToConsole = new LogToConsole();
-            var logAggregate = new LogAggregate();
-
-            logAggregate.AddLogger(logToConsole);
-
-            var dbLogConnectionString = settings.OperationsRepositoryService.Db.LogsConnString;
-
-            // Creating azure storage logger, which logs own messages to concole log
-            if (!string.IsNullOrEmpty(dbLogConnectionString) && !(dbLogConnectionString.StartsWith("${") && dbLogConnectionString.EndsWith("}")))
+            catch (Exception ex)
             {
-                logToAzureStorage = new LykkeLogToAzureStorage("Lykke.Service.OperationsRepository", new AzureTableStorage<LogEntity>(
-                    dbLogConnectionString, "OperationsRepositoryLog", logToConsole));
-
-                logAggregate.AddLogger(logToAzureStorage);
+                Log?.WriteFatalErrorAsync(nameof(Startup), nameof(Configure), "", ex).Wait();
+                throw;
             }
+        }
 
-            // Creating aggregate log, which logs to console and to azure storage, if last one specified
-            var log = logAggregate.CreateLogger();
+        private async Task StartApplication()
+        {
+            try
+            {
+                // NOTE: Service not yet recieve and process requests here
+
+                await ApplicationContainer.Resolve<IStartupManager>().StartAsync();
+
+                await Log.WriteMonitorAsync("", $"Env: {Program.EnvInfo}", "Started");
+            }
+            catch (Exception ex)
+            {
+                await Log.WriteFatalErrorAsync(nameof(Startup), nameof(StartApplication), "", ex);
+                throw;
+            }
+        }
+
+        private async Task StopApplication()
+        {
+            try
+            {
+                // NOTE: Service still can recieve and process requests here, so take care about it if you add logic here.
+
+                await ApplicationContainer.Resolve<IShutdownManager>().StopAsync();
+            }
+            catch (Exception ex)
+            {
+                if (Log != null)
+                {
+                    await Log.WriteFatalErrorAsync(nameof(Startup), nameof(StopApplication), "", ex);
+                }
+                throw;
+            }
+        }
+
+        private async Task CleanUp()
+        {
+            try
+            {
+                // NOTE: Service can't recieve and process requests here, so you can destroy all resources
+
+                if (Log != null)
+                {
+                    await Log.WriteMonitorAsync("", $"Env: {Program.EnvInfo}", "Terminating");
+                }
+
+                ApplicationContainer.Dispose();
+            }
+            catch (Exception ex)
+            {
+                if (Log != null)
+                {
+                    await Log.WriteFatalErrorAsync(nameof(Startup), nameof(CleanUp), "", ex);
+                    (Log as IDisposable)?.Dispose();
+                }
+                throw;
+            }
+        }
+
+        private static ILog CreateLogWithSlack(IServiceCollection services, IReloadingManager<AppSettings> settings)
+        {
+            var consoleLogger = new LogToConsole();
+            var aggregateLogger = new AggregateLogger();
+
+            aggregateLogger.AddLog(consoleLogger);
 
             // Creating slack notification service, which logs own azure queue processing messages to aggregate log
             var slackService = services.UseSlackNotificationsSenderViaAzureQueue(new AzureQueueIntegration.AzureQueueSettings
             {
-                ConnectionString = settings.SlackNotifications.AzureQueue.ConnectionString,
-                QueueName = settings.SlackNotifications.AzureQueue.QueueName
-            }, log);
+                ConnectionString = settings.CurrentValue.SlackNotifications.AzureQueue.ConnectionString,
+                QueueName = settings.CurrentValue.SlackNotifications.AzureQueue.QueueName
+            }, aggregateLogger);
 
-            // Finally, setting slack notification for azure storage log, which will forward necessary message to slack service
-            logToAzureStorage?.SetSlackNotification(slackService);
+            var dbLogConnectionStringManager = settings.Nested(x => x.OperationsRepositoryService.Db.LogsConnString);
+            var dbLogConnectionString = dbLogConnectionStringManager.CurrentValue;
 
-            return log;
+            // Creating azure storage logger, which logs own messages to concole log
+            if (!string.IsNullOrEmpty(dbLogConnectionString) && !(dbLogConnectionString.StartsWith("${") && dbLogConnectionString.EndsWith("}")))
+            {
+                var persistenceManager = new LykkeLogToAzureStoragePersistenceManager(
+                    AzureTableStorage<LogEntity>.Create(dbLogConnectionStringManager, "OperationsRepositoryLog", consoleLogger),
+                    consoleLogger);
+
+                var slackNotificationsManager = new LykkeLogToAzureSlackNotificationsManager(slackService, consoleLogger);
+
+                var azureStorageLogger = new LykkeLogToAzureStorage(
+                    persistenceManager,
+                    slackNotificationsManager,
+                    consoleLogger);
+
+                azureStorageLogger.Start();
+
+                aggregateLogger.AddLog(azureStorageLogger);
+            }
+
+            return aggregateLogger;
         }
     }
 }

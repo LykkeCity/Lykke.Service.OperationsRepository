@@ -48,10 +48,10 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         Task<IEnumerable<IClientTrade>> GetAsync(DateTime from, DateTime to);
 
         Task<IClientTrade> GetAsync(string clientId, string recordId);
-        Task UpdateBlockChainHashAsync(string clientId, string recordId, string hash);
-        Task SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations);
-        Task SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId);
-        Task SetIsSettledAsync(string clientId, string id, bool offchain);
+        Task<IClientTrade> UpdateBlockChainHashAsync(string clientId, string recordId, string hash);
+        Task<IClientTrade> SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations);
+        Task<IClientTrade> SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId);
+        Task<IClientTrade> SetIsSettledAsync(string clientId, string id, bool offchain);
         Task<IEnumerable<IClientTrade>> GetByMultisigAsync(string multisig);
         Task<IEnumerable<IClientTrade>> GetByMultisigsAsync(string[] multisigs);
         Task<IEnumerable<IClientTrade>> GetByOrderAsync(string orderId);
