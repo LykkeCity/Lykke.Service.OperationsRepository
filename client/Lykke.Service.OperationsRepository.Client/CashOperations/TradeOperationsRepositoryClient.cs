@@ -84,8 +84,8 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public async Task SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations)
         {
-            await _apiClient.ClientTradeOperations.SetDetectionTimeAndConfirmationsWithHttpMessagesAsync(clientId,
-                recordId, detectTime, confirmations);
+            await _apiClient.ClientTradeOperations.SetDetectionTimeAndConfirmationsWithHttpMessagesAsync(detectTime,
+                confirmations, clientId, recordId);
         }
 
         public async Task SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId)
@@ -96,7 +96,7 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public async Task SetIsSettledAsync(string clientId, string id, bool offchain)
         {
-            await _apiClient.ClientTradeOperations.SetIsSettledWithHttpMessagesAsync(clientId, id, offchain);
+            await _apiClient.ClientTradeOperations.SetIsSettledWithHttpMessagesAsync(offchain, clientId, id);
         }
 
         public async Task<IEnumerable<ClientTrade>> GetByMultisigAsync(string multisig)

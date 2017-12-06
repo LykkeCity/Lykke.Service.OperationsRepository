@@ -75,7 +75,7 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public async Task SetIsSettledIfExistsAsync(string clientId, string id, bool offchain)
         {
-            await _apiClient.TransferOperations.SetIsSettledIfExistsWithHttpMessagesAsync(clientId, id, offchain);
+            await _apiClient.TransferOperations.SetIsSettledIfExistsWithHttpMessagesAsync(offchain, clientId, id);
         }
 
         public async Task<IEnumerable<TransferEvent>> GetByHashAsync(string blockchainHash)

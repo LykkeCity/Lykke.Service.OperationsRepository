@@ -74,7 +74,7 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public async Task SetIsSettledAsync(string clientId, string id, bool offchain)
         {
-            await _apiClient.CashOperations.SetIsSettledWithHttpMessagesAsync(clientId, id, offchain);
+            await _apiClient.CashOperations.SetIsSettledWithHttpMessagesAsync(offchain, clientId, id);
         }
 
         public async Task<IEnumerable<CashInOutOperation>> GetByHashAsync(string blockchainHash)
