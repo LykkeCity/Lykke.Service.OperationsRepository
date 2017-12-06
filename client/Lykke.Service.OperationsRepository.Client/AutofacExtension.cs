@@ -21,5 +21,11 @@ namespace Lykke.Service.OperationsRepository.Client
             builder.RegisterInstance(new TradeOperationsRepositoryClient(serviceUrl, log, timeout)).As<ITradeOperationsRepositoryClient>().SingleInstance();
             builder.RegisterInstance(new TransferOperationsRepositoryClient(serviceUrl, log, timeout)).As<ITransferOperationsRepositoryClient>().SingleInstance();
         }
+
+        public static void RegisterOperationsRepositoryClients(this ContainerBuilder builder,
+            OperationsRepositoryServiceClientSettings settings, ILog log)
+        {
+            builder.RegisterOperationsRepositoryClients(settings.ServiceUrl, log, settings.TimeOut);
+        }
     }
 }
