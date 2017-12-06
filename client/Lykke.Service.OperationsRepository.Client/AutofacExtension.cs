@@ -25,7 +25,7 @@ namespace Lykke.Service.OperationsRepository.Client
         public static void RegisterOperationsRepositoryClients(this ContainerBuilder builder,
             OperationsRepositoryServiceClientSettings settings, ILog log)
         {
-            builder.RegisterOperationsRepositoryClients(settings.ServiceUrl, log, settings.TimeOut);
+            builder.RegisterOperationsRepositoryClients(settings.ServiceUrl, log, settings.RequestTimeout);
         }
     }
 }

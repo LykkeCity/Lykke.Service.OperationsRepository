@@ -3,6 +3,6 @@
     public class OperationsRepositoryServiceClientSettings
     {
         public string ServiceUrl { get; set; }
-        public int TimeOut { get; set; }
+        public int RequestTimeout { get; set; }
     }
 }
