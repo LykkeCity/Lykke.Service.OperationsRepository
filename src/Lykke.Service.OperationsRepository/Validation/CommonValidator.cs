@@ -48,5 +48,17 @@ namespace Lykke.Service.OperationsRepository.Validation
         {
             return ValidateDateTime(from) && ValidateDateTime(to) && from <= to;
         }
+
+        public static bool ValidateOrderId(string orderId)
+        {
+            return !string.IsNullOrWhiteSpace(orderId);
+        }
+
+        public static bool ValidateOrderIds(string[] orderIds)
+        {
+            if (orderIds.Length == 0) return false;
+
+            return !orderIds.Any(string.IsNullOrWhiteSpace);
+        }
     }
 }

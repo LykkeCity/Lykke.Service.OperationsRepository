@@ -3,6 +3,8 @@ using Autofac;
 using Common.Log;
 using Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations;
 using Lykke.Service.OperationsRepository.Client.CashOperations;
+using Lykke.Service.OperationsRepository.Client.Exchange;
+using Lykke.Service.OperationsRepository.Client.Abstractions.Exchange;
 
 namespace Lykke.Service.OperationsRepository.Client
 {
@@ -20,6 +22,10 @@ namespace Lykke.Service.OperationsRepository.Client
             builder.RegisterInstance(new CashOutAttemptRepositoryClient(serviceUrl, log, timeout)).As<ICashOutAttemptOperationsRepositoryClient>().SingleInstance();
             builder.RegisterInstance(new TradeOperationsRepositoryClient(serviceUrl, log, timeout)).As<ITradeOperationsRepositoryClient>().SingleInstance();
             builder.RegisterInstance(new TransferOperationsRepositoryClient(serviceUrl, log, timeout)).As<ITransferOperationsRepositoryClient>().SingleInstance();
+
+            builder.RegisterInstance(new LimitOrdersRepositoryClient(serviceUrl, log, timeout)).As<ILimitOrdersRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new MarketOrdersRepositoryClient(serviceUrl, log, timeout)).As<IMarketOrdersRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new LimitTradeEventsRepositoryClient(serviceUrl, log, timeout)).As<ILimitTradeEventsRepositoryClient>().SingleInstance();
         }
     }
 }
