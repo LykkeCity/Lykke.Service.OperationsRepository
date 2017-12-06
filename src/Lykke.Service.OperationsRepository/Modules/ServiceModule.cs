@@ -67,22 +67,26 @@ namespace Lykke.Service.OperationsRepository.Modules
         {
             builder.RegisterInstance<ICashOperationsRepository>(new CashOperationsRepository(
                 AzureTableStorage<CashInOutOperationEntity>.Create(
-                    _settings.ConnectionString(x => x.Db.RepoConnectionString), "OperationsCash", _log),
-                AzureTableStorage<AzureIndex>.Create(_settings.ConnectionString(x => x.Db.RepoConnectionString),
+                    _settings.ConnectionString(x => x.Db.CashOperationsConnString), "OperationsCash", _log),
+                AzureTableStorage<AzureIndex>.Create(_settings.ConnectionString(x => x.Db.CashOperationsConnString),
                     "OperationsCash", _log)));
 
             builder.RegisterInstance<IClientTradesRepository>(new ClientTradesRepository(
-                AzureTableStorage<ClientTradeEntity>.Create(_settings.ConnectionString(x => x.Db.RepoConnectionString),
+                AzureTableStorage<ClientTradeEntity>.Create(_settings.ConnectionString(x => x.Db.ClientTradesConnString),
                     "Trades", _log)));
 
             builder.RegisterInstance<ITransferEventsRepository>(
                 new TransferEventsRepository(
-                    AzureTableStorage<TransferEventEntity>.Create(_settings.ConnectionString(x => x.Db.RepoConnectionString), "Transfers", _log),
-                    AzureTableStorage<AzureIndex>.Create(_settings.ConnectionString(x => x.Db.RepoConnectionString), "Transfers", _log)));
+                    AzureTableStorage<TransferEventEntity>.Create(_settings.ConnectionString(x => x.Db.TransferConnString), "Transfers", _log),
+                    AzureTableStorage<AzureIndex>.Create(_settings.ConnectionString(x => x.Db.TransferConnString), "Transfers", _log)));
 
             builder.RegisterInstance<ICashOutAttemptRepository>(new CashOutAttemptRepository(
                 AzureTableStorage<CashOutAttemptEntity>.Create(
-                    _settings.ConnectionString(x => x.Db.RepoConnectionString), "CashOutAttempt", _log)));
+                    _settings.ConnectionString(x => x.Db.CashOutAttemptConnString), "CashOutAttempt", _log)));
+
+            builder.RegisterInstance<ILimitTradeEventsRepository>(
+                new LimitTradeEventsRepository(
+                    AzureTableStorage<LimitTradeEventEntity>.Create(_settings.ConnectionString(x => x.Db.LimitTradesConnString), "LimitTradeEvents", _log)));
         }
     }
 }
