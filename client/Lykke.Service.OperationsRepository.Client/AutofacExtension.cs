@@ -20,6 +20,7 @@ namespace Lykke.Service.OperationsRepository.Client
             builder.RegisterInstance(new CashOutAttemptRepositoryClient(serviceUrl, log, timeout)).As<ICashOutAttemptOperationsRepositoryClient>().SingleInstance();
             builder.RegisterInstance(new TradeOperationsRepositoryClient(serviceUrl, log, timeout)).As<ITradeOperationsRepositoryClient>().SingleInstance();
             builder.RegisterInstance(new TransferOperationsRepositoryClient(serviceUrl, log, timeout)).As<ITransferOperationsRepositoryClient>().SingleInstance();
+            builder.RegisterInstance(new LimitTradeEventsRepositoryClient(serviceUrl, log, timeout)).As<ILimitTradeEventsRepositoryClient>().SingleInstance();
         }
 
         public static void RegisterOperationsRepositoryClients(this ContainerBuilder builder,
