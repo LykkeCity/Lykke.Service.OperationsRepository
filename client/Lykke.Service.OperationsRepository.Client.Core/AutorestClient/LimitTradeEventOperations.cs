@@ -19,12 +19,12 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
     using System.Threading.Tasks;
 
     /// <summary>
-    /// LimitTradeEvents operations.
+    /// LimitTradeEventOperations operations.
     /// </summary>
-    public partial class LimitTradeEvents : IServiceOperations<OperationsRepositoryAPI>, ILimitTradeEvents
+    public partial class LimitTradeEventOperations : IServiceOperations<OperationsRepositoryAPI>, ILimitTradeEventOperations
     {
         /// <summary>
-        /// Initializes a new instance of the LimitTradeEvents class.
+        /// Initializes a new instance of the LimitTradeEventOperations class.
         /// </summary>
         /// <param name='client'>
         /// Reference to the service client.
@@ -32,7 +32,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        public LimitTradeEvents(OperationsRepositoryAPI client)
+        public LimitTradeEventOperations(OperationsRepositoryAPI client)
         {
             if (client == null)
             {
@@ -106,7 +106,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             }
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/LimitTradeEvents").ToString();
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/LimitTradeEventsRepository").ToString();
             List<string> _queryParameters = new List<string>();
             if (orderId != null)
             {
@@ -201,7 +201,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<ILimitTradeEvent>(_responseContent, Client.DeserializationSettings);
+                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<LimitTradeEvent>(_responseContent, Client.DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {
@@ -280,7 +280,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             }
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/LimitTradeEvents/{clientId}").ToString();
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/LimitTradeEventsRepository/{clientId}").ToString();
             _url = _url.Replace("{clientId}", System.Uri.EscapeDataString(clientId));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
@@ -350,7 +350,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<IList<ILimitTradeEvent>>(_responseContent, Client.DeserializationSettings);
+                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<IList<LimitTradeEvent>>(_responseContent, Client.DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {

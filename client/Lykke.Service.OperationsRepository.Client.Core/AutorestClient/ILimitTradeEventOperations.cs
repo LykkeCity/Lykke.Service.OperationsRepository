@@ -14,9 +14,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
     using System.Threading.Tasks;
 
     /// <summary>
-    /// LimitTradeEvents operations.
+    /// LimitTradeEventOperations operations.
     /// </summary>
-    public partial interface ILimitTradeEvents
+    public partial interface ILimitTradeEventOperations
     {
         /// <param name='type'>
         /// Possible values include: 'Buy', 'Sell'

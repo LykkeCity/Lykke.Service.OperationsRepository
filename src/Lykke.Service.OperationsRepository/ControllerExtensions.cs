@@ -67,7 +67,7 @@ namespace Lykke.Service.OperationsRepository
             };
         }
 
-        public static OperationsHistoryMessage MapFrom(this LimitTradeEventsController controller,
+        public static OperationsHistoryMessage MapFrom(this LimitTradeEventsRepositoryController controller,
             ILimitTradeEvent source)
         {
             return new OperationsHistoryMessage

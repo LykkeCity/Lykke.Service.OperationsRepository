@@ -11,9 +11,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Extension methods for LimitTradeEvents.
+    /// Extension methods for LimitTradeEventOperations.
     /// </summary>
-    public static partial class LimitTradeEventsExtensions
+    public static partial class LimitTradeEventOperationsExtensions
     {
             /// <param name='operations'>
             /// The operations group for this extension method.
@@ -40,7 +40,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             /// <param name='assetPair'>
             /// </param>
-            public static object CreateEvent(this ILimitTradeEvents operations, OrderType type, double volume, double price, OrderStatus status, System.DateTime dateTime, string orderId = default(string), string clientId = default(string), string assetId = default(string), string assetPair = default(string))
+            public static object CreateEvent(this ILimitTradeEventOperations operations, OrderType type, double volume, double price, OrderStatus status, System.DateTime dateTime, string orderId = default(string), string clientId = default(string), string assetId = default(string), string assetPair = default(string))
             {
                 return operations.CreateEventAsync(type, volume, price, status, dateTime, orderId, clientId, assetId, assetPair).GetAwaiter().GetResult();
             }
@@ -73,7 +73,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> CreateEventAsync(this ILimitTradeEvents operations, OrderType type, double volume, double price, OrderStatus status, System.DateTime dateTime, string orderId = default(string), string clientId = default(string), string assetId = default(string), string assetPair = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> CreateEventAsync(this ILimitTradeEventOperations operations, OrderType type, double volume, double price, OrderStatus status, System.DateTime dateTime, string orderId = default(string), string clientId = default(string), string assetId = default(string), string assetPair = default(string), CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.CreateEventWithHttpMessagesAsync(type, volume, price, status, dateTime, orderId, clientId, assetId, assetPair, null, cancellationToken).ConfigureAwait(false))
                 {
@@ -86,7 +86,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             /// <param name='clientId'>
             /// </param>
-            public static object GetEvents(this ILimitTradeEvents operations, string clientId)
+            public static object GetEvents(this ILimitTradeEventOperations operations, string clientId)
             {
                 return operations.GetEventsAsync(clientId).GetAwaiter().GetResult();
             }
@@ -99,7 +99,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> GetEventsAsync(this ILimitTradeEvents operations, string clientId, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> GetEventsAsync(this ILimitTradeEventOperations operations, string clientId, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.GetEventsWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
                 {

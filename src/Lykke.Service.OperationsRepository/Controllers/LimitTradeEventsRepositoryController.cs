@@ -14,13 +14,13 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace Lykke.Service.OperationsRepository.Controllers
 {
     [Route("api/[controller]")]
-    public class LimitTradeEventsController : Controller
+    public class LimitTradeEventsRepositoryController : Controller
     {
         private readonly ILimitTradeEventsRepository _limitTradeEventsRepository;
         private readonly IOperationsHistoryPublisher _historyPublisher;
         private readonly ILog _log;
 
-        public LimitTradeEventsController(ILimitTradeEventsRepository limitTradeEventsRepo, IOperationsHistoryPublisher historyPublisher, ILog log)
+        public LimitTradeEventsRepositoryController(ILimitTradeEventsRepository limitTradeEventsRepo, IOperationsHistoryPublisher historyPublisher, ILog log)
         {
             _limitTradeEventsRepository = limitTradeEventsRepo;
             _historyPublisher = historyPublisher;
@@ -28,8 +28,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpPost]
-        [SwaggerOperation("LimitTradeEvents_CreateEvent")]
-        [ProducesResponseType(typeof(ILimitTradeEvent), (int) HttpStatusCode.OK)]
+        [SwaggerOperation("LimitTradeEventOperations_CreateEvent")]
+        [ProducesResponseType(typeof(LimitTradeEvent), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateAsync([FromQuery] string orderId, [FromQuery] string clientId,
             [FromQuery] OrderType type, [FromQuery] double volume, [FromQuery] string assetId,
@@ -52,7 +52,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 }
                 catch (Exception e)
                 {
-                    await _log.WriteErrorAsync(nameof(LimitTradeEventsController), nameof(CreateAsync), "", e, DateTime.Now);
+                    await _log.WriteErrorAsync(nameof(LimitTradeEventsRepositoryController), nameof(CreateAsync), "", e, DateTime.Now);
                 }
             }
 
@@ -60,8 +60,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
         }
 
         [HttpGet("{clientId}")]
-        [SwaggerOperation("LimitTradeEvents_GetEvents")]
-        [ProducesResponseType(typeof(IEnumerable<ILimitTradeEvent>), (int) HttpStatusCode.OK)]
+        [SwaggerOperation("LimitTradeEventOperations_GetEvents")]
+        [ProducesResponseType(typeof(IEnumerable<LimitTradeEvent>), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAsync(string clientId)
         {
