@@ -66,5 +66,20 @@ namespace Lykke.Service.OperationsRepository
                 Data = JsonConvert.SerializeObject(source)
             };
         }
+
+        public static OperationsHistoryMessage MapFrom(this LimitTradeEventsController controller,
+            ILimitTradeEvent source)
+        {
+            return new OperationsHistoryMessage
+            {
+                Id = source.Id,
+                Amount = source.Volume,
+                ClientId = source.ClientId,
+                Currency = source.AssetId,
+                DateTime = source.CreatedDt,
+                OpType = "LimitTradeEvent",
+                Data = JsonConvert.SerializeObject(source)
+            };
+        }
     }
 }
