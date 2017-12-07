@@ -50,6 +50,11 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         public virtual IClientTradeOperations ClientTradeOperations { get; private set; }
 
         /// <summary>
+        /// Gets the ILimitTradeEvents.
+        /// </summary>
+        public virtual ILimitTradeEvents LimitTradeEvents { get; private set; }
+
+        /// <summary>
         /// Gets the ITransferOperations.
         /// </summary>
         public virtual ITransferOperations TransferOperations { get; private set; }
@@ -136,6 +141,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             CashOperations = new CashOperations(this);
             CashOutAttemptOperations = new CashOutAttemptOperations(this);
             ClientTradeOperations = new ClientTradeOperations(this);
+            LimitTradeEvents = new LimitTradeEvents(this);
             TransferOperations = new TransferOperations(this);
             BaseUri = new System.Uri("http://localhost/");
             SerializationSettings = new JsonSerializerSettings
