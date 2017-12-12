@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
-using Lykke.Service.OperationsRepository.Core.CashOperations;
+using Lykke.Service.OperationsRepository.Contract;
 
 namespace Lykke.Service.OperationsRepository.Models.CashOutAttempt
 {
-    public class InsertRequestModel
+    public class CashOutAttemptInsertRequest
     {
         [Required]
         public CashOutAttemptEntity Request { get; set; }

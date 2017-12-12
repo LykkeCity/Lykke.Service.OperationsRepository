@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Common.Log;
-using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
+using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Validation;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.Service.OperationsRepository.Controllers
 {
@@ -16,13 +16,13 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class CashOperationsRepositoryController : Controller
     {
         private readonly ICashOperationsRepository _cashOperationsRepo;
-        private readonly IHistoryWriter _historyWriter;
+        private readonly IOperationsHistoryPublisher _historyPublisher;
         private readonly ILog _log;
 
-        public CashOperationsRepositoryController(ICashOperationsRepository cashOperationsRepo, IHistoryWriter historyWriter, ILog log)
+        public CashOperationsRepositoryController(ICashOperationsRepository cashOperationsRepo, IOperationsHistoryPublisher historyPublisher, ILog log)
         {
             _cashOperationsRepo = cashOperationsRepo;
-            _historyWriter = historyWriter;
+            _historyPublisher = historyPublisher;
             _log = log;
         }
 
@@ -39,7 +39,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
             var id = await _cashOperationsRepo.RegisterAsync(operation);
 
-            await _historyWriter.Push(this.MapFrom(operation));
+            await _historyPublisher.PublishAsync(this.MapFrom(operation));
 
             return Ok(new IdResponseModel {Id = id});
         }
@@ -103,16 +103,18 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(hash)));
             }
 
-            await _cashOperationsRepo.UpdateBlockchainHashAsync(clientId, id, hash);
+            var updated = await _cashOperationsRepo.UpdateBlockchainHashAsync(clientId, id, hash);
 
-            try
+            if (updated != null)
             {
-                await _historyWriter.UpdateBlockChainHash(id, hash);
-                await _historyWriter.UpdateState(id, (int)TransactionStates.SettledOnchain);
-            }
-            catch (Exception e)
-            {
-                await _log.WriteErrorAsync(GetType().Name, "UpdateBlockchainHashAsync", "", e, DateTime.Now);
+                try
+                {
+                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
+                }
+                catch (Exception e)
+                {
+                    await _log.WriteErrorAsync(GetType().Name, "UpdateBlockchainHashAsync", "", e);
+                }
             }
 
             return Ok();
@@ -157,18 +159,18 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(id)));
             }
 
-            await _cashOperationsRepo.SetIsSettledAsync(clientId, id, offchain);
+            var updated = await _cashOperationsRepo.SetIsSettledAsync(clientId, id, offchain);
 
-            try
+            if (updated != null)
             {
-                if (offchain)
+                try
                 {
-                    await _historyWriter.UpdateState(id, (int) TransactionStates.SettledOffchain);
+                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
                 }
-            }
-            catch (Exception e)
-            {
-                await _log.WriteErrorAsync(GetType().Name, "SetIsSettledAsync", "", e, DateTime.Now);
+                catch (Exception e)
+                {
+                    await _log.WriteErrorAsync(GetType().Name, "SetIsSettledAsync", "", e);
+                }
             }
 
             return Ok();

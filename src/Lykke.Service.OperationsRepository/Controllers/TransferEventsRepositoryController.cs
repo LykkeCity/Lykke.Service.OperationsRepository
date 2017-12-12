@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Common.Log;
-using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
+using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Validation;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.Service.OperationsRepository.Controllers
 {
@@ -17,13 +16,13 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class TransferEventsRepositoryController : Controller
     {
         private readonly ITransferEventsRepository _transferEventsRepo;
-        private readonly IHistoryWriter _historyWriter;
+        private readonly IOperationsHistoryPublisher _historyPublisher;
         private readonly ILog _log;
 
-        public TransferEventsRepositoryController(ITransferEventsRepository transferEventsRepo, IHistoryWriter historyWriter, ILog log)
+        public TransferEventsRepositoryController(ITransferEventsRepository transferEventsRepo, IOperationsHistoryPublisher historyPublisher, ILog log)
         {
             _transferEventsRepo = transferEventsRepo;
-            _historyWriter = historyWriter;
+            _historyPublisher = historyPublisher;
             _log = log;
         }
          
@@ -40,15 +39,18 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
             var result = await _transferEventsRepo.RegisterAsync(transferEvent);
 
-            try
+            if (result != null)
             {
-                await _historyWriter.Push(this.MapFrom(transferEvent));
+                try
+                {
+                    await _historyPublisher.PublishAsync(this.MapFrom(result));
+                }
+                catch (Exception e)
+                {
+                    await _log.WriteErrorAsync(GetType().Name, "RegisterAsync", "", e);
+                }
             }
-            catch (Exception e)
-            {
-                await _log.WriteErrorAsync(GetType().Name, "RegisterAsync", "", e, DateTime.Now);
-            }
-            
+
 
             return Ok(result);
         }
@@ -114,17 +116,16 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
             var updated = await _transferEventsRepo.UpdateBlockChainHashAsync(clientId, id, blockChainHash);
 
-            try
+            if (updated != null)
             {
-                if (updated)
+                try
                 {
-                    await _historyWriter.UpdateBlockChainHash(id, blockChainHash);
-                    await _historyWriter.UpdateState(id, (int) TransactionStates.SettledOnchain);
+                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
                 }
-            }
-            catch (Exception e)
-            {
-                await _log.WriteErrorAsync(GetType().Name, "UpdateBlockChainHashAsync", "", e, DateTime.Now);
+                catch (Exception e)
+                {
+                    await _log.WriteErrorAsync(GetType().Name, "UpdateBlockChainHashAsync", "", e);
+                }
             }
 
             return Ok();
@@ -171,22 +172,18 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(id)));
             }
 
-            await _transferEventsRepo.SetIsSettledIfExistsAsync(clientId, id, offchain);
+            var updated = await _transferEventsRepo.SetIsSettledIfExistsAsync(clientId, id, offchain);
 
-            try
+            if (updated != null)
             {
-                if (offchain)
+                try
                 {
-                    await _historyWriter.UpdateState(id, (int) TransactionStates.SettledOffchain);
+                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
                 }
-                else
+                catch (Exception e)
                 {
-                    await _historyWriter.UpdateState(id, (int)TransactionStates.SettledOnchain);
+                    await _log.WriteErrorAsync(GetType().Name, "SetIsSettledIfExistsAsync", "", e);
                 }
-            }
-            catch (Exception e)
-            {
-                await _log.WriteErrorAsync(GetType().Name, "SetIsSettledIfExistsAsync", "", e, DateTime.Now);
             }
 
             return Ok();

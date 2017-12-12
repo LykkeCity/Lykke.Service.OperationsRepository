@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Lykke.Service.OperationsRepository.AutorestClient.Models;
+﻿using Lykke.Service.OperationsRepository.AutorestClient.Models;
 using Microsoft.Rest;
 
 namespace Lykke.Service.OperationsRepository.Client.Models.CashOperations

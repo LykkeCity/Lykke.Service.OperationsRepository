@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Common.Log;
 using Lykke.Service.OperationsRepository.AutorestClient;
@@ -15,13 +14,13 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;
 
-        public TransferOperationsRepositoryClient(string serviceUrl, ILog log, int timeout)
+        public TransferOperationsRepositoryClient(string serviceUrl, ILog log, int timeoutInSeconds)
         {
             _log = log;
             _apiClient =
                 new OperationsRepositoryAPI(new Uri(serviceUrl))
                 {
-                    HttpClient = {Timeout = TimeSpan.FromSeconds(timeout)}
+                    HttpClient = {Timeout = TimeSpan.FromSeconds(timeoutInSeconds)}
                 };
         }
 
@@ -75,7 +74,7 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public async Task SetIsSettledIfExistsAsync(string clientId, string id, bool offchain)
         {
-            await _apiClient.TransferOperations.SetIsSettledIfExistsWithHttpMessagesAsync(clientId, id, offchain);
+            await _apiClient.TransferOperations.SetIsSettledIfExistsWithHttpMessagesAsync(offchain, clientId, id);
         }
 
         public async Task<IEnumerable<TransferEvent>> GetByHashAsync(string blockchainHash)

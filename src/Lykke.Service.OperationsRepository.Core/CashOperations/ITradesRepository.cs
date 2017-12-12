@@ -1,21 +1,11 @@
-﻿using System;
+﻿using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Lykke.Service.OperationsRepository.Core.CashOperations
 {
-    public interface IClientTrade : IBaseCashBlockchainOperation
-    {
-        string LimitOrderId { get; }
-        string MarketOrderId { get; }
-        double Price { get; }
-        DateTime? DetectionTime { get; set; }
-        int Confirmations { get; set; }
-        string OppositeLimitOrderId { get; set; }
-        bool IsLimitOrderResult { get; set; }
-    }
-
-
     public class ClientTrade : IClientTrade
     {
         public string Id { get; set; }
@@ -48,10 +38,10 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         Task<IEnumerable<IClientTrade>> GetAsync(DateTime from, DateTime to);
 
         Task<IClientTrade> GetAsync(string clientId, string recordId);
-        Task UpdateBlockChainHashAsync(string clientId, string recordId, string hash);
-        Task SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations);
-        Task SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId);
-        Task SetIsSettledAsync(string clientId, string id, bool offchain);
+        Task<IClientTrade> UpdateBlockChainHashAsync(string clientId, string recordId, string hash);
+        Task<IClientTrade> SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations);
+        Task<IClientTrade> SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId);
+        Task<IClientTrade> SetIsSettledAsync(string clientId, string id, bool offchain);
         Task<IEnumerable<IClientTrade>> GetByMultisigAsync(string multisig);
         Task<IEnumerable<IClientTrade>> GetByMultisigsAsync(string[] multisigs);
         Task<IEnumerable<IClientTrade>> GetByOrderAsync(string orderId);

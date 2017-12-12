@@ -6,16 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Domain\**" />
-    <Compile Remove="Services\**" />
-    <EmbeddedResource Remove="Domain\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Domain\**" />
-    <None Remove="Services\**" />
+    <PackageReference Include="Lykke.Common" Version="3.0.2" />
+    <PackageReference Include="Lykke.Service.OperationsRepository.Contract" Version="1.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Lykke.Common" Version="1.1.95" />
+    <ProjectReference Include="..\..\contract\Lykke.Service.OperationsRepository.Contract\Lykke.Service.OperationsRepository.Contract.csproj" />
   </ItemGroup>
 
 </Project>

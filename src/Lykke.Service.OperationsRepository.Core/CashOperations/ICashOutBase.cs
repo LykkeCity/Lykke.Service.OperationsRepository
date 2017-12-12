@@ -1,65 +1,11 @@
-﻿using System;
+﻿using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Lykke.Service.OperationsRepository.Core.CashOperations
 {
-    public sealed class PaymentSystem
-    {
-        public PaymentSystem(string value)
-        {
-            Value = value;
-        }
-
-        public string Value { get; }
-
-        public override string ToString()
-        {
-            return Value;
-        }
-
-        public static implicit operator string(PaymentSystem paymentSystem)
-        {
-            return paymentSystem.ToString();
-        }
-    }
-
-    public enum CashOutRequestStatus
-    {
-        ClientConfirmation = 4,
-        Pending = 0,
-        RequestForDocs = 7,
-        Confirmed = 1,
-        Declined = 2,
-        CanceledByClient = 5,
-        CanceledByTimeout = 6,
-        Processed = 3,
-    }
-
-    public enum CashOutVolumeSize
-    {
-        Unknown, High, Low
-    }
-
-    public enum CashOutRequestTradeSystem
-    {
-        Spot,
-        Margin
-    }
-
-    public interface ICashOutRequest : IBaseCashOperation
-    {
-        string PaymentSystem { get; }
-        string PaymentFields { get; }
-        string BlockchainHash { get; }
-        CashOutRequestStatus Status { get; }
-        TransactionStates State { get; }
-        CashOutRequestTradeSystem TradeSystem { get; }
-        string AccountId { get; }
-        CashOutVolumeSize VolumeSize { get; }
-        string PreviousId { get; }
-    }
-
     public class SwiftCashOutRequest : ICashOutRequest
     {
         public string Id { get; set; }

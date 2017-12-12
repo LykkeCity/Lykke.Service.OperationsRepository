@@ -9,13 +9,18 @@
     public class OperationsRepositorySettings
     {
         public DbSettings Db { get; set; }
+        public RabbitMqSettings Rabbit { get; set; }
     }
 
     public class DbSettings
     {
         public string LogsConnString { get; set; }
-        public string RepoConnectionString { get; set; }
-        public string HistoryConnString { get; set; }
+        public string ClientTradesConnString { get; set; }
+        public string CashOperationsConnString { get; set; }
+        public string TransferConnString { get; set; }
+        public string CashOutAttemptConnString { get; set; }
+        public string LimitTradesConnString { get; set; }
+        public string ClientPersonalInfoConnString { get; set; }
     }
 
     public class SlackNotificationsSettings
@@ -30,5 +35,11 @@
         public string ConnectionString { get; set; }
 
         public string QueueName { get; set; }
+    }
+
+    public class RabbitMqSettings
+    {
+        public string ConnectionString { get; set; }
+        public string ExchangeName { get; set; }
     }
 }

@@ -14,13 +14,13 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;
 
-        public CashOperationsRepositoryClient(string serviceUrl, ILog log, int timeout)
+        public CashOperationsRepositoryClient(string serviceUrl, ILog log, int timeoutInSeconds)
         {
             _log = log;
             _apiClient =
                 new OperationsRepositoryAPI(new Uri(serviceUrl))
                 {
-                    HttpClient = {Timeout = TimeSpan.FromSeconds(timeout)}
+                    HttpClient = {Timeout = TimeSpan.FromSeconds(timeoutInSeconds)}
                 };
         }
 
@@ -74,7 +74,7 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
 
         public async Task SetIsSettledAsync(string clientId, string id, bool offchain)
         {
-            await _apiClient.CashOperations.SetIsSettledWithHttpMessagesAsync(clientId, id, offchain);
+            await _apiClient.CashOperations.SetIsSettledWithHttpMessagesAsync(offchain, clientId, id);
         }
 
         public async Task<IEnumerable<CashInOutOperation>> GetByHashAsync(string blockchainHash)

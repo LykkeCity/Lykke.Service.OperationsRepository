@@ -4,14 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Common.Log;
-using Lykke.Service.OperationsHistory.HistoryWriter.Abstractions;
 using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
+using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Models.CashOutAttempt;
 using Lykke.Service.OperationsRepository.Validation;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.Service.OperationsRepository.Controllers
 {
@@ -19,13 +20,13 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class CashOutAttemptRepositoryController: Controller
     {
         private readonly ICashOutAttemptRepository _cashOutAttemptRepo;
-        private readonly IHistoryWriter _historyWriter;
+        private readonly IOperationsHistoryPublisher _historyPublisher;
         private readonly ILog _log;
 
-        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo, IHistoryWriter historyWriter, ILog log)
+        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo, IOperationsHistoryPublisher historyPublisher, ILog log)
         {
             _cashOutAttemptRepo = cashOutAttemptRepo;
-            _historyWriter = historyWriter;
+            _historyPublisher = historyPublisher;
             _log = log;
         }
 
@@ -33,7 +34,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_InsertRequest")]
         [ProducesResponseType(typeof(IdResponseModel), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> InsertRequestAsync([FromBody] InsertRequestModel request)
+        public async Task<IActionResult> InsertRequestAsync([FromBody] CashOutAttemptInsertRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -52,11 +53,11 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
             try
             {
-                await _historyWriter.Push(this.MapFrom(request.Request));
+                await _historyPublisher.PublishAsync(this.MapFrom(request.Request));
             }
             catch (Exception e)
             {
-                await _log.WriteErrorAsync(GetType().Name, "InsertRequestAsync", "", e, DateTime.Now);
+                await _log.WriteErrorAsync(GetType().Name, "InsertRequestAsync", "", e);
             }
             
 
@@ -92,16 +93,18 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(hash)));
             }
 
-            await _cashOutAttemptRepo.SetBlockchainHash(clientId, requestId, hash);
+            var updated = await _cashOutAttemptRepo.SetBlockchainHash(clientId, requestId, hash);
 
-            try
+            if (updated != null)
             {
-                await _historyWriter.UpdateBlockChainHash(requestId, hash);
-                await _historyWriter.UpdateState(requestId, (int)TransactionStates.SettledOnchain);
-            }
-            catch (Exception e)
-            {
-                await _log.WriteErrorAsync(GetType().Name, "SetBlockchainHash", "", e, DateTime.Now);
+                try
+                {
+                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
+                }
+                catch (Exception e)
+                {
+                    await _log.WriteErrorAsync(GetType().Name, "SetBlockchainHash", "", e);
+                }
             }
 
             return Ok();
@@ -266,15 +269,18 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(requestId)));
             }
 
-            await _cashOutAttemptRepo.SetIsSettledOffchain(clientId, requestId);
+            var updated = await _cashOutAttemptRepo.SetIsSettledOffchain(clientId, requestId);
 
-            try
+            if (updated != null)
             {
-                await _historyWriter.UpdateState(requestId, (int)TransactionStates.SettledOffchain);
-            }
-            catch (Exception e)
-            {
-                await _log.WriteErrorAsync(GetType().Name, "SetIsSettledOffchain", "", e, DateTime.Now);
+                try
+                {
+                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
+                }
+                catch (Exception e)
+                {
+                    await _log.WriteErrorAsync(GetType().Name, "SetIsSettledOffchain", "", e);
+                }
             }
 
             return Ok();

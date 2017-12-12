@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AzureStorage;
 using Common;
+using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -93,9 +95,9 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             return await _tableStorage.GetDataAsync();
         }
 
-        public Task SetBlockchainHash(string clientId, string requestId, string hash)
+        public async Task<ICashOutRequest> SetBlockchainHash(string clientId, string requestId, string hash)
         {
-            return _tableStorage.MergeAsync(CashOutAttemptEntity.PendingRecords.GeneratePartition(clientId),
+            return await _tableStorage.MergeAsync(CashOutAttemptEntity.PendingRecords.GeneratePartition(clientId),
                 requestId, entity =>
                 {
                     entity.BlockchainHash = hash;
@@ -104,9 +106,9 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 });
         }
 
-        public Task SetIsSettledOffchain(string clientId, string requestId)
+        public async Task<ICashOutRequest> SetIsSettledOffchain(string clientId, string requestId)
         {
-            return _tableStorage.MergeAsync(CashOutAttemptEntity.PendingRecords.GeneratePartition(clientId),
+            return await _tableStorage.MergeAsync(CashOutAttemptEntity.PendingRecords.GeneratePartition(clientId),
                 requestId, entity =>
                 {
                     entity.State = TransactionStates.SettledOffchain;

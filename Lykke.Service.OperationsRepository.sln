@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Instrastructure", "1. Instrastructure", "{CC2067D7-1971-47BB-B491-5649EA3C18B2}"
 EndProject
@@ -29,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Tests", "4. Tests", "{8F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lykke.Service.OperationsRepository", "src\Lykke.Service.OperationsRepository\Lykke.Service.OperationsRepository.csproj", "{E414FDB9-FEEA-4CD0-9BBA-D1541601DF29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lykke.Service.OperationsRepository.Client.Core", "client\Lykke.Service.OperationsRepository.Client.Core\Lykke.Service.OperationsRepository.Client.Core.csproj", "{55D17E77-4FCB-4E1C-9119-E4FA69B9E978}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lykke.Service.OperationsRepository.Client.Core", "client\Lykke.Service.OperationsRepository.Client.Core\Lykke.Service.OperationsRepository.Client.Core.csproj", "{55D17E77-4FCB-4E1C-9119-E4FA69B9E978}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lykke.Service.OperationsRepository.Contract", "contract\Lykke.Service.OperationsRepository.Contract\Lykke.Service.OperationsRepository.Contract.csproj", "{3AB1F161-25B8-4136-8099-AFB1F1C69F2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{55D17E77-4FCB-4E1C-9119-E4FA69B9E978}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55D17E77-4FCB-4E1C-9119-E4FA69B9E978}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55D17E77-4FCB-4E1C-9119-E4FA69B9E978}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB1F161-25B8-4136-8099-AFB1F1C69F2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB1F161-25B8-4136-8099-AFB1F1C69F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB1F161-25B8-4136-8099-AFB1F1C69F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB1F161-25B8-4136-8099-AFB1F1C69F2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +82,9 @@ Global
 		{3C300C31-97D3-41E8-A627-C53491BDA28B} = {C9A2CFDE-EA32-4946-B679-7CE6EFA816B8}
 		{A61FFDEE-5725-4650-A788-6E55EE5EFD5B} = {8F9036B1-5106-4C69-B2D2-B78EE52687A0}
 		{55D17E77-4FCB-4E1C-9119-E4FA69B9E978} = {C9A2CFDE-EA32-4946-B679-7CE6EFA816B8}
+		{3AB1F161-25B8-4136-8099-AFB1F1C69F2A} = {C9A2CFDE-EA32-4946-B679-7CE6EFA816B8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E95B70E3-6026-43BC-8C44-6011134186BA}
 	EndGlobalSection
 EndGlobal
