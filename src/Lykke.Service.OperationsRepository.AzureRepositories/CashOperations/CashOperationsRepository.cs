@@ -6,6 +6,8 @@ using AzureStorage;
 using AzureStorage.Tables.Templates.Index;
 using Microsoft.WindowsAzure.Storage.Table;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
+using Lykke.Service.OperationsRepository.Contract;
 
 namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 {

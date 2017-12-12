@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AzureStorage;
+using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Microsoft.WindowsAzure.Storage.Table;
 

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AzureStorage;
+using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
-using Lykke.Service.OperationsRepository.Core.Domain;
 
 namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 {
