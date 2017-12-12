@@ -1,25 +1,11 @@
-﻿using Lykke.Service.OperationsRepository.Core.Domain;
+﻿using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Lykke.Service.OperationsRepository.Core.CashOperations
 {
-    public interface ILimitTradeEvent
-    {
-        string ClientId { get; }
-        string Id { get; }
-        string OrderId { get; }
-        DateTime CreatedDt { get; }
-        OrderType OrderType { get; }
-        double Volume { get; }
-        string AssetId { get; }
-        string AssetPair { get; }
-        double Price { get; }
-        OrderStatus Status { get; }
-        bool IsHidden { get; }
-    }
-
     public class LimitTradeEvent : ILimitTradeEvent
     {
         public string ClientId { get; set; }

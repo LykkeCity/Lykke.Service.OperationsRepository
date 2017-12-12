@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

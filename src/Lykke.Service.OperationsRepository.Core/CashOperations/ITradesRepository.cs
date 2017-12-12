@@ -1,21 +1,11 @@
-﻿using System;
+﻿using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Lykke.Service.OperationsRepository.Core.CashOperations
 {
-    public interface IClientTrade : IBaseCashBlockchainOperation
-    {
-        string LimitOrderId { get; }
-        string MarketOrderId { get; }
-        double Price { get; }
-        DateTime? DetectionTime { get; set; }
-        int Confirmations { get; set; }
-        string OppositeLimitOrderId { get; set; }
-        bool IsLimitOrderResult { get; set; }
-    }
-
-
     public class ClientTrade : IClientTrade
     {
         public string Id { get; set; }

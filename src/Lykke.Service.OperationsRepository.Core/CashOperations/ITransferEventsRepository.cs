@@ -1,15 +1,11 @@
-﻿using System;
+﻿using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Lykke.Service.OperationsRepository.Core.CashOperations
 {
-    public interface ITransferEvent : IBaseCashBlockchainOperation
-    {
-        string FromId { get; }
-    }
-
-
     public class TransferEvent : ITransferEvent
     {
         public string Id { get; set; }
