@@ -1,31 +1,32 @@
-﻿namespace Lykke.Service.OperationsRepository.Core.Domain
+﻿namespace Lykke.Service.OperationsRepository.Contract
 {
     public enum OrderType
     {
-        Buy, Sell
+        Buy,
+        Sell
     }
 
     public enum OrderStatus
     {
         //Init status, limit order in order book
-        InOrderBook
+        InOrderBook,
         //Partially matched
-        , Processing
+        Processing,
         //Fully matched
-        , Matched
+        Matched,
         //Not enough funds on account
-        , NotEnoughFunds
+        NotEnoughFunds,
         //Reserved volume greater than balance
-        , ReservedVolumeGreaterThanBalance
+        ReservedVolumeGreaterThanBalance,
         //No liquidity
-        , NoLiquidity
+        NoLiquidity,
         //Unknown asset
-        , UnknownAsset
+        UnknownAsset,
         //One of trades or whole order has volume/price*volume less then configured dust
-        , Dust
+        Dust,
         //Cancelled
-        , Cancelled
+        Cancelled,
         // negative spread 
-        , LeadToNegativeSpread
+        LeadToNegativeSpread
     }
 }

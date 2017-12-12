@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lykke.Service.OperationsRepository.Contract
+namespace Lykke.Service.OperationsRepository.Contract.History
 {
     /// <summary>
     /// DTO to publish to exchange
