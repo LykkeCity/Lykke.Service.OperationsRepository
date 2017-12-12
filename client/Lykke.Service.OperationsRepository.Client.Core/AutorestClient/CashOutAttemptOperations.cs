@@ -63,7 +63,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<object>> InsertRequestWithHttpMessagesAsync(InsertRequestModel request = default(InsertRequestModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> InsertRequestWithHttpMessagesAsync(CashOutAttemptInsertRequest request = default(CashOutAttemptInsertRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (request != null)
             {

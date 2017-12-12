@@ -18,28 +18,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
     /// </summary>
     public partial interface ILimitTradeEventOperations
     {
-        /// <param name='type'>
-        /// Possible values include: 'Buy', 'Sell'
-        /// </param>
-        /// <param name='volume'>
-        /// </param>
-        /// <param name='price'>
-        /// </param>
-        /// <param name='status'>
-        /// Possible values include: 'InOrderBook', 'Processing', 'Matched',
-        /// 'NotEnoughFunds', 'ReservedVolumeGreaterThanBalance',
-        /// 'NoLiquidity', 'UnknownAsset', 'Dust', 'Cancelled',
-        /// 'LeadToNegativeSpread'
-        /// </param>
-        /// <param name='dateTime'>
-        /// </param>
-        /// <param name='orderId'>
-        /// </param>
-        /// <param name='clientId'>
-        /// </param>
-        /// <param name='assetId'>
-        /// </param>
-        /// <param name='assetPair'>
+        /// <param name='model'>
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -53,7 +32,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<object>> CreateEventWithHttpMessagesAsync(OrderType type, double volume, double price, OrderStatus status, System.DateTime dateTime, string orderId = default(string), string clientId = default(string), string assetId = default(string), string assetPair = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> CreateEventWithHttpMessagesAsync(LimitTradeEventInsertRequest model = default(LimitTradeEventInsertRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='clientId'>
         /// </param>
         /// <param name='customHeaders'>

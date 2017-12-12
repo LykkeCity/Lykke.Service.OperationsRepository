@@ -32,7 +32,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<object>> InsertRequestWithHttpMessagesAsync(InsertRequestModel request = default(InsertRequestModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> InsertRequestWithHttpMessagesAsync(CashOutAttemptInsertRequest request = default(CashOutAttemptInsertRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>

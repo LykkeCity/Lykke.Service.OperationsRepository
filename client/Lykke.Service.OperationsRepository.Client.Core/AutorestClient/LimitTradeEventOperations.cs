@@ -46,27 +46,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// </summary>
         public OperationsRepositoryAPI Client { get; private set; }
 
-        /// <param name='type'>
-        /// Possible values include: 'Buy', 'Sell'
-        /// </param>
-        /// <param name='volume'>
-        /// </param>
-        /// <param name='price'>
-        /// </param>
-        /// <param name='status'>
-        /// Possible values include: 'InOrderBook', 'Processing', 'Matched',
-        /// 'NotEnoughFunds', 'ReservedVolumeGreaterThanBalance', 'NoLiquidity',
-        /// 'UnknownAsset', 'Dust', 'Cancelled', 'LeadToNegativeSpread'
-        /// </param>
-        /// <param name='dateTime'>
-        /// </param>
-        /// <param name='orderId'>
-        /// </param>
-        /// <param name='clientId'>
-        /// </param>
-        /// <param name='assetId'>
-        /// </param>
-        /// <param name='assetPair'>
+        /// <param name='model'>
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -83,8 +63,12 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<object>> CreateEventWithHttpMessagesAsync(OrderType type, double volume, double price, OrderStatus status, System.DateTime dateTime, string orderId = default(string), string clientId = default(string), string assetId = default(string), string assetPair = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> CreateEventWithHttpMessagesAsync(LimitTradeEventInsertRequest model = default(LimitTradeEventInsertRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (model != null)
+            {
+                model.Validate();
+            }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -92,47 +76,13 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("orderId", orderId);
-                tracingParameters.Add("clientId", clientId);
-                tracingParameters.Add("type", type);
-                tracingParameters.Add("volume", volume);
-                tracingParameters.Add("assetId", assetId);
-                tracingParameters.Add("assetPair", assetPair);
-                tracingParameters.Add("price", price);
-                tracingParameters.Add("status", status);
-                tracingParameters.Add("dateTime", dateTime);
+                tracingParameters.Add("model", model);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "CreateEvent", tracingParameters);
             }
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/LimitTradeEventsRepository").ToString();
-            List<string> _queryParameters = new List<string>();
-            if (orderId != null)
-            {
-                _queryParameters.Add(string.Format("orderId={0}", System.Uri.EscapeDataString(orderId)));
-            }
-            if (clientId != null)
-            {
-                _queryParameters.Add(string.Format("clientId={0}", System.Uri.EscapeDataString(clientId)));
-            }
-            _queryParameters.Add(string.Format("type={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(type, Client.SerializationSettings).Trim('"'))));
-            _queryParameters.Add(string.Format("volume={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(volume, Client.SerializationSettings).Trim('"'))));
-            if (assetId != null)
-            {
-                _queryParameters.Add(string.Format("assetId={0}", System.Uri.EscapeDataString(assetId)));
-            }
-            if (assetPair != null)
-            {
-                _queryParameters.Add(string.Format("assetPair={0}", System.Uri.EscapeDataString(assetPair)));
-            }
-            _queryParameters.Add(string.Format("price={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(price, Client.SerializationSettings).Trim('"'))));
-            _queryParameters.Add(string.Format("status={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(status, Client.SerializationSettings).Trim('"'))));
-            _queryParameters.Add(string.Format("dateTime={0}", System.Uri.EscapeDataString(Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(dateTime, Client.SerializationSettings).Trim('"'))));
-            if (_queryParameters.Count > 0)
-            {
-                _url += "?" + string.Join("&", _queryParameters);
-            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -155,6 +105,12 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
 
             // Serialize Request
             string _requestContent = null;
+            if(model != null)
+            {
+                _requestContent = Microsoft.Rest.Serialization.SafeJsonConvert.SerializeObject(model, Client.SerializationSettings);
+                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
+                _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
+            }
             // Send Request
             if (_shouldTrace)
             {

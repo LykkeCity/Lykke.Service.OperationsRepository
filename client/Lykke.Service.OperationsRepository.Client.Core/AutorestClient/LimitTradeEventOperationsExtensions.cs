@@ -18,64 +18,24 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='type'>
-            /// Possible values include: 'Buy', 'Sell'
+            /// <param name='model'>
             /// </param>
-            /// <param name='volume'>
-            /// </param>
-            /// <param name='price'>
-            /// </param>
-            /// <param name='status'>
-            /// Possible values include: 'InOrderBook', 'Processing', 'Matched',
-            /// 'NotEnoughFunds', 'ReservedVolumeGreaterThanBalance', 'NoLiquidity',
-            /// 'UnknownAsset', 'Dust', 'Cancelled', 'LeadToNegativeSpread'
-            /// </param>
-            /// <param name='dateTime'>
-            /// </param>
-            /// <param name='orderId'>
-            /// </param>
-            /// <param name='clientId'>
-            /// </param>
-            /// <param name='assetId'>
-            /// </param>
-            /// <param name='assetPair'>
-            /// </param>
-            public static object CreateEvent(this ILimitTradeEventOperations operations, OrderType type, double volume, double price, OrderStatus status, System.DateTime dateTime, string orderId = default(string), string clientId = default(string), string assetId = default(string), string assetPair = default(string))
+            public static object CreateEvent(this ILimitTradeEventOperations operations, LimitTradeEventInsertRequest model = default(LimitTradeEventInsertRequest))
             {
-                return operations.CreateEventAsync(type, volume, price, status, dateTime, orderId, clientId, assetId, assetPair).GetAwaiter().GetResult();
+                return operations.CreateEventAsync(model).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='type'>
-            /// Possible values include: 'Buy', 'Sell'
-            /// </param>
-            /// <param name='volume'>
-            /// </param>
-            /// <param name='price'>
-            /// </param>
-            /// <param name='status'>
-            /// Possible values include: 'InOrderBook', 'Processing', 'Matched',
-            /// 'NotEnoughFunds', 'ReservedVolumeGreaterThanBalance', 'NoLiquidity',
-            /// 'UnknownAsset', 'Dust', 'Cancelled', 'LeadToNegativeSpread'
-            /// </param>
-            /// <param name='dateTime'>
-            /// </param>
-            /// <param name='orderId'>
-            /// </param>
-            /// <param name='clientId'>
-            /// </param>
-            /// <param name='assetId'>
-            /// </param>
-            /// <param name='assetPair'>
+            /// <param name='model'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> CreateEventAsync(this ILimitTradeEventOperations operations, OrderType type, double volume, double price, OrderStatus status, System.DateTime dateTime, string orderId = default(string), string clientId = default(string), string assetId = default(string), string assetPair = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> CreateEventAsync(this ILimitTradeEventOperations operations, LimitTradeEventInsertRequest model = default(LimitTradeEventInsertRequest), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.CreateEventWithHttpMessagesAsync(type, volume, price, status, dateTime, orderId, clientId, assetId, assetPair, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.CreateEventWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }

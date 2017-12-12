@@ -20,7 +20,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             /// <param name='request'>
             /// </param>
-            public static object InsertRequest(this ICashOutAttemptOperations operations, InsertRequestModel request = default(InsertRequestModel))
+            public static object InsertRequest(this ICashOutAttemptOperations operations, CashOutAttemptInsertRequest request = default(CashOutAttemptInsertRequest))
             {
                 return operations.InsertRequestAsync(request).GetAwaiter().GetResult();
             }
@@ -33,7 +33,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> InsertRequestAsync(this ICashOutAttemptOperations operations, InsertRequestModel request = default(InsertRequestModel), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> InsertRequestAsync(this ICashOutAttemptOperations operations, CashOutAttemptInsertRequest request = default(CashOutAttemptInsertRequest), CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.InsertRequestWithHttpMessagesAsync(request, null, cancellationToken).ConfigureAwait(false))
                 {
