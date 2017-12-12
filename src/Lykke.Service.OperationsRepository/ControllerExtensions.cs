@@ -1,6 +1,6 @@
-﻿using Lykke.Service.OperationsRepository.Contract;
+﻿using Lykke.Service.OperationsRepository.Contract.Abstractions;
+using Lykke.Service.OperationsRepository.Contract.History;
 using Lykke.Service.OperationsRepository.Controllers;
-using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Newtonsoft.Json;
 
 namespace Lykke.Service.OperationsRepository

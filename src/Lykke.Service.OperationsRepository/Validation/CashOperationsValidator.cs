@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 
 namespace Lykke.Service.OperationsRepository.Validation

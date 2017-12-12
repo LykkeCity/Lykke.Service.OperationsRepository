@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Common.Log;
 using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
+using Lykke.Service.OperationsRepository.Contract;
 using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;

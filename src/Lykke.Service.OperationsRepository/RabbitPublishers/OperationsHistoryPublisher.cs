@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Common.Log;
-using Lykke.Service.OperationsRepository.Contract;
 using Lykke.Service.OperationsRepository.Core;
 using Lykke.RabbitMqBroker.Publisher;
 using Lykke.RabbitMqBroker.Subscriber;
+using Lykke.Service.OperationsRepository.Contract.History;
 
 namespace Lykke.Service.OperationsRepository.RabbitPublishers
 {
