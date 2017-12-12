@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Common.Log;
 using Lykke.Service.OperationsRepository.AutorestClient;
 using Lykke.Service.OperationsRepository.AutorestClient.Models;
 using Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations;
 using Lykke.Service.OperationsRepository.Client.Models.CashOperations;
-using Microsoft.Rest;
-using Microsoft.Rest.Serialization;
 
 namespace Lykke.Service.OperationsRepository.Client.CashOperations
 {
@@ -19,13 +14,13 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;
 
-        public TradeOperationsRepositoryClient(string serviceUrl, ILog log, int timeout)
+        public TradeOperationsRepositoryClient(string serviceUrl, ILog log, int timeoutInSeconds)
         {
             _log = log;
             _apiClient =
                 new OperationsRepositoryAPI(new Uri(serviceUrl))
                 {
-                    HttpClient = {Timeout = TimeSpan.FromSeconds(timeout)}
+                    HttpClient = {Timeout = TimeSpan.FromSeconds(timeoutInSeconds)}
                 };
         }
 

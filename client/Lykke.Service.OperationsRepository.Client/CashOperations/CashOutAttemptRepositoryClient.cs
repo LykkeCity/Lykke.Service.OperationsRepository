@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Autofac;
 using Common.Log;
 using Lykke.Service.OperationsRepository.AutorestClient;
 using Lykke.Service.OperationsRepository.AutorestClient.Models;
@@ -16,13 +14,13 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;
 
-        public CashOutAttemptRepositoryClient(string serviceUrl, ILog log, int timeout)
+        public CashOutAttemptRepositoryClient(string serviceUrl, ILog log, int timeoutInSeconds)
         {
             _log = log;
             _apiClient =
                 new OperationsRepositoryAPI(new Uri(serviceUrl))
                 {
-                    HttpClient = {Timeout = TimeSpan.FromSeconds(timeout)}
+                    HttpClient = {Timeout = TimeSpan.FromSeconds(timeoutInSeconds)}
                 };
         }
 
@@ -40,7 +38,7 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             var response =
                 await _apiClient
                     .CashOutAttemptOperations
-                    .InsertRequestWithHttpMessagesAsync(new InsertRequestModel
+                    .InsertRequestWithHttpMessagesAsync(new CashOutAttemptInsertRequest
                     {
                         Request = request,
                         PaymentSystem = paymentSystem,

@@ -39,7 +39,7 @@ namespace Lykke.Service.OperationsRepository.Client
             string component, string process)
         {
             var logEntry = $"Method execution duration (ms): {duration}";
-            await logger.WriteInfoAsync(component, process, string.Empty, logEntry, DateTime.Now);
+            await logger.WriteInfoAsync(component, process, string.Empty, logEntry);
         }
     }
 }

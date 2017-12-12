@@ -14,13 +14,13 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         private readonly ILog _log;
         private OperationsRepositoryAPI _apiClient;
 
-        public LimitTradeEventsRepositoryClient(string serviceUrl, ILog log, int timeout)
+        public LimitTradeEventsRepositoryClient(string serviceUrl, ILog log, int timeoutInSeconds)
         {
             _log = log;
             _apiClient =
                 new OperationsRepositoryAPI(new Uri(serviceUrl))
                 {
-                    HttpClient = { Timeout = TimeSpan.FromSeconds(timeout) }
+                    HttpClient = { Timeout = TimeSpan.FromSeconds(timeoutInSeconds) }
                 };
         }
 
@@ -32,10 +32,9 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             _apiClient = null;
         }
 
-        public async Task<LimitTradeEvent> CreateAsync(OrderType type, double volume, double price, OrderStatus status, DateTime dateTime, string orderId, string clientId, string assetId, string assetPair)
+        public async Task<LimitTradeEvent> CreateAsync(LimitTradeEventInsertRequest model)
         {
-            var response = await _apiClient.LimitTradeEventOperations.CreateEventWithHttpMessagesAsync(type, volume, price, status, dateTime,
-                orderId, clientId, assetId, assetPair);
+            var response = await _apiClient.LimitTradeEventOperations.CreateEventWithHttpMessagesAsync(model);
 
             return LimitTradeEventResponse
                 .Prepare(response)

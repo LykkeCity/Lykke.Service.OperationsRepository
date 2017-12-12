@@ -113,7 +113,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 }
                 catch (Exception e)
                 {
-                    await _log.WriteErrorAsync(GetType().Name, "UpdateBlockchainHashAsync", "", e, DateTime.Now);
+                    await _log.WriteErrorAsync(GetType().Name, "UpdateBlockchainHashAsync", "", e);
                 }
             }
 
@@ -169,7 +169,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 }
                 catch (Exception e)
                 {
-                    await _log.WriteErrorAsync(GetType().Name, "SetIsSettledAsync", "", e, DateTime.Now);
+                    await _log.WriteErrorAsync(GetType().Name, "SetIsSettledAsync", "", e);
                 }
             }
 

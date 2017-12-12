@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Common.Log;
 using Lykke.Service.OperationsRepository.Core;
 using Lykke.RabbitMqBroker.Publisher;
@@ -16,8 +17,8 @@ namespace Lykke.Service.OperationsRepository.RabbitPublishers
 
         public OperationsHistoryPublisher(ILog log, RabbitMqSettings rabbitSettings)
         {
-            _log = log;
-            _rabbitSettings = rabbitSettings;
+            _log = log ?? throw new ArgumentNullException(nameof(log));
+            _rabbitSettings = rabbitSettings ?? throw new ArgumentNullException(nameof(rabbitSettings));
         }
 
         public void Start()

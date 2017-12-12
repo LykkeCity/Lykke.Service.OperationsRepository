@@ -34,7 +34,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOutAttemptOperations_InsertRequest")]
         [ProducesResponseType(typeof(IdResponseModel), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> InsertRequestAsync([FromBody] InsertRequestModel request)
+        public async Task<IActionResult> InsertRequestAsync([FromBody] CashOutAttemptInsertRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
             catch (Exception e)
             {
-                await _log.WriteErrorAsync(GetType().Name, "InsertRequestAsync", "", e, DateTime.Now);
+                await _log.WriteErrorAsync(GetType().Name, "InsertRequestAsync", "", e);
             }
             
 
@@ -103,7 +103,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 }
                 catch (Exception e)
                 {
-                    await _log.WriteErrorAsync(GetType().Name, "SetBlockchainHash", "", e, DateTime.Now);
+                    await _log.WriteErrorAsync(GetType().Name, "SetBlockchainHash", "", e);
                 }
             }
 
@@ -279,7 +279,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 }
                 catch (Exception e)
                 {
-                    await _log.WriteErrorAsync(GetType().Name, "SetIsSettledOffchain", "", e, DateTime.Now);
+                    await _log.WriteErrorAsync(GetType().Name, "SetIsSettledOffchain", "", e);
                 }
             }
 

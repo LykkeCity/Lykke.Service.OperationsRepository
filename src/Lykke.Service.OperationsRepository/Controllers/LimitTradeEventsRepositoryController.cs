@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Common.Log;
-using Lykke.Service.OperationsRepository.Contract;
 using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
+using Lykke.Service.OperationsRepository.Models.LimitTradeEvent;
 using Lykke.Service.OperationsRepository.Validation;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -31,18 +31,10 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("LimitTradeEventOperations_CreateEvent")]
         [ProducesResponseType(typeof(LimitTradeEvent), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateAsync([FromQuery] string orderId, [FromQuery] string clientId,
-            [FromQuery] OrderType type, [FromQuery] double volume, [FromQuery] string assetId,
-            [FromQuery] string assetPair, [FromQuery] double price, [FromQuery] OrderStatus status,
-            [FromQuery] DateTime dateTime)
+        public async Task<IActionResult> CreateAsync([FromBody] LimitTradeEventInsertRequest model)
         {
-            if (!CommonValidator.ValidateClientId(clientId))
-            {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(clientId)));
-            }
-
-            var result = await _limitTradeEventsRepository.CreateEvent(orderId, clientId, type, volume, assetId,
-                assetPair, price, status, dateTime);
+            var result = await _limitTradeEventsRepository.CreateEvent(model.OrderId, model.ClientId, model.Type,
+                model.Volume, model.AssetId, model.AssetPair, model.Price, model.Status, model.DateTime);
 
             if (result != null)
             {
@@ -52,7 +44,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 }
                 catch (Exception e)
                 {
-                    await _log.WriteErrorAsync(nameof(LimitTradeEventsRepositoryController), nameof(CreateAsync), "", e, DateTime.Now);
+                    await _log.WriteErrorAsync(nameof(LimitTradeEventsRepositoryController), nameof(CreateAsync), "", e);
                 }
             }
 
