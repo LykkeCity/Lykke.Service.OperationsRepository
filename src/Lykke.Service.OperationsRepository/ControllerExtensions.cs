@@ -1,4 +1,5 @@
-﻿using Lykke.Service.OperationsRepository.Contract.Abstractions;
+﻿using Lykke.Service.OperationsRepository.Contract;
+using Lykke.Service.OperationsRepository.Contract.Abstractions;
 using Lykke.Service.OperationsRepository.Contract.History;
 using Lykke.Service.OperationsRepository.Controllers;
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace Lykke.Service.OperationsRepository
                 ClientId = source.ClientId,
                 Currency = source.AssetId,
                 DateTime = source.DateTime,
-                OpType = "CashInOut",
+                OpType = nameof(OperationType.CashInOut),
                 Amount = source.Amount,
                 Data = JsonConvert.SerializeObject(source)
             };
@@ -30,7 +31,7 @@ namespace Lykke.Service.OperationsRepository
                 Id = source.Id,
                 ClientId = source.ClientId,
                 Currency = source.AssetId,
-                OpType = "CashOutAttempt",
+                OpType = nameof(OperationType.CashOutAttempt),
                 DateTime = source.DateTime,
                 Amount = source.Amount,
                 Data = JsonConvert.SerializeObject(source)
@@ -47,7 +48,7 @@ namespace Lykke.Service.OperationsRepository
                 Amount = source.Amount,
                 Currency = source.AssetId,
                 DateTime = source.DateTime,
-                OpType = "ClientTrade",
+                OpType = nameof(OperationType.ClientTrade),
                 Data = JsonConvert.SerializeObject(source)
             };
         }
@@ -62,7 +63,7 @@ namespace Lykke.Service.OperationsRepository
                 DateTime = source.DateTime,
                 Amount = source.Amount,
                 Currency = source.AssetId,
-                OpType = "TransferEvent",
+                OpType = nameof(OperationType.TransferEvent),
                 Data = JsonConvert.SerializeObject(source)
             };
         }
@@ -77,7 +78,7 @@ namespace Lykke.Service.OperationsRepository
                 ClientId = source.ClientId,
                 Currency = source.AssetId,
                 DateTime = source.CreatedDt,
-                OpType = "LimitTradeEvent",
+                OpType = nameof(OperationType.LimitTradeEvent),
                 Data = JsonConvert.SerializeObject(source)
             };
         }
