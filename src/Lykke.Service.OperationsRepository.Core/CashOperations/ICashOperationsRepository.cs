@@ -23,6 +23,8 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         public TransactionStates State { get; set; }
         public bool IsRefund { get; set; }
         public CashOperationType Type { get; set; }
+        public double FeeSize { get; set; }
+        public FeeType FeeType { get; set; }
 
         public static CashInOutOperation CreateNew(string assetId, double amount)
         {

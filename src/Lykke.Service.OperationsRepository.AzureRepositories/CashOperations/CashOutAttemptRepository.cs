@@ -32,6 +32,8 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 entity.RowKey = GenerateRowKey(reqId);
                 entity.Status = request.Status;
                 entity.PreviousId = request.PreviousId;
+                entity.FeeSize = request.FeeSize;
+                entity.FeeType = request.FeeType;
 
                 return entity;
             }
@@ -69,7 +71,9 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 TradeSystem = tradeSystem.ToString(),
                 AccountId = request.AccountId,
                 VolumeSize = request.VolumeSize,
-                PreviousId = request.PreviousId
+                PreviousId = request.PreviousId,
+                FeeSize = request.FeeSize,
+                FeeType = request.FeeType
             };
         }
     }

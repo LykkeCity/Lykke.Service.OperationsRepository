@@ -21,5 +21,9 @@ namespace Lykke.Service.OperationsRepository.Contract.Abstractions
         DateTime DateTime { get; }
 
         bool IsHidden { get; }
+
+        double FeeSize { get; }
+
+        FeeType FeeType { get; }
     }
 }
