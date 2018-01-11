@@ -143,7 +143,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             ClientTradeOperations = new ClientTradeOperations(this);
             LimitTradeEventOperations = new LimitTradeEventOperations(this);
             TransferOperations = new TransferOperations(this);
-            BaseUri = new System.Uri("http://localhost/");
+            BaseUri = new System.Uri("http://localhost");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,

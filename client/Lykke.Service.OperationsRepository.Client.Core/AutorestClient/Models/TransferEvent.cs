@@ -25,7 +25,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <param name="state">Possible values include: 'InProcessOnchain',
         /// 'SettledOnchain', 'InProcessOffchain', 'SettledOffchain',
         /// 'SettledNoChain'</param>
-        public TransferEvent(System.DateTime dateTime, bool isHidden, double amount, TransactionStates state, string id = default(string), string clientId = default(string), string fromId = default(string), string assetId = default(string), string blockChainHash = default(string), string multisig = default(string), string transactionId = default(string), string addressFrom = default(string), string addressTo = default(string), bool? isSettled = default(bool?))
+        /// <param name="feeType">Possible values include: 'Unknown',
+        /// 'Absolute', 'Relative'</param>
+        public TransferEvent(System.DateTime dateTime, bool isHidden, double amount, TransactionStates state, double feeSize, FeeType feeType, string id = default(string), string clientId = default(string), string fromId = default(string), string assetId = default(string), string blockChainHash = default(string), string multisig = default(string), string transactionId = default(string), string addressFrom = default(string), string addressTo = default(string), bool? isSettled = default(bool?))
         {
             Id = id;
             ClientId = clientId;
@@ -41,6 +43,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
             AddressTo = addressTo;
             IsSettled = isSettled;
             State = state;
+            FeeSize = feeSize;
+            FeeType = feeType;
             CustomInit();
         }
 
@@ -121,6 +125,18 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// </summary>
         [JsonProperty(PropertyName = "State")]
         public TransactionStates State { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "FeeSize")]
+        public double FeeSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets possible values include: 'Unknown', 'Absolute',
+        /// 'Relative'
+        /// </summary>
+        [JsonProperty(PropertyName = "FeeType")]
+        public FeeType FeeType { get; set; }
 
         /// <summary>
         /// Validate the object.

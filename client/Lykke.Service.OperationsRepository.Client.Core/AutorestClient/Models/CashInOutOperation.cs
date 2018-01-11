@@ -27,7 +27,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// 'SettledNoChain'</param>
         /// <param name="type">Possible values include: 'None',
         /// 'ForwardCashOut', 'ForwardCashIn'</param>
-        public CashInOutOperation(System.DateTime dateTime, bool isHidden, double amount, TransactionStates state, bool isRefund, CashOperationType type, string id = default(string), string assetId = default(string), string clientId = default(string), string blockChainHash = default(string), string multisig = default(string), string transactionId = default(string), string addressFrom = default(string), string addressTo = default(string), bool? isSettled = default(bool?))
+        /// <param name="feeType">Possible values include: 'Unknown',
+        /// 'Absolute', 'Relative'</param>
+        public CashInOutOperation(System.DateTime dateTime, bool isHidden, double amount, TransactionStates state, bool isRefund, CashOperationType type, double feeSize, FeeType feeType, string id = default(string), string assetId = default(string), string clientId = default(string), string blockChainHash = default(string), string multisig = default(string), string transactionId = default(string), string addressFrom = default(string), string addressTo = default(string), bool? isSettled = default(bool?))
         {
             Id = id;
             DateTime = dateTime;
@@ -44,6 +46,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
             State = state;
             IsRefund = isRefund;
             Type = type;
+            FeeSize = feeSize;
+            FeeType = feeType;
             CustomInit();
         }
 
@@ -131,6 +135,18 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// </summary>
         [JsonProperty(PropertyName = "Type")]
         public CashOperationType Type { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "FeeSize")]
+        public double FeeSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets possible values include: 'Unknown', 'Absolute',
+        /// 'Relative'
+        /// </summary>
+        [JsonProperty(PropertyName = "FeeType")]
+        public FeeType FeeType { get; set; }
 
         /// <summary>
         /// Validate the object.
