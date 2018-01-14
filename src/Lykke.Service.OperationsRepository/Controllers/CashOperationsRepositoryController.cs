@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Common;
 using Common.Log;
 using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
@@ -38,17 +37,11 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(operation)));
             }
 
-            if (await _cashOperationsRepo.GetAsync(operation.ClientId, operation.Id) != null)
-            {
-                await _log.WriteErrorAsync(GetType().Name, "Register", operation.ToJson(), new Exception("Duplicated message"));
-                return Ok(new IdResponseModel { Id = operation.Id });
-            }
-
             var id = await _cashOperationsRepo.RegisterAsync(operation);
 
             await _historyPublisher.PublishAsync(this.MapFrom(operation));
 
-            return Ok(new IdResponseModel { Id = id });
+            return Ok(new IdResponseModel {Id = id});
         }
 
         [HttpGet]
@@ -131,7 +124,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [SwaggerOperation("CashOperations_SetBtcTransaction")]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetBtcTransaction([FromQuery] string clientId, [FromQuery] string id, [FromQuery] string bcnTransactionId)
+        public async Task<IActionResult> SetBtcTransaction([FromQuery] string clientId,[FromQuery] string id, [FromQuery] string bcnTransactionId)
         {
             if (!CommonValidator.ValidateClientId(clientId))
             {
