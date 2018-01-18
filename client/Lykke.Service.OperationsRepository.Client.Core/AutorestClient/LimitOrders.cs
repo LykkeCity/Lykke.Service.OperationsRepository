@@ -385,7 +385,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             }
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/LimitOrdersRepository/{clientId}").ToString();
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/LimitOrdersRepository/client/{clientId}").ToString();
             _url = _url.Replace("{clientId}", System.Uri.EscapeDataString(clientId));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
@@ -534,7 +534,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             }
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/LimitOrdersRepository/active/{clientId}").ToString();
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/LimitOrdersRepository/client/active/{clientId}").ToString();
             _url = _url.Replace("{clientId}", System.Uri.EscapeDataString(clientId));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();

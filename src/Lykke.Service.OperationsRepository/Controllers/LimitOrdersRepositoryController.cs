@@ -42,7 +42,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
             return Ok(await _limitOrdersRepository.GetOrderAsync(orderId));
         }
 
-        [HttpGet("{clientId}")]
+        [HttpGet("client/{clientId}")]
         [SwaggerOperation("LimitOrders_GetOrdersByClientId")]
         [ProducesResponseType(typeof(IEnumerable<ILimitOrder>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
@@ -51,7 +51,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
             return Ok(await _limitOrdersRepository.GetOrdersAsync(clientId));
         }
         
-        [HttpGet("active/{clientId}")]
+        [HttpGet("client/active/{clientId}")]
         [SwaggerOperation("LimitOrders_GetActiveOrdersByClientId")]
         [ProducesResponseType(typeof(IEnumerable<ILimitOrder>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
