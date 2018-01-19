@@ -31,6 +31,18 @@ namespace Lykke.Service.OperationsRepository.Controllers
             await _limitOrdersRepository.InOrderBookAsync(order);
             return Ok(order);
         }
+
+        [HttpPost("{orderId}/cancel")]
+        [SwaggerOperation("LimitOrders_CancelOrder")]
+        [ProducesResponseType(typeof(ILimitOrder), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CancelOrderByIdAsync(string orderId)
+        {
+            var order = await _limitOrdersRepository.GetOrderAsync(orderId);
+            await _limitOrdersRepository.CancelAsync(order);
+            order = await _limitOrdersRepository.GetOrderAsync(orderId);
+            return Ok(order);
+        }
         
         [HttpGet("{orderId}")]
         [SwaggerOperation("LimitOrders_GetOrderById")]
