@@ -68,28 +68,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 entity.PartitionKey = GeneratePartitionKey(src.ClientId);
                 return entity;
             }
-        }
-
-        public static class ByMultisig
-        {
-            public static string GeneratePartitionKey(string multisig)
-            {
-                return multisig;
-            }
-
-            public static string GenerateRowKey(string tradeId)
-            {
-                return tradeId;
-            }
-
-            public static ClientTradeEntity Create(IClientTrade src)
-            {
-                var entity = CreateNew(src);
-                entity.RowKey = GenerateRowKey(src.Id);
-                entity.PartitionKey = GeneratePartitionKey(src.Multisig);
-                return entity;
-            }
-        }
+        }        
 
         public static class ByDt
         {
@@ -181,13 +160,11 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             foreach (var trade in clientTrades)
             {
                 var byClientId = ClientTradeEntity.ByClientId.Create(trade);
-                var insertByClientIdTask = _tableStorage.InsertAsync(byClientId);
-                var insertbyMultisigTask = !string.IsNullOrWhiteSpace(trade.Multisig) ? _tableStorage.InsertAsync(ClientTradeEntity.ByMultisig.Create(trade)) : Task.CompletedTask;
-                var insertbyDtTask = _tableStorage.InsertAsync(ClientTradeEntity.ByDt.Create(trade));
-                var insertByOrderId = trade.IsLimitOrderResult ? _tableStorage.InsertAsync(ClientTradeEntity.ByOrder.Create(trade)) : Task.CompletedTask;
+                var insertByClientIdTask = _tableStorage.InsertOrMergeAsync(byClientId);                
+                var insertbyDtTask = _tableStorage.InsertOrMergeAsync(ClientTradeEntity.ByDt.Create(trade));
+                var insertByOrderId = trade.IsLimitOrderResult ? _tableStorage.InsertOrMergeAsync(ClientTradeEntity.ByOrder.Create(trade)) : Task.CompletedTask;
 
-                await insertByClientIdTask;
-                await insertbyMultisigTask;
+                await insertByClientIdTask;                
                 await insertbyDtTask;
                 await insertByOrderId;
 
@@ -223,10 +200,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var rowKey = ClientTradeEntity.ByClientId.GenerateRowKey(recordId);
 
             var clientIdRecord = await _tableStorage.GetDataAsync(partitionKey, rowKey);
-
-            var multisigPartitionKey = ClientTradeEntity.ByMultisig.GeneratePartitionKey(clientIdRecord.Multisig);
-            var multisigRowKey = ClientTradeEntity.ByMultisig.GenerateRowKey(recordId);
-
+            
             var dtPartitionKey = ClientTradeEntity.ByDt.GeneratePartitionKey();
             var dtRowKey = ClientTradeEntity.ByDt.GenerateRowKey(recordId);
 
@@ -237,14 +211,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 entity.State = TransactionStates.SettledOnchain;
                 return entity;
             });
-
-            await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
-            {
-                entity.BlockChainHash = hash;
-                entity.State = TransactionStates.SettledOnchain;
-                return entity;
-            });
-
+            
             await _tableStorage.MergeAsync(dtPartitionKey, dtRowKey, entity =>
             {
                 entity.BlockChainHash = hash;
@@ -278,10 +245,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 
             if (clientIdRecord == null)
                 return null;
-
-            var multisigPartitionKey = ClientTradeEntity.ByMultisig.GeneratePartitionKey(clientIdRecord.Multisig);
-            var multisigRowKey = ClientTradeEntity.ByMultisig.GenerateRowKey(recordId);
-
+            
             var dtPartitionKey = ClientTradeEntity.ByDt.GeneratePartitionKey();
             var dtRowKey = ClientTradeEntity.ByDt.GenerateRowKey(recordId);
 
@@ -292,15 +256,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 entity.State = TransactionStates.SettledOnchain;
                 return entity;
             });
-
-            await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
-            {
-                entity.DetectionTime = detectTime;
-                entity.Confirmations = confirmations;
-                entity.State = TransactionStates.SettledOnchain;
-                return entity;
-            });
-
+            
             await _tableStorage.MergeAsync(dtPartitionKey, dtRowKey, entity =>
             {
                 entity.DetectionTime = detectTime;
@@ -318,10 +274,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var rowKey = ClientTradeEntity.ByClientId.GenerateRowKey(recordId);
 
             var clientIdRecord = await _tableStorage.GetDataAsync(partitionKey, rowKey);
-
-            var multisigPartitionKey = ClientTradeEntity.ByMultisig.GeneratePartitionKey(clientIdRecord.Multisig);
-            var multisigRowKey = ClientTradeEntity.ByMultisig.GenerateRowKey(recordId);
-
+            
             var dtPartitionKey = ClientTradeEntity.ByDt.GeneratePartitionKey();
             var dtRowKey = ClientTradeEntity.ByDt.GenerateRowKey(recordId);
 
@@ -330,13 +283,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 entity.TransactionId = btcTransactionId;
                 return entity;
             });
-
-            await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
-            {
-                entity.TransactionId = btcTransactionId;
-                return entity;
-            });
-
+            
             await _tableStorage.MergeAsync(dtPartitionKey, dtRowKey, entity =>
             {
                 entity.TransactionId = btcTransactionId;
@@ -354,10 +301,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var clientIdRecord = await _tableStorage.GetDataAsync(partitionKey, rowKey);
             if (clientIdRecord == null)
                 return null;
-
-            var multisigPartitionKey = ClientTradeEntity.ByMultisig.GeneratePartitionKey(clientIdRecord.Multisig);
-            var multisigRowKey = ClientTradeEntity.ByMultisig.GenerateRowKey(id);
-
+            
             var dtPartitionKey = ClientTradeEntity.ByDt.GeneratePartitionKey();
             var dtRowKey = ClientTradeEntity.ByDt.GenerateRowKey(id);
 
@@ -384,16 +328,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                     entity.IsSettled = true;
                 return entity;
             });
-
-            await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
-            {
-                if (offchain)
-                    entity.State = TransactionStates.SettledOffchain;
-                else
-                    entity.IsSettled = true;
-                return entity;
-            });
-
+            
             await _tableStorage.MergeAsync(dtPartitionKey, dtRowKey, entity =>
             {
                 if (offchain)
@@ -404,30 +339,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             });
 
             return result;
-        }
-
-        public async Task<IEnumerable<IClientTrade>> GetByMultisigAsync(string multisig)
-        {
-            var partitionKey = ClientTradeEntity.ByMultisig.GeneratePartitionKey(multisig);
-            return await _tableStorage.GetDataAsync(partitionKey);
-        }
-
-        public async Task<IEnumerable<IClientTrade>> GetByMultisigsAsync(string[] multisigs)
-        {
-            var tasks =
-                multisigs.Select(x => _tableStorage.GetDataAsync(ClientTradeEntity.ByMultisig.GeneratePartitionKey(x)));
-
-            var tradesByMultisigArr = await Task.WhenAll(tasks);
-
-            var result = new List<IClientTrade>();
-
-            foreach (var arr in tradesByMultisigArr)
-            {
-                result.AddRange(arr);
-            }
-
-            return result;
-        }
+        }        
 
         public async Task<IEnumerable<IClientTrade>> GetByOrderAsync(string orderId)
         {
@@ -447,19 +359,6 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             });
 
             return result;
-        }
-
-        public Task ScanByDtAsync(Func<IEnumerable<IClientTrade>, Task> chunk, DateTime @from, DateTime to)
-        {
-            var rangeQuery = AzureStorageUtils.QueryGenerator<ClientTradeEntity>
-                .RowKeyOnly.BetweenQuery(ClientTradeEntity.ByDt.GetRowKeyPart(from),
-                    ClientTradeEntity.ByDt.GetRowKeyPart(to), ToIntervalOption.IncludeTo);
-            return _tableStorage.ScanDataAsync(rangeQuery, chunk);
-        }
-
-        public Task GetDataByChunksAsync(Func<IEnumerable<IClientTrade>, Task> chunk)
-        {
-            return _tableStorage.GetDataByChunksAsync(chunk);
-        }
+        }        
     }
 }
