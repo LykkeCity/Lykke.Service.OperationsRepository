@@ -160,9 +160,9 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             foreach (var trade in clientTrades)
             {
                 var byClientId = ClientTradeEntity.ByClientId.Create(trade);
-                var insertByClientIdTask = _tableStorage.InsertAsync(byClientId);                
-                var insertbyDtTask = _tableStorage.InsertAsync(ClientTradeEntity.ByDt.Create(trade));
-                var insertByOrderId = trade.IsLimitOrderResult ? _tableStorage.InsertAsync(ClientTradeEntity.ByOrder.Create(trade)) : Task.CompletedTask;
+                var insertByClientIdTask = _tableStorage.InsertOrMergeAsync(byClientId);                
+                var insertbyDtTask = _tableStorage.InsertOrMergeAsync(ClientTradeEntity.ByDt.Create(trade));
+                var insertByOrderId = trade.IsLimitOrderResult ? _tableStorage.InsertOrMergeAsync(ClientTradeEntity.ByOrder.Create(trade)) : Task.CompletedTask;
 
                 await insertByClientIdTask;                
                 await insertbyDtTask;
