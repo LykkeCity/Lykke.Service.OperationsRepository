@@ -145,13 +145,13 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         {
             var newItem = CashInOutOperationEntity.ByClientId.Create(operation);
             var byMultisig = CashInOutOperationEntity.ByMultisig.Create(operation);
-            await _tableStorage.InsertAsync(newItem);
-            await _tableStorage.InsertAsync(byMultisig);
+            await _tableStorage.TryInsertAsync(newItem);
+            await _tableStorage.TryInsertAsync(byMultisig);
 
             if (!string.IsNullOrEmpty(operation.BlockChainHash))
             {
                 var indexEntity = AzureIndex.Create(operation.BlockChainHash, newItem.Id, newItem);
-                await _blockChainHashIndices.InsertAsync(indexEntity);
+                await _blockChainHashIndices.InsertOrReplaceAsync(indexEntity);
             }
 
             return newItem.Id;
