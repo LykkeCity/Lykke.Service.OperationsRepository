@@ -228,35 +228,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
             return Ok();
         }
-
-        [HttpGet("GetByMultisig")]
-        [SwaggerOperation("ClientTradeOperations_GetByMultisig")]
-        [ProducesResponseType(typeof(IEnumerable<ClientTrade>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetByMultisigAsync([FromQuery] string multisig)
-        {
-            if (!CommonValidator.ValidateMultisig(multisig))
-            {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(multisig)));
-            }
-
-            return Ok(await _clientTradesRepo.GetByMultisigAsync(multisig));
-        }
-
-        [HttpGet("GetByMultisigs")]
-        [SwaggerOperation("ClientTradeOperations_GetByMultisigs")]
-        [ProducesResponseType(typeof(IEnumerable<ClientTrade>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetByMultisigsAsync([FromQuery] string[] multisigs)
-        {
-            if (!CommonValidator.ValidateMultisig(multisigs))
-            {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(multisigs)));
-            }
-
-            return Ok(await _clientTradesRepo.GetByMultisigsAsync(multisigs));
-        }
-
+        
         [HttpGet("ScanByDt")]
         [SwaggerOperation("ClientTradeOperations_ScanByDt")]
         [ProducesResponseType(typeof(IEnumerable<ClientTrade>), (int) HttpStatusCode.OK)]

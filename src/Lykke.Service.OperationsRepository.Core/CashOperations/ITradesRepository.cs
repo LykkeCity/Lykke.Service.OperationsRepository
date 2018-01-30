@@ -41,14 +41,9 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         Task<IClientTrade> UpdateBlockChainHashAsync(string clientId, string recordId, string hash);
         Task<IClientTrade> SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations);
         Task<IClientTrade> SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId);
-        Task<IClientTrade> SetIsSettledAsync(string clientId, string id, bool offchain);
-        Task<IEnumerable<IClientTrade>> GetByMultisigAsync(string multisig);
-        Task<IEnumerable<IClientTrade>> GetByMultisigsAsync(string[] multisigs);
+        Task<IClientTrade> SetIsSettledAsync(string clientId, string id, bool offchain);        
         Task<IEnumerable<IClientTrade>> GetByOrderAsync(string orderId);
-
-        Task<IEnumerable<IClientTrade>> ScanByDtAsync(DateTime from, DateTime to);
-        Task ScanByDtAsync(Func<IEnumerable<IClientTrade>, Task> chunk, DateTime from, DateTime to);
-        Task GetDataByChunksAsync(Func<IEnumerable<IClientTrade>, Task> chunk);
+        Task<IEnumerable<IClientTrade>> ScanByDtAsync(DateTime from, DateTime to);        
     }
 
     public static class Utils
