@@ -36,7 +36,11 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         [EnumMember(Value = "Cancelled")]
         Cancelled,
         [EnumMember(Value = "LeadToNegativeSpread")]
-        LeadToNegativeSpread
+        LeadToNegativeSpread,
+        [EnumMember(Value = "TooSmallVolume")]
+        TooSmallVolume,
+        [EnumMember(Value = "Runtime")]
+        Runtime
     }
     internal static class OrderStatusEnumExtension
     {
@@ -69,6 +73,10 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
                     return "Cancelled";
                 case OrderStatus.LeadToNegativeSpread:
                     return "LeadToNegativeSpread";
+                case OrderStatus.TooSmallVolume:
+                    return "TooSmallVolume";
+                case OrderStatus.Runtime:
+                    return "Runtime";
             }
             return null;
         }
@@ -97,6 +105,10 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
                     return OrderStatus.Cancelled;
                 case "LeadToNegativeSpread":
                     return OrderStatus.LeadToNegativeSpread;
+                case "TooSmallVolume":
+                    return OrderStatus.TooSmallVolume;
+                case "Runtime":
+                    return OrderStatus.Runtime;
             }
             return null;
         }
