@@ -23,5 +23,7 @@ namespace Lykke.Service.OperationsRepository.Contract.Cash
         public double Amount { get; set; }
         public DateTime DateTime { get; set; }
         public bool IsHidden { get; set; }
+        public decimal FeeSize { get; set; }
+        public FeeType FeeType { get; set; }
     }
 }

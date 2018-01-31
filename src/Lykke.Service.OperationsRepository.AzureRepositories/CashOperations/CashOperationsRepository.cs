@@ -57,6 +57,21 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             }
             set { TypeField = value.ToString(); }
         }
+        public decimal FeeSize { get; set; }
+        public FeeType FeeType { get; set; }
+        public string FeeTypeText
+        {
+            get
+            {
+                return FeeType.ToString();
+            }
+
+            set
+            {
+                if (Enum.TryParse(value, out FeeType tmpType)) FeeType = tmpType;
+                else FeeType = FeeType.Unknown;
+            }
+        }
 
         public static class ByClientId
         {
@@ -88,7 +103,9 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                     ClientId = src.ClientId,
                     IsSettled = src.IsSettled,
                     Type = src.Type,
-                    TransactionId = src.TransactionId
+                    TransactionId = src.TransactionId,
+                    FeeSize = src.FeeSize,
+                    FeeType = src.FeeType
                 };
             }
         }
@@ -124,7 +141,9 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                     IsSettled = src.IsSettled,
                     Type = src.Type,
                     State = src.State,
-                    TransactionId = src.TransactionId
+                    TransactionId = src.TransactionId,
+                    FeeSize = src.FeeSize,
+                    FeeType = src.FeeType
                 };
             }
         }

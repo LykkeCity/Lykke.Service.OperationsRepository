@@ -52,5 +52,16 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         }
 
         public string PreviousId { get; set; }
+        public decimal FeeSize { get; set; }
+        public FeeType FeeType { get; set; }
+        public string FeeTypeText
+        {
+            get { return FeeType.ToString(); }
+            set
+            {
+                if (Enum.TryParse(value, out FeeType tmpType)) FeeType = tmpType;
+                else FeeType = FeeType.Unknown;
+            }
+        }
     }
 }

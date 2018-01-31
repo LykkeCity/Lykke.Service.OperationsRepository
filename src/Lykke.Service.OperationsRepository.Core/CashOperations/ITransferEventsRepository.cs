@@ -22,6 +22,8 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         public string AddressTo { get; set; }
         public bool? IsSettled { get; set; }
         public TransactionStates State { get; set; }
+        public decimal FeeSize { get; set; }
+        public FeeType FeeType { get; set; }
 
         public static TransferEvent CreateNew(string clientId, string clientMultiSig, string fromId, string assetId, double amount,
             string transactionId, string addressFrom, string addressTo, bool isHidden = false, TransactionStates state = TransactionStates.InProcessOffchain)

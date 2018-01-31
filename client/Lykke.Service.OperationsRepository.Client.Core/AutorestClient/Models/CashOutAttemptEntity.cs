@@ -30,7 +30,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// 'SettledNoChain'</param>
         /// <param name="volumeSize">Possible values include: 'Unknown',
         /// 'High', 'Low'</param>
-        public CashOutAttemptEntity(CashOutRequestStatus status, TransactionStates state, double amount, System.DateTime dateTime, bool isHidden, int statusVal, int stateVal, CashOutVolumeSize volumeSize, System.DateTime timestamp, string id = default(string), string clientId = default(string), string assetId = default(string), string paymentSystem = default(string), string paymentFields = default(string), string blockchainHash = default(string), string tradeSystem = default(string), string accountId = default(string), string volumeText = default(string), string previousId = default(string), string partitionKey = default(string), string rowKey = default(string), string eTag = default(string))
+        /// <param name="feeType">Possible values include: 'Unknown',
+        /// 'Absolute', 'Relative'</param>
+        public CashOutAttemptEntity(CashOutRequestStatus status, TransactionStates state, double amount, System.DateTime dateTime, bool isHidden, int statusVal, int stateVal, CashOutVolumeSize volumeSize, double feeSize, FeeType feeType, System.DateTime timestamp, string id = default(string), string clientId = default(string), string assetId = default(string), string paymentSystem = default(string), string paymentFields = default(string), string blockchainHash = default(string), string tradeSystem = default(string), string accountId = default(string), string volumeText = default(string), string previousId = default(string), string feeTypeText = default(string), string partitionKey = default(string), string rowKey = default(string), string eTag = default(string))
         {
             Id = id;
             ClientId = clientId;
@@ -50,6 +52,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
             VolumeSize = volumeSize;
             VolumeText = volumeText;
             PreviousId = previousId;
+            FeeSize = feeSize;
+            FeeType = feeType;
+            FeeTypeText = feeTypeText;
             PartitionKey = partitionKey;
             RowKey = rowKey;
             Timestamp = timestamp;
@@ -158,6 +163,23 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// </summary>
         [JsonProperty(PropertyName = "PreviousId")]
         public string PreviousId { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "FeeSize")]
+        public double FeeSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets possible values include: 'Unknown', 'Absolute',
+        /// 'Relative'
+        /// </summary>
+        [JsonProperty(PropertyName = "FeeType")]
+        public FeeType FeeType { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "FeeTypeText")]
+        public string FeeTypeText { get; set; }
 
         /// <summary>
         /// </summary>

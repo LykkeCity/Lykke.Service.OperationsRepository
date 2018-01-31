@@ -94,26 +94,6 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
             await _apiClient.ClientTradeOperations.SetIsSettledWithHttpMessagesAsync(offchain, clientId, id);
         }
 
-        public async Task<IEnumerable<ClientTrade>> GetByMultisigAsync(string multisig)
-        {
-            var response = await _apiClient.ClientTradeOperations.GetByMultisigWithHttpMessagesAsync(multisig);
-
-            return ClientTradesResponse
-                .Prepare(response)
-                .Validate()
-                .GetPayload();
-        }
-
-        public async Task<IEnumerable<ClientTrade>> GetByMultisigsAsync(string[] multisigs)
-        {
-            var response = await _apiClient.ClientTradeOperations.GetByMultisigsWithHttpMessagesAsync(multisigs);
-
-            return ClientTradesResponse
-                .Prepare(response)
-                .Validate()
-                .GetPayload();
-        }
-
         public async Task<IEnumerable<ClientTrade>> ScanByDtAsync(DateTime @from, DateTime to)
         {
             var measureResult = await this.MeasureTime(() => _apiClient.ClientTradeOperations

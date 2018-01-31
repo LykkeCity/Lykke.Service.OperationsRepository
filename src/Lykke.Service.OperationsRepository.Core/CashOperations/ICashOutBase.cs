@@ -23,6 +23,8 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         public string AccountId { get; set; }
         public CashOutVolumeSize VolumeSize { get; set; }
         public string PreviousId { get; set; }
+        public decimal FeeSize { get; set; }
+        public FeeType FeeType { get; set; }
     }
 
     public interface ICashOutBaseRepository

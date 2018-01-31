@@ -48,6 +48,21 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         }
         public double Volume { get; set; }
         public string ClientId { get; set; }
+        public decimal FeeSize { get; set; }
+        public FeeType FeeType { get; set; }
+        public string FeeTypeText
+        {
+            get
+            {
+                return FeeType.ToString();
+            }
+
+            set
+            {
+                if (Enum.TryParse(value, out FeeType tmpType)) FeeType = tmpType;
+                else FeeType = FeeType.Unknown;
+            }
+        }
 
         public static class ByClientId
         {
@@ -140,7 +155,9 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 State = src.State,
                 TransactionId = src.TransactionId,
                 IsLimitOrderResult = src.IsLimitOrderResult,
-                OppositeLimitOrderId = src.OppositeLimitOrderId
+                OppositeLimitOrderId = src.OppositeLimitOrderId,
+                FeeSize = src.FeeSize,
+                FeeType = src.FeeType
             };
         }
     }

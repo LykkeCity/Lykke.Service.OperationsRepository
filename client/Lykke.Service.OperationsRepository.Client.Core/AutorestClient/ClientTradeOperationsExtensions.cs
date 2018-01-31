@@ -272,58 +272,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='multisig'>
-            /// </param>
-            public static object GetByMultisig(this IClientTradeOperations operations, string multisig = default(string))
-            {
-                return operations.GetByMultisigAsync(multisig).GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='multisig'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<object> GetByMultisigAsync(this IClientTradeOperations operations, string multisig = default(string), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.GetByMultisigWithHttpMessagesAsync(multisig, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='multisigs'>
-            /// </param>
-            public static object GetByMultisigs(this IClientTradeOperations operations, IList<string> multisigs = default(IList<string>))
-            {
-                return operations.GetByMultisigsAsync(multisigs).GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='multisigs'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<object> GetByMultisigsAsync(this IClientTradeOperations operations, IList<string> multisigs = default(IList<string>), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.GetByMultisigsWithHttpMessagesAsync(multisigs, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
             /// <param name='fromParameter'>
             /// </param>
             /// <param name='to'>
