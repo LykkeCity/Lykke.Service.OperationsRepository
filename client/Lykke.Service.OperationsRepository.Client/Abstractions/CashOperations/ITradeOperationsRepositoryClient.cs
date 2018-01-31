@@ -15,8 +15,6 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
         Task SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations);
         Task SetBtcTransactionAsync(string clientId, string recordId, string btcTransactionId);
         Task SetIsSettledAsync(string clientId, string id, bool offchain);
-        Task<IEnumerable<ClientTrade>> GetByMultisigAsync(string multisig);
-        Task<IEnumerable<ClientTrade>> GetByMultisigsAsync(string[] multisigs);
         Task<IEnumerable<ClientTrade>> ScanByDtAsync(DateTime from, DateTime to);
         Task<IEnumerable<ClientTrade>> GetByOrderAsync(string orderId);
     }
