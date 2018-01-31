@@ -10,6 +10,11 @@ namespace Lykke.Service.OperationsRepository.Validation
             return !string.IsNullOrWhiteSpace(clientId);
         }
 
+        public static bool ValidateLimitOrderId(string orderId)
+        {
+            return !string.IsNullOrWhiteSpace(orderId);
+        }
+
         public static bool ValidateRecordId(string recordId)
         {
             return !string.IsNullOrWhiteSpace(recordId);

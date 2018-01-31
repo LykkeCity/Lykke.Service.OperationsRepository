@@ -5,6 +5,7 @@ using Common.Log;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Models.LimitOrder;
+using Lykke.Service.OperationsRepository.Validation;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -29,6 +30,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
         public async Task<IActionResult> AddOrderAsync([FromBody] LimitOrderCreateRequest order)
         {
             await _limitOrdersRepository.InOrderBookAsync(order);
+            
             return Ok(order);
         }
 
@@ -38,20 +40,39 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CancelOrderByIdAsync(string orderId)
         {
+            if (!CommonValidator.ValidateLimitOrderId(orderId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
+            }
+            
             var order = await _limitOrdersRepository.GetOrderAsync(orderId);
+
+            if (order == null)
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
+            }
+            
             await _limitOrdersRepository.CancelAsync(order);
+            
             order = await _limitOrdersRepository.GetOrderAsync(orderId);
+            
             return Ok(order);
         }
         
         [HttpGet("{orderId}")]
         [SwaggerOperation("LimitOrders_GetOrderById")]
         [ProducesResponseType(typeof(ILimitOrder), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetOrderByIdAsync(string orderId)
         {
-            return Ok(await _limitOrdersRepository.GetOrderAsync(orderId));
+            if (!CommonValidator.ValidateLimitOrderId(orderId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
+            }
+
+            var result = await _limitOrdersRepository.GetOrderAsync(orderId);
+            
+            return Ok(result);
         }
 
         [HttpGet("client/{clientId}")]
@@ -60,7 +81,14 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetOrdersByClientIdAsync(string clientId)
         {
-            return Ok(await _limitOrdersRepository.GetOrdersAsync(clientId));
+            if (!CommonValidator.ValidateClientId(clientId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(clientId)));
+            }
+
+            var result = await _limitOrdersRepository.GetOrdersAsync(clientId);
+            
+            return Ok(result);
         }
         
         [HttpGet("client/active/{clientId}")]
@@ -69,7 +97,14 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetActiveOrdersByClientIdAsync(string clientId)
         {
-            return Ok(await _limitOrdersRepository.GetActiveOrdersAsync(clientId));
+            if (!CommonValidator.ValidateClientId(clientId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(clientId)));
+            }
+
+            var result = await _limitOrdersRepository.GetActiveOrdersAsync(clientId);
+            
+            return Ok(result);
         }
     }
 }
