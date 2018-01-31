@@ -52,7 +52,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         }
 
         public string PreviousId { get; set; }
-        public double FeeSize { get; set; }
+        public decimal FeeSize { get; set; }
         public FeeType FeeType { get; set; }
         public string FeeTypeText
         {

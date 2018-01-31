@@ -57,7 +57,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             }
             set { TypeField = value.ToString(); }
         }
-        public double FeeSize { get; set; }
+        public decimal FeeSize { get; set; }
         public FeeType FeeType { get; set; }
         public string FeeTypeText
         {

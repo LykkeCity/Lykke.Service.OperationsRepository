@@ -22,7 +22,7 @@ namespace Lykke.Service.OperationsRepository.Contract.Abstractions
 
         bool IsHidden { get; }
 
-        double FeeSize { get; }
+        decimal FeeSize { get; }
 
         FeeType FeeType { get; }
     }
