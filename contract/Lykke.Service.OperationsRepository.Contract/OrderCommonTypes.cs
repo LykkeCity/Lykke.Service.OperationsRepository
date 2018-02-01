@@ -8,25 +8,54 @@
 
     public enum OrderStatus
     {
-        //Init status, limit order in order book
+        /// <summary>
+        /// Initial status, limit order in order book
+        /// </summary>
         InOrderBook,
-        //Partially matched
+        /// <summary>
+        /// Partially matched
+        /// </summary>
         Processing,
-        //Fully matched
+        /// <summary>
+        /// Fully matched
+        /// </summary>
         Matched,
-        //Not enough funds on account
+        /// <summary>
+        /// Not enough funds on account
+        /// </summary>
         NotEnoughFunds,
-        //Reserved volume greater than balance
+        /// <summary>
+        /// Reserved volume greater than balance
+        /// </summary>
         ReservedVolumeGreaterThanBalance,
-        //No liquidity
+        /// <summary>
+        /// No liquidity
+        /// </summary>
         NoLiquidity,
-        //Unknown asset
+        /// <summary>
+        /// Unknown asset
+        /// </summary>
         UnknownAsset,
-        //One of trades or whole order has volume/price*volume less then configured dust
+        /// <summary>
+        /// One of trades or whole order has volume/price*volume less then configured dust
+        /// </summary>
+        /// <remarks>Not used anymore. See 'TooSmallVolume'</remarks>
         Dust,
-        //Cancelled
+        /// <summary>
+        /// Cancelled
+        /// </summary>
         Cancelled,
-        // negative spread 
-        LeadToNegativeSpread
+        /// <summary>
+        /// Lead to negative spread
+        /// </summary>
+        LeadToNegativeSpread,
+        /// <summary>
+        /// Too small volume
+        /// </summary>
+        TooSmallVolume,
+        /// <summary>
+        /// Unexpected status code
+        /// </summary>
+        Runtime
     }
 }

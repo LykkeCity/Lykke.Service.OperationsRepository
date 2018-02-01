@@ -28,7 +28,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <param name="status">Possible values include: 'InOrderBook',
         /// 'Processing', 'Matched', 'NotEnoughFunds',
         /// 'ReservedVolumeGreaterThanBalance', 'NoLiquidity', 'UnknownAsset',
-        /// 'Dust', 'Cancelled', 'LeadToNegativeSpread'</param>
+        /// 'Dust', 'Cancelled', 'LeadToNegativeSpread', 'TooSmallVolume',
+        /// 'Runtime'</param>
         public LimitTradeEventInsertRequest(OrderType type, double volume, double price, OrderStatus status, System.DateTime dateTime, string orderId = default(string), string clientId = default(string), string assetId = default(string), string assetPair = default(string))
         {
             OrderId = orderId;
@@ -88,7 +89,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// Gets or sets possible values include: 'InOrderBook', 'Processing',
         /// 'Matched', 'NotEnoughFunds', 'ReservedVolumeGreaterThanBalance',
         /// 'NoLiquidity', 'UnknownAsset', 'Dust', 'Cancelled',
-        /// 'LeadToNegativeSpread'
+        /// 'LeadToNegativeSpread', 'TooSmallVolume', 'Runtime'
         /// </summary>
         [JsonProperty(PropertyName = "Status")]
         public OrderStatus Status { get; set; }
