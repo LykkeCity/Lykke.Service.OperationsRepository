@@ -28,7 +28,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         public int Confirmations { get; set; }
         public string OppositeLimitOrderId { get; set; }
         public bool IsLimitOrderResult { get; set; }
-        public decimal FeeSize { get; set; }
+        public double FeeSize { get; set; }
         public FeeType FeeType { get; set; }
     }
 
