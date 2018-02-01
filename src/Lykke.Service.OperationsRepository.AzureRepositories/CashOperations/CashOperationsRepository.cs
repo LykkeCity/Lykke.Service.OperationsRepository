@@ -105,7 +105,8 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                     Type = src.Type,
                     TransactionId = src.TransactionId,
                     FeeSize = src.FeeSize,
-                    FeeType = src.FeeType
+                    FeeType = src.FeeType,
+                    State = src.State
                 };
             }
         }
