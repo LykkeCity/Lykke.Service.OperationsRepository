@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Common.Log;
@@ -29,6 +30,15 @@ namespace Lykke.Service.OperationsRepository.Controllers
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AddOrderAsync([FromBody] LimitOrderCreateRequest order)
         {
+            if (!ModelState.IsValid)
+            {
+                var errorList = ModelState.Values.SelectMany(m => m.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? e.Exception?.Message : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(errorList);
+            }
+            
             await _limitOrdersRepository.InOrderBookAsync(order);
             
             return Ok(order);
