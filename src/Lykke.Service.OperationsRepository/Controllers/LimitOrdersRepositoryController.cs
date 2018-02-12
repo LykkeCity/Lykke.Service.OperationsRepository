@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Common.Log;
+using Lykke.Service.OperationsRepository.Contract;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Models.LimitOrder;
@@ -61,6 +63,9 @@ namespace Lykke.Service.OperationsRepository.Controllers
             {
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
             }
+
+            if ((OrderStatus) Enum.Parse(typeof(OrderStatus), order.Status) == OrderStatus.Cancelled)
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
             
             await _limitOrdersRepository.CancelAsync(order);
             
