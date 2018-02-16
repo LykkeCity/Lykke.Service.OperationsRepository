@@ -73,6 +73,34 @@ namespace Lykke.Service.OperationsRepository.Controllers
             
             return Ok(order);
         }
+
+        [HttpPost("{clientId}/{orderId}/remove")]
+        [SwaggerOperation("LimitOrders_RemoveOrder")]
+        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> RemoveOrderByIdAsync(string clientId, string orderId)
+        {
+            if (!CommonValidator.ValidateLimitOrderId(orderId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
+            }
+            
+            if (!CommonValidator.ValidateClientId(clientId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(clientId)));
+            }
+            
+            var order = await _limitOrdersRepository.GetOrderAsync(orderId);
+
+            if (order == null)
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
+            }
+            
+            await _limitOrdersRepository.RemoveAsync(orderId, clientId);
+            
+            return Ok();
+        }
         
         [HttpGet("{orderId}")]
         [SwaggerOperation("LimitOrders_GetOrderById")]

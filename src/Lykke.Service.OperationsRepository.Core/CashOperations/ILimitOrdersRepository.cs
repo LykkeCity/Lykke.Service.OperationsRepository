@@ -76,6 +76,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         Task<ILimitOrder> GetOrderAsync(string orderId);
 
         Task InOrderBookAsync(ILimitOrder limitOrder);
+        Task RemoveAsync(string orderId, string clientId);
         Task CancelAsync(ILimitOrder order);
 
         Task<IEnumerable<ILimitOrder>> GetActiveOrdersAsync(string clientId);
