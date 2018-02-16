@@ -11,6 +11,6 @@ namespace Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations
         Task<IEnumerable<ILimitOrder>> GetByClientIdAsync(string clientId);
         Task<IEnumerable<ILimitOrder>> GetActiveByClientIdAsync(string clientId);
         Task<ILimitOrder> AddAsync(LimitOrderCreateRequest order);
-        Task RemoveAsync(string orderId, string clientId);
+        Task RemoveAsync(string clientId, string orderId);
     }
 }
