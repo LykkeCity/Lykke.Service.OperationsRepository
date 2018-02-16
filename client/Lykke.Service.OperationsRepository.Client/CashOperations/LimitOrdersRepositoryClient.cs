@@ -44,6 +44,11 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
                 .GetPayload();
         }
 
+        public async Task RemoveAsync(string orderId, string clientId)
+        {
+            await _apiClient.LimitOrders.RemoveOrderWithHttpMessagesAsync(orderId, clientId);
+        }
+
         public async Task<IEnumerable<ILimitOrder>> GetByClientIdAsync(string clientId)
         {
             var response = await _apiClient.LimitOrders.GetOrdersByClientIdWithHttpMessagesAsync(clientId);
