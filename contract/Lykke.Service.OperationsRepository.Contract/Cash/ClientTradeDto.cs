@@ -21,6 +21,7 @@ namespace Lykke.Service.OperationsRepository.Contract.Cash
         public TransactionStates State { get; set; }
         public string Id { get; set; }
         public string AssetId { get; set; }
+        public string AssetPairId { get; set; }
         public string ClientId { get; set; }
         public double Amount { get; set; }
         public DateTime DateTime { get; set; }

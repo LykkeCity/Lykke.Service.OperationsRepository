@@ -27,7 +27,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// 'SettledNoChain'</param>
         /// <param name="feeType">Possible values include: 'Unknown',
         /// 'Absolute', 'Relative'</param>
-        public ClientTrade(System.DateTime dateTime, bool isHidden, double amount, TransactionStates state, double price, int confirmations, bool isLimitOrderResult, double feeSize, FeeType feeType, string id = default(string), string clientId = default(string), string limitOrderId = default(string), string marketOrderId = default(string), string assetId = default(string), string blockChainHash = default(string), string multisig = default(string), string transactionId = default(string), string addressFrom = default(string), string addressTo = default(string), bool? isSettled = default(bool?), System.DateTime? detectionTime = default(System.DateTime?), string oppositeLimitOrderId = default(string))
+        public ClientTrade(System.DateTime dateTime, bool isHidden, double amount, TransactionStates state, double price, int confirmations, bool isLimitOrderResult, double feeSize, FeeType feeType, string id = default(string), string clientId = default(string), string limitOrderId = default(string), string marketOrderId = default(string), string assetId = default(string), string assetPairId = default(string), string blockChainHash = default(string), string multisig = default(string), string transactionId = default(string), string addressFrom = default(string), string addressTo = default(string), bool? isSettled = default(bool?), System.DateTime? detectionTime = default(System.DateTime?), string oppositeLimitOrderId = default(string))
         {
             Id = id;
             ClientId = clientId;
@@ -37,6 +37,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
             MarketOrderId = marketOrderId;
             Amount = amount;
             AssetId = assetId;
+            AssetPairId = assetPairId;
             BlockChainHash = blockChainHash;
             Multisig = multisig;
             TransactionId = transactionId;
@@ -98,6 +99,11 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// </summary>
         [JsonProperty(PropertyName = "AssetId")]
         public string AssetId { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "AssetPairId")]
+        public string AssetPairId { get; set; }
 
         /// <summary>
         /// </summary>

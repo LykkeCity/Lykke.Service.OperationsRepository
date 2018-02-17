@@ -16,6 +16,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         public string MarketOrderId { get; set; }
         public double Amount { get; set; }
         public string AssetId { get; set; }
+        public string AssetPairId { get; set; }
         public string BlockChainHash { get; set; }
         public string Multisig { get; set; }
         public string TransactionId { get; set; }

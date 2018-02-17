@@ -26,6 +26,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         public bool IsLimitOrderResult { get; set; }
         public double Amount => Volume;
         public string AssetId { get; set; }
+        public string AssetPairId { get; set; }
         public string BlockChainHash { get; set; }
         public string Multisig { get; set; }
         public string TransactionId { get; set; }
@@ -139,6 +140,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             {
                 ClientId = src.ClientId,
                 AssetId = src.AssetId,
+                AssetPairId = src.AssetPairId,
                 DateTime = src.DateTime,
                 LimitOrderId = src.LimitOrderId,
                 MarketOrderId = src.MarketOrderId,

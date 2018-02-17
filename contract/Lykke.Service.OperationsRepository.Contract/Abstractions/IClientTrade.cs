@@ -4,6 +4,7 @@ namespace Lykke.Service.OperationsRepository.Contract.Abstractions
 {
     public interface IClientTrade : IBaseCashBlockchainOperation
     {
+        string AssetPairId { get; set; }
         string LimitOrderId { get; }
         string MarketOrderId { get; }
         double Price { get; }
