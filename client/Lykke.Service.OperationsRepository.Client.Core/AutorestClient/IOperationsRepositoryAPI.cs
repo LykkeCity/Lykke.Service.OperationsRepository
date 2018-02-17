@@ -50,6 +50,11 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         IClientTradeOperations ClientTradeOperations { get; }
 
         /// <summary>
+        /// Gets the ILimitOrders.
+        /// </summary>
+        ILimitOrders LimitOrders { get; }
+
+        /// <summary>
         /// Gets the ILimitTradeEventOperations.
         /// </summary>
         ILimitTradeEventOperations LimitTradeEventOperations { get; }

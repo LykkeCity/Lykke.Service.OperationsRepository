@@ -87,6 +87,10 @@ namespace Lykke.Service.OperationsRepository.Modules
             builder.RegisterInstance<ILimitTradeEventsRepository>(
                 new LimitTradeEventsRepository(
                     AzureTableStorage<LimitTradeEventEntity>.Create(_settings.ConnectionString(x => x.Db.LimitTradesConnString), "LimitTradeEvents", _log)));
+
+            builder.RegisterInstance<ILimitOrdersRepository>(new LimitOrdersRepository(
+                AzureTableStorage<LimitOrderEntity>.Create(
+                    _settings.ConnectionString(x => x.Db.LimitOrdersConnString), "LimitOrders", _log)));
         }
     }
 }
