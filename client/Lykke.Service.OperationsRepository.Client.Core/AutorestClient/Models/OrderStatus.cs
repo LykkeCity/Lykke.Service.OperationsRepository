@@ -40,7 +40,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         [EnumMember(Value = "TooSmallVolume")]
         TooSmallVolume,
         [EnumMember(Value = "Runtime")]
-        Runtime
+        Runtime,
+        [EnumMember(Value = "InvalidFee")]
+        InvalidFee
     }
     internal static class OrderStatusEnumExtension
     {
@@ -77,6 +79,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
                     return "TooSmallVolume";
                 case OrderStatus.Runtime:
                     return "Runtime";
+                case OrderStatus.InvalidFee:
+                    return "InvalidFee";
             }
             return null;
         }
@@ -109,6 +113,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
                     return OrderStatus.TooSmallVolume;
                 case "Runtime":
                     return OrderStatus.Runtime;
+                case "InvalidFee":
+                    return OrderStatus.InvalidFee;
             }
             return null;
         }

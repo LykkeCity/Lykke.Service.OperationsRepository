@@ -26,7 +26,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// 'Processing', 'Matched', 'NotEnoughFunds',
         /// 'ReservedVolumeGreaterThanBalance', 'NoLiquidity', 'UnknownAsset',
         /// 'Dust', 'Cancelled', 'LeadToNegativeSpread', 'TooSmallVolume',
-        /// 'Runtime'</param>
+        /// 'Runtime', 'InvalidFee'</param>
         public LimitOrderFinalizeRequest(OrderStatus orderStatus, string orderId = default(string))
         {
             OrderId = orderId;
@@ -48,7 +48,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// Gets or sets possible values include: 'InOrderBook', 'Processing',
         /// 'Matched', 'NotEnoughFunds', 'ReservedVolumeGreaterThanBalance',
         /// 'NoLiquidity', 'UnknownAsset', 'Dust', 'Cancelled',
-        /// 'LeadToNegativeSpread', 'TooSmallVolume', 'Runtime'
+        /// 'LeadToNegativeSpread', 'TooSmallVolume', 'Runtime', 'InvalidFee'
         /// </summary>
         [JsonProperty(PropertyName = "OrderStatus")]
         public OrderStatus OrderStatus { get; set; }
