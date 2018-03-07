@@ -145,7 +145,20 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 _tableStorage.DeleteAsync(LimitOrderEntity.ByClientIdActive.GeneratePartitionKey(clientId), orderId)
             );
         }
-        
+
+        public async Task FinalizeAsync(ILimitOrder order, OrderStatus status)
+        {
+            order.Status = status.ToString();
+
+            var byOrderEntity = LimitOrderEntity.ByOrderId.Create(order);
+            var byClientEntity = LimitOrderEntity.ByClientId.Create(order);
+
+            await _tableStorage.InsertOrMergeAsync(byOrderEntity);
+            await _tableStorage.InsertOrMergeAsync(byClientEntity);
+
+            await _tableStorage.DeleteAsync(LimitOrderEntity.ByClientIdActive.GeneratePartitionKey(order.ClientId), order.Id);
+        }
+
         public async Task CancelAsync(ILimitOrder order)
         {
             order.Status = OrderStatus.Cancelled.ToString();

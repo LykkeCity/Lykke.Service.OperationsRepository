@@ -70,6 +70,32 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='model'>
+            /// </param>
+            public static object FinalizeOrder(this ILimitOrders operations, LimitOrderFinalizeRequest model = default(LimitOrderFinalizeRequest))
+            {
+                return operations.FinalizeOrderAsync(model).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> FinalizeOrderAsync(this ILimitOrders operations, LimitOrderFinalizeRequest model = default(LimitOrderFinalizeRequest), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.FinalizeOrderWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
             /// <param name='clientId'>
             /// </param>
             /// <param name='orderId'>
