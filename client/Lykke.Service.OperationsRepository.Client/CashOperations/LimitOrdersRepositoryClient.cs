@@ -79,6 +79,16 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
                 .GetPayload();
         }
 
+        public async Task<ILimitOrder> FinalizeAsync(LimitOrderFinalizeRequest request)
+        {
+            var response = await _apiClient.LimitOrders.FinalizeOrderWithHttpMessagesAsync(request);
+            
+            return LimitOrderResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
+        }
+
         public async Task<ILimitOrder> CancelByIdAsync(string orderId)
         {
             var response = await _apiClient.LimitOrders.CancelOrderWithHttpMessagesAsync(orderId);
