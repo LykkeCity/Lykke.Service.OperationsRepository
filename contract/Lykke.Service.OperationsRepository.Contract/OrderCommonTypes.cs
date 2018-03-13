@@ -56,6 +56,10 @@
         /// <summary>
         /// Unexpected status code
         /// </summary>
-        Runtime
+        Runtime,
+        /// <summary>
+        /// Invalid fee
+        /// </summary>
+        InvalidFee
     }
 }
