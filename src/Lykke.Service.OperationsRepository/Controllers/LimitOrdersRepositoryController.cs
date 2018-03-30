@@ -89,7 +89,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
             if (order == null)
             {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(model.OrderId)));
+                return Ok(new LimitOrder());
             }
             
             if(model.OrderStatus == OrderStatus.InOrderBook)
