@@ -96,7 +96,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(model.OrderStatus)));
 
             if ((OrderStatus) Enum.Parse(typeof(OrderStatus), order.Status) != OrderStatus.InOrderBook)
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(model.OrderId)));
+                return Ok(order);
             
             await _limitOrdersRepository.FinalizeAsync(order, model.OrderStatus);
             
