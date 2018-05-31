@@ -21,10 +21,10 @@
     <None Remove="AutorestClient\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
-    <PackageReference Include="Lykke.Common" Version="4.3.0" />
-    <PackageReference Include="Lykke.Service.OperationsRepository.Client.Core" Version="1.0.30" />
-    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.2" />
+    <PackageReference Include="Lykke.Common" Version="6.8.4" />
+    <PackageReference Include="Lykke.Service.OperationsRepository.Client.Core" Version="1.0.31" />
+    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.11" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">

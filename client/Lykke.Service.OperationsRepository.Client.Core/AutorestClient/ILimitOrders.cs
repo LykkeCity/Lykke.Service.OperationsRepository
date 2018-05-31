@@ -33,6 +33,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// Thrown when unable to deserialize the response
         /// </exception>
         Task<HttpOperationResponse<object>> AddOrderWithHttpMessagesAsync(LimitOrderCreateRequest order = default(LimitOrderCreateRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <param name='clientId'>
+        /// </param>
         /// <param name='orderId'>
         /// </param>
         /// <param name='customHeaders'>
@@ -50,7 +52,11 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<HttpOperationResponse<object>> CancelOrderWithHttpMessagesAsync(string orderId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> CancelOrderWithHttpMessagesAsync(string clientId, string orderId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <param name='clientId'>
+        /// </param>
+        /// <param name='orderId'>
+        /// </param>
         /// <param name='model'>
         /// </param>
         /// <param name='customHeaders'>
@@ -65,7 +71,10 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<object>> FinalizeOrderWithHttpMessagesAsync(LimitOrderFinalizeRequest model = default(LimitOrderFinalizeRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <exception cref="Microsoft.Rest.ValidationException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        Task<HttpOperationResponse<object>> FinalizeOrderWithHttpMessagesAsync(string clientId, string orderId, LimitOrderFinalizeRequest model = default(LimitOrderFinalizeRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='clientId'>
         /// </param>
         /// <param name='orderId'>
@@ -86,6 +95,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// Thrown when a required parameter is null
         /// </exception>
         Task<HttpOperationResponse<ErrorResponse>> RemoveOrderWithHttpMessagesAsync(string clientId, string orderId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <param name='clientId'>
+        /// </param>
         /// <param name='orderId'>
         /// </param>
         /// <param name='customHeaders'>
@@ -103,7 +114,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<HttpOperationResponse<object>> GetOrderByIdWithHttpMessagesAsync(string orderId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> GetOrderByIdWithHttpMessagesAsync(string clientId, string orderId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='clientId'>
         /// </param>
         /// <param name='customHeaders'>

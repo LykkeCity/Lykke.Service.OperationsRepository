@@ -27,9 +27,8 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// 'ReservedVolumeGreaterThanBalance', 'NoLiquidity', 'UnknownAsset',
         /// 'Dust', 'Cancelled', 'LeadToNegativeSpread', 'TooSmallVolume',
         /// 'Runtime', 'InvalidFee'</param>
-        public LimitOrderFinalizeRequest(OrderStatus orderStatus, string orderId = default(string))
+        public LimitOrderFinalizeRequest(OrderStatus orderStatus)
         {
-            OrderId = orderId;
             OrderStatus = orderStatus;
             CustomInit();
         }
@@ -38,11 +37,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// An initialization method that performs custom operations like setting defaults
         /// </summary>
         partial void CustomInit();
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "OrderId")]
-        public string OrderId { get; set; }
 
         /// <summary>
         /// Gets or sets possible values include: 'InOrderBook', 'Processing',

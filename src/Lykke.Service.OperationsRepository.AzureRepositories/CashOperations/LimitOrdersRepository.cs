@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AzureStorage;
 using Lykke.Service.OperationsRepository.Contract;
@@ -10,28 +9,6 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 {
     public class LimitOrderEntity : BaseEntity, ILimitOrder
     {
-
-        public static class ByOrderId
-        {
-            public static string GeneratePartitionKey()
-            {
-                return "OrderId";
-            }
-
-            public static string GenerateRowKey(string orderId)
-            {
-                return orderId;
-            }
-
-            public static LimitOrderEntity Create(ILimitOrder limitOrder)
-            {
-                var entity = CreateNew(limitOrder);
-                entity.RowKey = GenerateRowKey(limitOrder.Id);
-                entity.PartitionKey = GeneratePartitionKey();
-                return entity;
-            }
-        }
-
         public static class ByClientId
         {
             public static string GeneratePartitionKey(string clientId)
@@ -106,7 +83,7 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         public double RemainingVolume { get; set; }
         public string MatchingId { get; set; }
     }
-    
+
     public class LimitOrdersRepository : ILimitOrdersRepository
     {
         private readonly INoSQLTableStorage<LimitOrderEntity> _tableStorage;
@@ -116,31 +93,25 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             _tableStorage = tableStorage;
         }
 
-        public async Task<ILimitOrder> GetOrderAsync(string orderId)
+        public async Task<ILimitOrder> GetOrderAsync(string id, string clientId)
         {
-            return await _tableStorage.GetDataAsync(LimitOrderEntity.ByOrderId.GeneratePartitionKey(), orderId);
+            return await _tableStorage.GetDataAsync(LimitOrderEntity.ByClientId.GeneratePartitionKey(clientId), id);
         }
 
         public async Task InOrderBookAsync(ILimitOrder limitOrder)
         {
             limitOrder.Status = OrderStatus.InOrderBook.ToString();
 
-            var byOrderEntity = LimitOrderEntity.ByOrderId.Create(limitOrder);
             var byClientEntity = LimitOrderEntity.ByClientId.Create(limitOrder);
             var byClientEntityActive = LimitOrderEntity.ByClientIdActive.Create(limitOrder);
-
-            // already created by TransactionHandler
-            if (!await _tableStorage.CreateIfNotExistsAsync(byOrderEntity))
-                return;
 
             await _tableStorage.InsertOrMergeAsync(byClientEntity);
             await _tableStorage.InsertOrMergeAsync(byClientEntityActive);
         }
-        
+
         public Task RemoveAsync(string orderId, string clientId)
         {
             return Task.WhenAll(
-                _tableStorage.DeleteAsync(LimitOrderEntity.ByOrderId.GeneratePartitionKey(), orderId),
                 _tableStorage.DeleteAsync(LimitOrderEntity.ByClientId.GeneratePartitionKey(clientId), orderId),
                 _tableStorage.DeleteAsync(LimitOrderEntity.ByClientIdActive.GeneratePartitionKey(clientId), orderId)
             );
@@ -150,10 +121,8 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         {
             order.Status = status.ToString();
 
-            var byOrderEntity = LimitOrderEntity.ByOrderId.Create(order);
             var byClientEntity = LimitOrderEntity.ByClientId.Create(order);
 
-            await _tableStorage.InsertOrMergeAsync(byOrderEntity);
             await _tableStorage.InsertOrMergeAsync(byClientEntity);
 
             await _tableStorage.DeleteAsync(LimitOrderEntity.ByClientIdActive.GeneratePartitionKey(order.ClientId), order.Id);
@@ -163,10 +132,8 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         {
             order.Status = OrderStatus.Cancelled.ToString();
 
-            var byOrderEntity = LimitOrderEntity.ByOrderId.Create(order);
             var byClientEntity = LimitOrderEntity.ByClientId.Create(order);
 
-            await _tableStorage.InsertOrMergeAsync(byOrderEntity);
             await _tableStorage.InsertOrMergeAsync(byClientEntity);
 
             await _tableStorage.DeleteAsync(LimitOrderEntity.ByClientIdActive.GeneratePartitionKey(order.ClientId), order.Id);
@@ -177,14 +144,6 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var partitionKey = LimitOrderEntity.ByClientIdActive.GeneratePartitionKey(clientId);
 
             return await _tableStorage.GetDataAsync(partitionKey);
-        }
-
-        public async Task<IEnumerable<ILimitOrder>> GetOrdersAsync(IEnumerable<string> orderIds)
-        {
-            var partitionKey = LimitOrderEntity.ByOrderId.GeneratePartitionKey();
-            orderIds = orderIds.Select(LimitOrderEntity.ByOrderId.GenerateRowKey);
-
-            return await _tableStorage.GetDataAsync(partitionKey, orderIds);
         }
 
         public async Task<IEnumerable<ILimitOrder>> GetOrdersAsync(string clientId)

@@ -6,7 +6,6 @@ using Lykke.Service.OperationsRepository.AutorestClient;
 using Lykke.Service.OperationsRepository.AutorestClient.Models;
 using Lykke.Service.OperationsRepository.Client.Abstractions.CashOperations;
 using Lykke.Service.OperationsRepository.Client.Models.CashOperations;
-using Microsoft.Rest;
 
 namespace Lykke.Service.OperationsRepository.Client.CashOperations
 {
@@ -34,9 +33,9 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
         }
 
 
-        public async Task<ILimitOrder> GetByIdAsync(string orderId)
+        public async Task<ILimitOrder> GetByIdAsync(string clientId, string orderId)
         {
-            var response = await _apiClient.LimitOrders.GetOrderByIdWithHttpMessagesAsync(orderId);
+            var response = await _apiClient.LimitOrders.GetOrderByIdWithHttpMessagesAsync(clientId, orderId);
 
             return LimitOrderResponse
                 .Prepare(response)
@@ -79,9 +78,9 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
                 .GetPayload();
         }
 
-        public async Task<ILimitOrder> FinalizeAsync(LimitOrderFinalizeRequest request)
+        public async Task<ILimitOrder> FinalizeAsync(string clientId, string orderId, LimitOrderFinalizeRequest request)
         {
-            var response = await _apiClient.LimitOrders.FinalizeOrderWithHttpMessagesAsync(request);
+            var response = await _apiClient.LimitOrders.FinalizeOrderWithHttpMessagesAsync(clientId, orderId, request);
             
             return LimitOrderResponse
                 .Prepare(response)
@@ -89,9 +88,9 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
                 .GetPayload();
         }
 
-        public async Task<ILimitOrder> CancelByIdAsync(string orderId)
+        public async Task<ILimitOrder> CancelByIdAsync(string clientId, string orderId)
         {
-            var response = await _apiClient.LimitOrders.CancelOrderWithHttpMessagesAsync(orderId);
+            var response = await _apiClient.LimitOrders.CancelOrderWithHttpMessagesAsync(clientId, orderId);
             
             return LimitOrderResponse
                 .Prepare(response)

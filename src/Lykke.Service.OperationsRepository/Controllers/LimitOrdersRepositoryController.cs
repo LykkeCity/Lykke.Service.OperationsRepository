@@ -19,7 +19,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
     {
         private readonly ILimitOrdersRepository _limitOrdersRepository;
         private readonly ILog _log;
-        
+
         public LimitOrdersRepositoryController(ILimitOrdersRepository limitOrdersRepository, ILog log)
         {
             _limitOrdersRepository = limitOrdersRepository;
@@ -40,113 +40,118 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
                 return BadRequest(errorList);
             }
-            
+
             await _limitOrdersRepository.InOrderBookAsync(order);
-            
+
             return Ok(order);
         }
 
-        [HttpPost("{orderId}/cancel")]
+        [HttpPost("{clientId}/{orderId}/cancel")]
         [SwaggerOperation("LimitOrders_CancelOrder")]
-        [ProducesResponseType(typeof(ILimitOrder), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CancelOrderByIdAsync(string orderId)
+        [ProducesResponseType(typeof(ILimitOrder), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> CancelOrderByIdAsync(string clientId, string orderId)
         {
             if (!CommonValidator.ValidateLimitOrderId(orderId))
             {
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
             }
-            
-            var order = await _limitOrdersRepository.GetOrderAsync(orderId);
 
+            var order = await _limitOrdersRepository.GetOrderAsync(orderId, clientId);
             if (order == null)
             {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
+                return NotFound(ErrorResponse.InvalidParameter(nameof(orderId)));
             }
 
-            if ((OrderStatus) Enum.Parse(typeof(OrderStatus), order.Status) == OrderStatus.Cancelled)
+            if ((OrderStatus)Enum.Parse(typeof(OrderStatus), order.Status) == OrderStatus.Cancelled)
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
-            
+
             await _limitOrdersRepository.CancelAsync(order);
-            
-            order = await _limitOrdersRepository.GetOrderAsync(orderId);
-            
+
+            order = await _limitOrdersRepository.GetOrderAsync(orderId, clientId);
+
             return Ok(order);
         }
-        
-        [HttpPost("finalize")]
-        [SwaggerOperation("LimitOrders_FinalizeOrder")]
-        [ProducesResponseType(typeof(ILimitOrder), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> FinalizeOrderAsync([FromBody] LimitOrderFinalizeRequest model)
-        {
-            if (!CommonValidator.ValidateLimitOrderId(model.OrderId))
-            {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(model.OrderId)));
-            }
-            
-            var order = await _limitOrdersRepository.GetOrderAsync(model.OrderId);
 
+        [HttpPost("{clientId}/{orderId}/finalize")]
+        [SwaggerOperation("LimitOrders_FinalizeOrder")]
+        [ProducesResponseType(typeof(ILimitOrder), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> FinalizeOrderAsync(string clientId, string orderId, [FromBody] LimitOrderFinalizeRequest model)
+        {
+            if (!CommonValidator.ValidateLimitOrderId(orderId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
+            }
+
+            var order = await _limitOrdersRepository.GetOrderAsync(orderId, clientId);
             if (order == null)
             {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(model.OrderId)));
+                return NotFound(ErrorResponse.InvalidParameter(nameof(orderId)));
             }
-            
-            if(model.OrderStatus == OrderStatus.InOrderBook)
+
+            if (model.OrderStatus == OrderStatus.InOrderBook)
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(model.OrderStatus)));
 
-            if ((OrderStatus) Enum.Parse(typeof(OrderStatus), order.Status) != OrderStatus.InOrderBook)
+            if ((OrderStatus)Enum.Parse(typeof(OrderStatus), order.Status) != OrderStatus.InOrderBook)
                 return Ok(order);
-            
+
             await _limitOrdersRepository.FinalizeAsync(order, model.OrderStatus);
-            
-            order = await _limitOrdersRepository.GetOrderAsync(model.OrderId);
-            
+
+            order = await _limitOrdersRepository.GetOrderAsync(orderId, clientId);
+
             return Ok(order);
         }
 
         [HttpPost("{clientId}/{orderId}/remove")]
         [SwaggerOperation("LimitOrders_RemoveOrder")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> RemoveOrderByIdAsync(string clientId, string orderId)
         {
             if (!CommonValidator.ValidateLimitOrderId(orderId))
             {
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
             }
-            
+
             if (!CommonValidator.ValidateClientId(clientId))
             {
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(clientId)));
             }
-            
-            var order = await _limitOrdersRepository.GetOrderAsync(orderId);
 
+            var order = await _limitOrdersRepository.GetOrderAsync(orderId, clientId);
             if (order == null)
             {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
+                return NotFound(ErrorResponse.InvalidParameter(nameof(orderId)));
             }
-            
+
             await _limitOrdersRepository.RemoveAsync(orderId, clientId);
-            
+
             return Ok();
         }
-        
-        [HttpGet("{orderId}")]
+
+        [HttpGet("{clientId}/{orderId}")]
         [SwaggerOperation("LimitOrders_GetOrderById")]
         [ProducesResponseType(typeof(ILimitOrder), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetOrderByIdAsync(string orderId)
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetOrderByIdAsync(string clientId, string orderId)
         {
             if (!CommonValidator.ValidateLimitOrderId(orderId))
             {
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(orderId)));
             }
 
-            var result = await _limitOrdersRepository.GetOrderAsync(orderId);
-            
-            return Ok(result);
+            var order = await _limitOrdersRepository.GetOrderAsync(orderId, clientId);
+            if (order == null)
+            {
+                return NotFound(ErrorResponse.InvalidParameter(nameof(orderId)));
+            }
+
+            return Ok(order);
         }
 
         [HttpGet("client/{clientId}")]
@@ -161,10 +166,10 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             var result = await _limitOrdersRepository.GetOrdersAsync(clientId);
-            
+
             return Ok(result);
         }
-        
+
         [HttpGet("client/active/{clientId}")]
         [SwaggerOperation("LimitOrders_GetActiveOrdersByClientId")]
         [ProducesResponseType(typeof(IEnumerable<ILimitOrder>), (int)HttpStatusCode.OK)]
@@ -177,7 +182,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             var result = await _limitOrdersRepository.GetActiveOrdersAsync(clientId);
-            
+
             return Ok(result);
         }
     }

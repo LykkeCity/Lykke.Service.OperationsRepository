@@ -44,24 +44,28 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='clientId'>
+            /// </param>
             /// <param name='orderId'>
             /// </param>
-            public static object CancelOrder(this ILimitOrders operations, string orderId)
+            public static object CancelOrder(this ILimitOrders operations, string clientId, string orderId)
             {
-                return operations.CancelOrderAsync(orderId).GetAwaiter().GetResult();
+                return operations.CancelOrderAsync(clientId, orderId).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
             /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
             /// </param>
             /// <param name='orderId'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> CancelOrderAsync(this ILimitOrders operations, string orderId, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> CancelOrderAsync(this ILimitOrders operations, string clientId, string orderId, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.CancelOrderWithHttpMessagesAsync(orderId, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.CancelOrderWithHttpMessagesAsync(clientId, orderId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -70,24 +74,32 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
             /// <param name='model'>
             /// </param>
-            public static object FinalizeOrder(this ILimitOrders operations, LimitOrderFinalizeRequest model = default(LimitOrderFinalizeRequest))
+            public static object FinalizeOrder(this ILimitOrders operations, string clientId, string orderId, LimitOrderFinalizeRequest model = default(LimitOrderFinalizeRequest))
             {
-                return operations.FinalizeOrderAsync(model).GetAwaiter().GetResult();
+                return operations.FinalizeOrderAsync(clientId, orderId, model).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
             /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='orderId'>
             /// </param>
             /// <param name='model'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> FinalizeOrderAsync(this ILimitOrders operations, LimitOrderFinalizeRequest model = default(LimitOrderFinalizeRequest), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> FinalizeOrderAsync(this ILimitOrders operations, string clientId, string orderId, LimitOrderFinalizeRequest model = default(LimitOrderFinalizeRequest), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.FinalizeOrderWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.FinalizeOrderWithHttpMessagesAsync(clientId, orderId, model, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -126,24 +138,28 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='clientId'>
+            /// </param>
             /// <param name='orderId'>
             /// </param>
-            public static object GetOrderById(this ILimitOrders operations, string orderId)
+            public static object GetOrderById(this ILimitOrders operations, string clientId, string orderId)
             {
-                return operations.GetOrderByIdAsync(orderId).GetAwaiter().GetResult();
+                return operations.GetOrderByIdAsync(clientId, orderId).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
             /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
             /// </param>
             /// <param name='orderId'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> GetOrderByIdAsync(this ILimitOrders operations, string orderId, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> GetOrderByIdAsync(this ILimitOrders operations, string clientId, string orderId, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetOrderByIdWithHttpMessagesAsync(orderId, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetOrderByIdWithHttpMessagesAsync(clientId, orderId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
