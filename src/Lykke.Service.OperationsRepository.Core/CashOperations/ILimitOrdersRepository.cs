@@ -10,7 +10,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         double RemainingVolume { get; set; }
         string MatchingId { get; set; }
     }
-    
+
     public interface ILimitOrder : IOrderBase
     {
         string Id { get; }
@@ -22,7 +22,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         string Status { get; set; }
         bool Straight { get; set; }
     }
-    
+
     public class MatchedOrder
     {
         public string Id { get; set; }
@@ -37,7 +37,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
             };
         }
     }
-    
+
     public class LimitOrder : ILimitOrder
     {
         public DateTime CreatedAt { get; set; }
@@ -70,10 +70,10 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
             };
         }
     }
-    
+
     public interface ILimitOrdersRepository
     {
-        Task<ILimitOrder> GetOrderAsync(string orderId);
+        Task<ILimitOrder> GetOrderAsync(string id, string clientId);
 
         Task InOrderBookAsync(ILimitOrder limitOrder);
         Task RemoveAsync(string orderId, string clientId);
@@ -81,7 +81,6 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         Task CancelAsync(ILimitOrder order);
 
         Task<IEnumerable<ILimitOrder>> GetActiveOrdersAsync(string clientId);
-        Task<IEnumerable<ILimitOrder>> GetOrdersAsync(IEnumerable<string> orderIds);
         Task<IEnumerable<ILimitOrder>> GetOrdersAsync(string clientId);
     }
 }
