@@ -23,10 +23,9 @@ namespace Lykke.Service.OperationsRepository.Controllers
         private readonly IOperationsHistoryPublisher _historyPublisher;
         private readonly ILog _log;
 
-        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo, IOperationsHistoryPublisher historyPublisher, ILog log)
+        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo, ILog log)
         {
             _cashOutAttemptRepo = cashOutAttemptRepo;
-            _historyPublisher = historyPublisher;
             _log = log;
         }
 
@@ -50,17 +49,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 new PaymentSystem(request.PaymentSystem.Value),
                 request.PaymentFields,
                 request.TradeSystem);
-
-            try
-            {
-                await _historyPublisher.PublishAsync(this.MapFrom(request.Request));
-            }
-            catch (Exception e)
-            {
-                await _log.WriteErrorAsync(GetType().Name, "InsertRequestAsync", "", e);
-            }
             
-
             return Ok(new IdResponseModel {Id = id});
         }
 
@@ -93,19 +82,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(hash)));
             }
 
-            var updated = await _cashOutAttemptRepo.SetBlockchainHash(clientId, requestId, hash);
-
-            if (updated != null)
-            {
-                try
-                {
-                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
-                }
-                catch (Exception e)
-                {
-                    await _log.WriteErrorAsync(GetType().Name, "SetBlockchainHash", "", e);
-                }
-            }
+            await _cashOutAttemptRepo.SetBlockchainHash(clientId, requestId, hash);
 
             return Ok();
         }
@@ -269,19 +246,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(requestId)));
             }
 
-            var updated = await _cashOutAttemptRepo.SetIsSettledOffchain(clientId, requestId);
-
-            if (updated != null)
-            {
-                try
-                {
-                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
-                }
-                catch (Exception e)
-                {
-                    await _log.WriteErrorAsync(GetType().Name, "SetIsSettledOffchain", "", e);
-                }
-            }
+            await _cashOutAttemptRepo.SetIsSettledOffchain(clientId, requestId);
 
             return Ok();
         }

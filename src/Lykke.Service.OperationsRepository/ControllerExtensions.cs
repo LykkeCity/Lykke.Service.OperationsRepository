@@ -23,21 +23,6 @@ namespace Lykke.Service.OperationsRepository
             };
         }
 
-        public static OperationsHistoryMessage MapFrom(this CashOutAttemptRepositoryController controller,
-            ICashOutRequest source)
-        {
-            return new OperationsHistoryMessage
-            {
-                Id = source.Id,
-                ClientId = source.ClientId,
-                Currency = source.AssetId,
-                OpType = nameof(OperationType.CashOutAttempt),
-                DateTime = source.DateTime,
-                Amount = source.Amount,
-                Data = JsonConvert.SerializeObject(source)
-            };
-        }
-
         public static OperationsHistoryMessage MapFrom(this ClientTradesRepositoryController controller,
             IClientTrade source)
         {
