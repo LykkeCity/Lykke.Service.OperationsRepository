@@ -20,13 +20,10 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class CashOutAttemptRepositoryController: Controller
     {
         private readonly ICashOutAttemptRepository _cashOutAttemptRepo;
-        private readonly IOperationsHistoryPublisher _historyPublisher;
-        private readonly ILog _log;
 
-        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo, ILog log)
+        public CashOutAttemptRepositoryController(ICashOutAttemptRepository cashOutAttemptRepo)
         {
             _cashOutAttemptRepo = cashOutAttemptRepo;
-            _log = log;
         }
 
         [HttpPost("InsertRequest")]
