@@ -179,9 +179,6 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             if (item.State == TransactionStates.SettledOffchain || item.State == TransactionStates.InProcessOffchain)
                 return null;
 
-            var multisigPartitionKey = TransferEventEntity.ByMultisig.GeneratePartitionKey(item.Multisig);
-            var multisigRowKey = TransferEventEntity.ByMultisig.GenerateRowKey(id);
-
             var result = await _tableStorage.MergeAsync(partitionKey, rowKey, entity =>
             {
                 entity.BlockChainHash = blockChainHash;
@@ -189,12 +186,18 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 return entity;
             });
 
-            await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
+            if (!string.IsNullOrWhiteSpace(item.Multisig))
             {
-                entity.BlockChainHash = blockChainHash;
-                entity.State = TransactionStates.SettledOnchain;
-                return entity;
-            });
+                var multisigPartitionKey = TransferEventEntity.ByMultisig.GeneratePartitionKey(item.Multisig);
+                var multisigRowKey = TransferEventEntity.ByMultisig.GenerateRowKey(id);
+
+                await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
+                {
+                    entity.BlockChainHash = blockChainHash;
+                    entity.State = TransactionStates.SettledOnchain;
+                    return entity;
+                });
+            }
 
             var indexEntity = AzureIndex.Create(blockChainHash, rowKey, partitionKey, rowKey);
             await _blockChainHashIndices.InsertOrReplaceAsync(indexEntity);
@@ -209,22 +212,23 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 
             var item = await _tableStorage.GetDataAsync(partitionKey, rowKey);
 
-            var multisigPartitionKey = TransferEventEntity.ByMultisig.GeneratePartitionKey(item.Multisig);
-            var multisigRowKey = TransferEventEntity.ByMultisig.GenerateRowKey(id);
-
-            var multisigItem = await _tableStorage.GetDataAsync(multisigPartitionKey, multisigRowKey);
-
             var result = await _tableStorage.MergeAsync(partitionKey, rowKey, entity =>
             {
                 entity.TransactionId = btcTransactionId;
                 return entity;
             });
 
-            await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
+            if (!string.IsNullOrWhiteSpace(item.Multisig))
             {
-                entity.TransactionId = btcTransactionId;
-                return entity;
-            });
+                var multisigPartitionKey = TransferEventEntity.ByMultisig.GeneratePartitionKey(item.Multisig);
+                var multisigRowKey = TransferEventEntity.ByMultisig.GenerateRowKey(id);
+
+                await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
+                {
+                    entity.TransactionId = btcTransactionId;
+                    return entity;
+                });
+            }
 
             return result;
         }
@@ -239,11 +243,6 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             if (item == null)
                 return null;
 
-            var multisigPartitionKey = TransferEventEntity.ByMultisig.GeneratePartitionKey(item.Multisig);
-            var multisigRowKey = TransferEventEntity.ByMultisig.GenerateRowKey(id);
-
-            var multisigItem = await _tableStorage.GetDataAsync(multisigPartitionKey, multisigRowKey);
-
             var result = await _tableStorage.MergeAsync(partitionKey, rowKey, entity =>
             {
                 if (offchain)
@@ -259,20 +258,26 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 return entity;
             });
 
-            await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
+            if (!string.IsNullOrWhiteSpace(item.Multisig))
             {
-                if (offchain)
-                {
-                    entity.State = TransactionStates.SettledOffchain;
-                }
-                else
-                {
-                    entity.IsSettled = true;
-                    entity.State = TransactionStates.SettledOnchain;
-                }
+                var multisigPartitionKey = TransferEventEntity.ByMultisig.GeneratePartitionKey(item.Multisig);
+                var multisigRowKey = TransferEventEntity.ByMultisig.GenerateRowKey(id);
 
-                return entity;
-            });
+                await _tableStorage.MergeAsync(multisigPartitionKey, multisigRowKey, entity =>
+                {
+                    if (offchain)
+                    {
+                        entity.State = TransactionStates.SettledOffchain;
+                    }
+                    else
+                    {
+                        entity.IsSettled = true;
+                        entity.State = TransactionStates.SettledOnchain;
+                    }
+
+                    return entity;
+                });
+            }
 
             return result;
         }

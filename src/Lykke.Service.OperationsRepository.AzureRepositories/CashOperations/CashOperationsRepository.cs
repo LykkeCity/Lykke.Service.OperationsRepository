@@ -164,9 +164,14 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
         public async Task<string> RegisterAsync(ICashInOutOperation operation)
         {
             var newItem = CashInOutOperationEntity.ByClientId.Create(operation);
-            var byMultisig = CashInOutOperationEntity.ByMultisig.Create(operation);
+            
             await _tableStorage.TryInsertAsync(newItem);
-            await _tableStorage.TryInsertAsync(byMultisig);
+
+            if (!string.IsNullOrWhiteSpace(operation.Multisig))
+            {
+                var byMultisig = CashInOutOperationEntity.ByMultisig.Create(operation);
+                await _tableStorage.TryInsertAsync(byMultisig);
+            }
 
             if (!string.IsNullOrEmpty(operation.BlockChainHash))
             {
@@ -197,9 +202,6 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 
             var record = await _tableStorage.GetDataAsync(partitionkey, rowKey);
 
-            var multisigPartitionkey = CashInOutOperationEntity.ByMultisig.GeneratePartitionKey(record.Multisig);
-            var multisigRowKey = CashInOutOperationEntity.ByMultisig.GenerateRowKey(id);
-
             var indexEntity = AzureIndex.Create(hash, rowKey, partitionkey, rowKey);
             await _blockChainHashIndices.InsertOrReplaceAsync(indexEntity);
 
@@ -210,12 +212,18 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 return entity;
             });
 
-            await _tableStorage.MergeAsync(multisigPartitionkey, multisigRowKey, entity =>
+            if (!string.IsNullOrWhiteSpace(record.Multisig))
             {
-                entity.BlockChainHash = hash;
-                entity.State = TransactionStates.SettledOnchain;
-                return entity;
-            });
+                var multisigPartitionkey = CashInOutOperationEntity.ByMultisig.GeneratePartitionKey(record.Multisig);
+                var multisigRowKey = CashInOutOperationEntity.ByMultisig.GenerateRowKey(id);
+
+                await _tableStorage.MergeAsync(multisigPartitionkey, multisigRowKey, entity =>
+                {
+                    entity.BlockChainHash = hash;
+                    entity.State = TransactionStates.SettledOnchain;
+                    return entity;
+                });
+            }
 
             return result;
         }
@@ -227,20 +235,23 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 
             var record = await _tableStorage.GetDataAsync(partitionkey, rowKey);
 
-            var multisigPartitionkey = CashInOutOperationEntity.ByMultisig.GeneratePartitionKey(record.Multisig);
-            var multisigRowKey = CashInOutOperationEntity.ByMultisig.GenerateRowKey(id);
-
             var result = await _tableStorage.MergeAsync(partitionkey, rowKey, entity =>
             {
                 entity.TransactionId = bcnTransactionId;
                 return entity;
             });
 
-            await _tableStorage.MergeAsync(multisigPartitionkey, multisigRowKey, entity =>
+            if (!string.IsNullOrWhiteSpace(record.Multisig))
             {
-                entity.TransactionId = bcnTransactionId;
-                return entity;
-            });
+                var multisigPartitionkey = CashInOutOperationEntity.ByMultisig.GeneratePartitionKey(record.Multisig);
+                var multisigRowKey = CashInOutOperationEntity.ByMultisig.GenerateRowKey(id);
+
+                await _tableStorage.MergeAsync(multisigPartitionkey, multisigRowKey, entity =>
+                {
+                    entity.TransactionId = bcnTransactionId;
+                    return entity;
+                });
+            }
 
             return result;
         }
@@ -252,9 +263,6 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
 
             var record = await _tableStorage.GetDataAsync(partitionkey, rowKey);
 
-            var multisigPartitionkey = CashInOutOperationEntity.ByMultisig.GeneratePartitionKey(record.Multisig);
-            var multisigRowKey = CashInOutOperationEntity.ByMultisig.GenerateRowKey(id);
-
             var result = await _tableStorage.MergeAsync(partitionkey, rowKey, entity =>
             {
                 if (offchain)
@@ -264,14 +272,20 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
                 return entity;
             });
 
-            await _tableStorage.MergeAsync(multisigPartitionkey, multisigRowKey, entity =>
+            if (!string.IsNullOrWhiteSpace(record.Multisig))
             {
-                if (offchain)
-                    entity.State = TransactionStates.SettledOffchain;
-                else
-                    entity.IsSettled = true;
-                return entity;
-            });
+                var multisigPartitionkey = CashInOutOperationEntity.ByMultisig.GeneratePartitionKey(record.Multisig);
+                var multisigRowKey = CashInOutOperationEntity.ByMultisig.GenerateRowKey(id);
+
+                await _tableStorage.MergeAsync(multisigPartitionkey, multisigRowKey, entity =>
+                {
+                    if (offchain)
+                        entity.State = TransactionStates.SettledOffchain;
+                    else
+                        entity.IsSettled = true;
+                    return entity;
+                });
+            }
 
             return result;
         }
