@@ -76,6 +76,36 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             /// <param name='clientId'>
             /// </param>
+            /// <param name='model'>
+            /// </param>
+            public static ErrorResponse CancelMultipleOrders(this ILimitOrders operations, string clientId, LimitOrderCancelMultipleRequest model = default(LimitOrderCancelMultipleRequest))
+            {
+                return operations.CancelMultipleOrdersAsync(clientId, model).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='model'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> CancelMultipleOrdersAsync(this ILimitOrders operations, string clientId, LimitOrderCancelMultipleRequest model = default(LimitOrderCancelMultipleRequest), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.CancelMultipleOrdersWithHttpMessagesAsync(clientId, model, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
             /// <param name='orderId'>
             /// </param>
             /// <param name='model'>

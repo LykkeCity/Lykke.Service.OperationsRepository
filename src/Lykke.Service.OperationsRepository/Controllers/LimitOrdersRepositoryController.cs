@@ -74,6 +74,31 @@ namespace Lykke.Service.OperationsRepository.Controllers
             return Ok(order);
         }
 
+        [HttpPost("{clientId}/cancelMultiple")]
+        [SwaggerOperation("LimitOrders_CancelMultipleOrders")]
+        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int) HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CancelMultipleOrdersByClientIdAsync(string clientId, [FromBody] LimitOrderCancelMultipleRequest model)
+        {
+            if (!CommonValidator.ValidateClientId(clientId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(clientId)));
+            }
+            if (!CommonValidator.ValidateAssetPairId(model.AssetPairId))
+            {
+                return BadRequest(ErrorResponse.InvalidParameter(nameof(model.AssetPairId)));
+            }
+
+            var activeOrders = await _limitOrdersRepository.GetActiveOrdersAsync(clientId);
+
+            var relevantOrders = activeOrders.Where(x => model.AssetPairId == null || x.AssetPairId == model.AssetPairId);
+            
+            if(relevantOrders.Any())
+                await _limitOrdersRepository.CancelMultipleAsync(relevantOrders);
+
+            return Ok();
+        }
+
         [HttpPost("{clientId}/{orderId}/finalize")]
         [SwaggerOperation("LimitOrders_FinalizeOrder")]
         [ProducesResponseType(typeof(ILimitOrder), (int)HttpStatusCode.OK)]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AzureStorage;
 using Lykke.Service.OperationsRepository.Contract;
@@ -137,6 +138,18 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             await _tableStorage.InsertOrMergeAsync(byClientEntity);
 
             await _tableStorage.DeleteAsync(LimitOrderEntity.ByClientIdActive.GeneratePartitionKey(order.ClientId), order.Id);
+        }
+
+        public async Task CancelMultipleAsync(IEnumerable<ILimitOrder> orders)
+        {
+            foreach (var order in orders)
+            {
+                order.Status = OrderStatus.Cancelled.ToString();
+            }
+
+            await _tableStorage.InsertOrMergeBatchAsync(orders.Select(LimitOrderEntity.ByClientId.Create));
+
+            await _tableStorage.DeleteAsync(orders.Select(LimitOrderEntity.ByClientIdActive.Create));
         }
 
         public async Task<IEnumerable<ILimitOrder>> GetActiveOrdersAsync(string clientId)
