@@ -148,8 +148,11 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             }
 
             await _tableStorage.InsertOrMergeBatchAsync(orders.Select(LimitOrderEntity.ByClientId.Create));
-
-            await _tableStorage.DeleteAsync(orders.Select(LimitOrderEntity.ByClientIdActive.Create));
+            await _tableStorage.DeleteAsync(orders.Select(LimitOrderEntity.ByClientIdActive.Create).Select(x =>
+            {
+                x.ETag = "*";
+                return x;
+            }));
         }
 
         public async Task<IEnumerable<ILimitOrder>> GetActiveOrdersAsync(string clientId)
