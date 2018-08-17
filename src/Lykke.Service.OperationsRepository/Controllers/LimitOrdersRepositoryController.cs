@@ -84,10 +84,6 @@ namespace Lykke.Service.OperationsRepository.Controllers
             {
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(clientId)));
             }
-            if (!CommonValidator.ValidateAssetPairId(model.AssetPairId))
-            {
-                return BadRequest(ErrorResponse.InvalidParameter(nameof(model.AssetPairId)));
-            }
 
             var activeOrders = await _limitOrdersRepository.GetActiveOrdersAsync(clientId);
 
