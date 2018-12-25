@@ -79,7 +79,7 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
         Task RemoveAsync(string orderId, string clientId);
         Task FinalizeAsync(ILimitOrder order, OrderStatus status);
         Task CancelAsync(ILimitOrder order);
-
+        Task CancelMultipleAsync(IEnumerable<ILimitOrder> orders);
         Task<IEnumerable<ILimitOrder>> GetActiveOrdersAsync(string clientId);
         Task<IEnumerable<ILimitOrder>> GetOrdersAsync(string clientId);
     }
