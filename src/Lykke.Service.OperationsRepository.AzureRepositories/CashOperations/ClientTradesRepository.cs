@@ -317,7 +317,9 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             var partitionKey = ClientTradeEntity.ByClientId.GeneratePartitionKey(clientId);
             var rowKey = ClientTradeEntity.ByClientId.GenerateRowKey(recordId);
 
-            await _tableStorage.GetDataAsync(partitionKey, rowKey);
+            var clientIdRecord = await _tableStorage.GetDataAsync(partitionKey, rowKey);
+            if (clientIdRecord == null)
+                return null;
 
             var dtPartitionKey = ClientTradeEntity.ByDt.GeneratePartitionKey();
             var dtRowKey = ClientTradeEntity.ByDt.GenerateRowKey(recordId);
