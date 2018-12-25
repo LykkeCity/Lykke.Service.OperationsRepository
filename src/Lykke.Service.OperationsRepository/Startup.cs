@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Lykke.Service.OperationsRepository.Core;
 using System.Threading.Tasks;
+using Lykke.Common;
 
 namespace Lykke.Service.OperationsRepository
 {
@@ -51,18 +52,25 @@ namespace Lykke.Service.OperationsRepository
                 });
 
                 var builder = new ContainerBuilder();
-                var appSettings = Configuration.LoadSettings<AppSettings>();
+                var appSettings = Configuration.LoadSettings<AppSettings>(o =>
+                {
+                    o.SetConnString(s => s.SlackNotifications.AzureQueue.ConnectionString);
+                    o.SetQueueName(s => s.SlackNotifications.AzureQueue.QueueName);
+                    o.SenderName = $"{AppEnvironment.Name} {AppEnvironment.Version}";
+                });
                 Log = CreateLogWithSlack(services, appSettings);
 
                 builder.RegisterModule(new ServiceModule(appSettings.Nested(x => x.OperationsRepositoryService), Log));
+
                 builder.Populate(services);
+
                 ApplicationContainer = builder.Build();
 
                 return new AutofacServiceProvider(ApplicationContainer);
             }
             catch (Exception ex)
             {
-                Log?.WriteFatalErrorAsync(nameof(Startup), nameof(ConfigureServices), "", ex).Wait();
+                Log?.WriteFatalError(nameof(Startup), nameof(ConfigureServices), ex);
                 throw;
             }
         }
@@ -72,9 +80,7 @@ namespace Lykke.Service.OperationsRepository
             try
             {
                 if (env.IsDevelopment())
-                {
                     app.UseDeveloperExceptionPage();
-                }
 
                 app.UseLykkeMiddleware("OperationsRepository", ex => new { Message = "Technical problem" });
 
@@ -87,13 +93,13 @@ namespace Lykke.Service.OperationsRepository
                 });
                 app.UseStaticFiles();
 
-                appLifetime.ApplicationStarted.Register(() => StartApplication().Wait());
-                appLifetime.ApplicationStopping.Register(() => StopApplication().Wait());
-                appLifetime.ApplicationStopped.Register(() => CleanUp().Wait());
+                appLifetime.ApplicationStarted.Register(() => StartApplication().GetAwaiter().GetResult());
+                appLifetime.ApplicationStopping.Register(() => StopApplication().GetAwaiter().GetResult());
+                appLifetime.ApplicationStopped.Register(CleanUp);
             }
             catch (Exception ex)
             {
-                Log?.WriteFatalErrorAsync(nameof(Startup), nameof(Configure), "", ex).Wait();
+                Log?.WriteFatalError(nameof(Startup), nameof(Configure), ex);
                 throw;
             }
         }
@@ -106,11 +112,11 @@ namespace Lykke.Service.OperationsRepository
 
                 await ApplicationContainer.Resolve<IStartupManager>().StartAsync();
 
-                await Log.WriteMonitorAsync("", $"Env: {Program.EnvInfo}", "Started");
+                Log.WriteMonitor("", $"Env: {Program.EnvInfo}", "Started");
             }
             catch (Exception ex)
             {
-                await Log.WriteFatalErrorAsync(nameof(Startup), nameof(StartApplication), "", ex);
+                Log.WriteFatalError(nameof(Startup), nameof(StartApplication), ex);
                 throw;
             }
         }
@@ -125,24 +131,18 @@ namespace Lykke.Service.OperationsRepository
             }
             catch (Exception ex)
             {
-                if (Log != null)
-                {
-                    await Log.WriteFatalErrorAsync(nameof(Startup), nameof(StopApplication), "", ex);
-                }
+                Log?.WriteFatalError(nameof(Startup), nameof(StopApplication), ex);
                 throw;
             }
         }
 
-        private async Task CleanUp()
+        private void CleanUp()
         {
             try
             {
                 // NOTE: Service can't recieve and process requests here, so you can destroy all resources
 
-                if (Log != null)
-                {
-                    await Log.WriteMonitorAsync("", $"Env: {Program.EnvInfo}", "Terminating");
-                }
+                Log?.WriteMonitor("", $"Env: {Program.EnvInfo}", "Terminating");
 
                 ApplicationContainer.Dispose();
             }
@@ -150,7 +150,7 @@ namespace Lykke.Service.OperationsRepository
             {
                 if (Log != null)
                 {
-                    await Log.WriteFatalErrorAsync(nameof(Startup), nameof(CleanUp), "", ex);
+                    Log.WriteFatalError(nameof(Startup), nameof(CleanUp), ex);
                     (Log as IDisposable)?.Dispose();
                 }
                 throw;

@@ -27,7 +27,7 @@ namespace Lykke.Service.OperationsRepository.RabbitPublishers
             // about RabbitMq subscriber configuration
 
             var settings = RabbitMqSubscriptionSettings
-                .CreateForPublisher(_rabbitSettings.ConnectionString, _rabbitSettings.ExchangeName);
+                .ForPublisher(_rabbitSettings.ConnectionString, _rabbitSettings.ExchangeName);
             // TODO: Make additional configuration, using fluent API here:
             // ex: .MakeDurable()
 

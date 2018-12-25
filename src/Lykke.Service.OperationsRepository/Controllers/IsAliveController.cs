@@ -1,9 +1,11 @@
-﻿using Lykke.Service.OperationsRepository.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Lykke.Service.OperationsRepository.Core;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Net;
 using System.Linq;
+using Lykke.Common;
+using Lykke.Common.Api.Contract.Responses;
+using ErrorResponse = Lykke.Service.OperationsRepository.Models.ErrorResponse;
 
 namespace Lykke.Service.OperationsRepository.Controllers
 {
@@ -21,7 +23,6 @@ namespace Lykke.Service.OperationsRepository.Controllers
         /// <summary>
         /// Checks service is alive
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         [SwaggerOperation("IsAlive")]
         [ProducesResponseType(typeof(IsAliveResponse), (int) HttpStatusCode.OK)]
@@ -39,9 +40,8 @@ namespace Lykke.Service.OperationsRepository.Controllers
             // NOTE: Feel free to extend IsAliveResponse, to display job-specific indicators
             return Ok(new IsAliveResponse
             {
-                Name = Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationName,
-                Version = Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application
-                    .ApplicationVersion,
+                Name = AppEnvironment.Name,
+                Version = AppEnvironment.Version,
                 Env = Program.EnvInfo,
 #if DEBUG
                 IsDebug = true,
