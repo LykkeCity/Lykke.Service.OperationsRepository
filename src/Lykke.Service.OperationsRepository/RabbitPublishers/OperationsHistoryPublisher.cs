@@ -51,7 +51,15 @@ namespace Lykke.Service.OperationsRepository.RabbitPublishers
 
         public async Task PublishAsync(OperationsHistoryMessage message)
         {
-            await _publisher.ProduceAsync(message);
+            try
+            {
+                await _publisher.ProduceAsync(message);
+            }
+            catch (Exception e)
+            {
+                _log.WriteError(nameof(PublishAsync), message, e);
+                throw;
+            }
         }
     }
 }
