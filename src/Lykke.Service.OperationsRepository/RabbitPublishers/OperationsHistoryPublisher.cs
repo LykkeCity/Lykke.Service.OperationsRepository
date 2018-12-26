@@ -5,7 +5,6 @@ using Lykke.Service.OperationsRepository.Core;
 using Lykke.RabbitMqBroker.Publisher;
 using Lykke.RabbitMqBroker.Subscriber;
 using Lykke.Service.OperationsRepository.Contract.History;
-using Microsoft.CodeAnalysis.Operations;
 
 namespace Lykke.Service.OperationsRepository.RabbitPublishers
 {
