@@ -144,7 +144,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             public static ErrorResponse SetBtcTransaction(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), string bcnTransactionId = default(string))
             {
-                return operations.SetBtcTransactionAsync(clientId, id, bcnTransactionId).GetAwaiter().GetResult();
+                return operations.SetBtcTransactionAsync(clientId, id, bcnTransactionId);
             }
 
             /// <param name='operations'>
@@ -1090,7 +1090,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// </param>
             public static object Get(this IOperationsRepositoryAPI operations)
             {
-                return ((IOperationsRepositoryAPI)operations).GetAsync().GetAwaiter().GetResult();
+                return ((IOperationsRepositoryAPI)operations).GetWithHttpMessagesAsync().GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
