@@ -22,9 +22,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the CashOutAttemptEntity class.
         /// </summary>
-        /// <param name="status">Possible values include: 'ClientConfirmation',
-        /// 'Pending', 'RequestForDocs', 'Confirmed', 'Declined',
-        /// 'CanceledByClient', 'CanceledByTimeout', 'Processed'</param>
+        /// <param name="status">Possible values include: 'Pending',
+        /// 'Confirmed', 'Declined', 'Processed', 'ClientConfirmation',
+        /// 'CanceledByClient', 'CanceledByTimeout', 'RequestForDocs'</param>
         /// <param name="state">Possible values include: 'InProcessOnchain',
         /// 'SettledOnchain', 'InProcessOffchain', 'SettledOffchain',
         /// 'SettledNoChain'</param>
@@ -108,9 +108,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         public string AccountId { get; set; }
 
         /// <summary>
-        /// Gets or sets possible values include: 'ClientConfirmation',
-        /// 'Pending', 'RequestForDocs', 'Confirmed', 'Declined',
-        /// 'CanceledByClient', 'CanceledByTimeout', 'Processed'
+        /// Gets or sets possible values include: 'Pending', 'Confirmed',
+        /// 'Declined', 'Processed', 'ClientConfirmation', 'CanceledByClient',
+        /// 'CanceledByTimeout', 'RequestForDocs'
         /// </summary>
         [JsonProperty(PropertyName = "Status")]
         public CashOutRequestStatus Status { get; set; }
