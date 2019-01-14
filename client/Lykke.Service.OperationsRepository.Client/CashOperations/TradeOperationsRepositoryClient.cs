@@ -62,6 +62,16 @@ namespace Lykke.Service.OperationsRepository.Client.CashOperations
                 .GetPayload();
         }
 
+        public async Task<ClientTradesChunk> GetByDatesAsync(DateTime from, DateTime to, string continuationToken)
+        {
+            var response = await _apiClient.ClientTradeOperations.GetByDatesWithChunksWithHttpMessagesAsync(from, to, continuationToken);
+
+            return ClientTradesChunkResponse
+                .Prepare(response)
+                .Validate()
+                .GetPayload();
+        }
+
         public async Task<ClientTrade> GetAsync(string clientId, string recordId)
         {
             var response = await _apiClient.ClientTradeOperations.GetByRecordIdWithHttpMessagesAsync(clientId, recordId);
