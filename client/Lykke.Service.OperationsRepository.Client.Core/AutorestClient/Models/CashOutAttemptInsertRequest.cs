@@ -86,10 +86,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
             {
                 Request.Validate();
             }
-            if (PaymentSystem != null)
-            {
-                PaymentSystem.Validate();
-            }
         }
     }
 }

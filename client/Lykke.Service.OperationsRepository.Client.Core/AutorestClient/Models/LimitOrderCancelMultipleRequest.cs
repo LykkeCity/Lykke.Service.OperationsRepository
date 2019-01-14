@@ -6,7 +6,6 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
-    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -25,7 +24,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// Initializes a new instance of the LimitOrderCancelMultipleRequest
         /// class.
         /// </summary>
-        public LimitOrderCancelMultipleRequest(string assetPairId)
+        public LimitOrderCancelMultipleRequest(string assetPairId = default(string))
         {
             AssetPairId = assetPairId;
             CustomInit();
@@ -41,18 +40,5 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         [JsonProperty(PropertyName = "AssetPairId")]
         public string AssetPairId { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (AssetPairId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "AssetPairId");
-            }
-        }
     }
 }

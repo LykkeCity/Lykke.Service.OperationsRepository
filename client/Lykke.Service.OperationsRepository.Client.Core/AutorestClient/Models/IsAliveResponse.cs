@@ -6,7 +6,6 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
-    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Collections;
     using System.Collections.Generic;
@@ -25,7 +24,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the IsAliveResponse class.
         /// </summary>
-        public IsAliveResponse(string name, string version, string env, bool isDebug, IList<IssueIndicator> issueIndicators)
+        public IsAliveResponse(string name = default(string), string version = default(string), string env = default(string), bool? isDebug = default(bool?), IList<IssueIndicator> issueIndicators = default(IList<IssueIndicator>))
         {
             Name = name;
             Version = version;
@@ -58,47 +57,12 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "isDebug")]
-        public bool IsDebug { get; set; }
+        public bool? IsDebug { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "issueIndicators")]
         public IList<IssueIndicator> IssueIndicators { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Name == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Name");
-            }
-            if (Version == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Version");
-            }
-            if (Env == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Env");
-            }
-            if (IssueIndicators == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "IssueIndicators");
-            }
-            if (IssueIndicators != null)
-            {
-                foreach (var element in IssueIndicators)
-                {
-                    if (element != null)
-                    {
-                        element.Validate();
-                    }
-                }
-            }
-        }
     }
 }

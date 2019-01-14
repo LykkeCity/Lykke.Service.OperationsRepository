@@ -6,7 +6,6 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
-    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -23,9 +22,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the CashOutAttemptEntity class.
         /// </summary>
-        /// <param name="status">Possible values include: 'Pending',
-        /// 'Confirmed', 'Declined', 'Processed', 'ClientConfirmation',
-        /// 'CanceledByClient', 'CanceledByTimeout', 'RequestForDocs'</param>
+        /// <param name="status">Possible values include: 'ClientConfirmation',
+        /// 'Pending', 'RequestForDocs', 'Confirmed', 'Declined',
+        /// 'CanceledByClient', 'CanceledByTimeout', 'Processed'</param>
         /// <param name="state">Possible values include: 'InProcessOnchain',
         /// 'SettledOnchain', 'InProcessOffchain', 'SettledOffchain',
         /// 'SettledNoChain'</param>
@@ -33,7 +32,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// 'High', 'Low'</param>
         /// <param name="feeType">Possible values include: 'Unknown',
         /// 'Absolute', 'Relative'</param>
-        public CashOutAttemptEntity(string id, string clientId, string assetId, string paymentSystem, string paymentFields, string blockchainHash, string tradeSystem, string accountId, CashOutRequestStatus status, TransactionStates state, double amount, System.DateTime dateTime, bool isHidden, int statusVal, int stateVal, CashOutVolumeSize volumeSize, string volumeText, string previousId, double feeSize, FeeType feeType, string feeTypeText, string partitionKey, string rowKey, System.DateTime timestamp, string eTag)
+        public CashOutAttemptEntity(CashOutRequestStatus status, TransactionStates state, double amount, System.DateTime dateTime, bool isHidden, int statusVal, int stateVal, CashOutVolumeSize volumeSize, double feeSize, FeeType feeType, System.DateTime timestamp, string id = default(string), string clientId = default(string), string assetId = default(string), string paymentSystem = default(string), string paymentFields = default(string), string blockchainHash = default(string), string tradeSystem = default(string), string accountId = default(string), string volumeText = default(string), string previousId = default(string), string feeTypeText = default(string), string partitionKey = default(string), string rowKey = default(string), string eTag = default(string))
         {
             Id = id;
             ClientId = clientId;
@@ -109,9 +108,9 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         public string AccountId { get; set; }
 
         /// <summary>
-        /// Gets or sets possible values include: 'Pending', 'Confirmed',
-        /// 'Declined', 'Processed', 'ClientConfirmation', 'CanceledByClient',
-        /// 'CanceledByTimeout', 'RequestForDocs'
+        /// Gets or sets possible values include: 'ClientConfirmation',
+        /// 'Pending', 'RequestForDocs', 'Confirmed', 'Declined',
+        /// 'CanceledByClient', 'CanceledByTimeout', 'Processed'
         /// </summary>
         [JsonProperty(PropertyName = "Status")]
         public CashOutRequestStatus Status { get; set; }
@@ -205,63 +204,11 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Validate the object.
         /// </summary>
-        /// <exception cref="ValidationException">
+        /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown if validation fails
         /// </exception>
         public virtual void Validate()
         {
-            if (ClientId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "ClientId");
-            }
-            if (AssetId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "AssetId");
-            }
-            if (PaymentSystem == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "PaymentSystem");
-            }
-            if (PaymentFields == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "PaymentFields");
-            }
-            if (BlockchainHash == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "BlockchainHash");
-            }
-            if (TradeSystem == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "TradeSystem");
-            }
-            if (AccountId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "AccountId");
-            }
-            if (VolumeText == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "VolumeText");
-            }
-            if (PreviousId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "PreviousId");
-            }
-            if (FeeTypeText == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "FeeTypeText");
-            }
-            if (PartitionKey == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "PartitionKey");
-            }
-            if (RowKey == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "RowKey");
-            }
-            if (ETag == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "ETag");
-            }
         }
     }
 }

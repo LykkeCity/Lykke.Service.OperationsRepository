@@ -23,7 +23,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the LimitOrderCreateRequest class.
         /// </summary>
-        public LimitOrderCreateRequest(double remainingVolume, string matchingId, string id, string clientId, System.DateTime createdAt, double volume, double price, string assetPairId, string status, bool straight)
+        public LimitOrderCreateRequest(double remainingVolume, string id, string clientId, System.DateTime createdAt, double volume, double price, string assetPairId, bool straight, string matchingId = default(string), string status = default(string))
         {
             RemainingVolume = remainingVolume;
             MatchingId = matchingId;
@@ -101,10 +101,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// </exception>
         public virtual void Validate()
         {
-            if (MatchingId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "MatchingId");
-            }
             if (Id == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "Id");
@@ -116,10 +112,6 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
             if (AssetPairId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "AssetPairId");
-            }
-            if (Status == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Status");
             }
         }
     }

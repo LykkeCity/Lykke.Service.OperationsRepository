@@ -6,7 +6,6 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
-    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -30,7 +29,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// 'ForwardCashOut', 'ForwardCashIn'</param>
         /// <param name="feeType">Possible values include: 'Unknown',
         /// 'Absolute', 'Relative'</param>
-        public CashInOutOperation(string id, System.DateTime dateTime, bool isHidden, string assetId, string clientId, double amount, string blockChainHash, string multisig, string transactionId, string addressFrom, string addressTo, bool isSettled, TransactionStates state, bool isRefund, CashOperationType type, double feeSize, FeeType feeType)
+        public CashInOutOperation(System.DateTime dateTime, bool isHidden, double amount, TransactionStates state, bool isRefund, CashOperationType type, double feeSize, FeeType feeType, string id = default(string), string assetId = default(string), string clientId = default(string), string blockChainHash = default(string), string multisig = default(string), string transactionId = default(string), string addressFrom = default(string), string addressTo = default(string), bool? isSettled = default(bool?))
         {
             Id = id;
             DateTime = dateTime;
@@ -115,7 +114,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "IsSettled")]
-        public bool IsSettled { get; set; }
+        public bool? IsSettled { get; set; }
 
         /// <summary>
         /// Gets or sets possible values include: 'InProcessOnchain',
@@ -152,43 +151,11 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Validate the object.
         /// </summary>
-        /// <exception cref="ValidationException">
+        /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown if validation fails
         /// </exception>
         public virtual void Validate()
         {
-            if (Id == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Id");
-            }
-            if (AssetId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "AssetId");
-            }
-            if (ClientId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "ClientId");
-            }
-            if (BlockChainHash == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "BlockChainHash");
-            }
-            if (Multisig == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Multisig");
-            }
-            if (TransactionId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "TransactionId");
-            }
-            if (AddressFrom == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "AddressFrom");
-            }
-            if (AddressTo == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "AddressTo");
-            }
         }
     }
 }

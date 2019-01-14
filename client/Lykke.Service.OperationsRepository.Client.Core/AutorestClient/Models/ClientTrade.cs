@@ -6,7 +6,6 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
-    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -28,7 +27,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// 'SettledNoChain'</param>
         /// <param name="feeType">Possible values include: 'Unknown',
         /// 'Absolute', 'Relative'</param>
-        public ClientTrade(string id, string clientId, System.DateTime dateTime, bool isHidden, string limitOrderId, string marketOrderId, double amount, string assetId, string assetPairId, string blockChainHash, string multisig, string transactionId, string addressFrom, string addressTo, bool isSettled, TransactionStates state, double price, System.DateTime detectionTime, int confirmations, string oppositeLimitOrderId, bool isLimitOrderResult, double feeSize, FeeType feeType)
+        public ClientTrade(System.DateTime dateTime, bool isHidden, double amount, TransactionStates state, double price, int confirmations, bool isLimitOrderResult, double feeSize, FeeType feeType, string id = default(string), string clientId = default(string), string limitOrderId = default(string), string marketOrderId = default(string), string assetId = default(string), string assetPairId = default(string), string blockChainHash = default(string), string multisig = default(string), string transactionId = default(string), string addressFrom = default(string), string addressTo = default(string), bool? isSettled = default(bool?), System.DateTime? detectionTime = default(System.DateTime?), string oppositeLimitOrderId = default(string))
         {
             Id = id;
             ClientId = clientId;
@@ -134,7 +133,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "IsSettled")]
-        public bool IsSettled { get; set; }
+        public bool? IsSettled { get; set; }
 
         /// <summary>
         /// Gets or sets possible values include: 'InProcessOnchain',
@@ -152,7 +151,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "DetectionTime")]
-        public System.DateTime DetectionTime { get; set; }
+        public System.DateTime? DetectionTime { get; set; }
 
         /// <summary>
         /// </summary>
@@ -184,59 +183,11 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Validate the object.
         /// </summary>
-        /// <exception cref="ValidationException">
+        /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown if validation fails
         /// </exception>
         public virtual void Validate()
         {
-            if (Id == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Id");
-            }
-            if (ClientId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "ClientId");
-            }
-            if (LimitOrderId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "LimitOrderId");
-            }
-            if (MarketOrderId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "MarketOrderId");
-            }
-            if (AssetId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "AssetId");
-            }
-            if (AssetPairId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "AssetPairId");
-            }
-            if (BlockChainHash == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "BlockChainHash");
-            }
-            if (Multisig == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Multisig");
-            }
-            if (TransactionId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "TransactionId");
-            }
-            if (AddressFrom == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "AddressFrom");
-            }
-            if (AddressTo == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "AddressTo");
-            }
-            if (OppositeLimitOrderId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "OppositeLimitOrderId");
-            }
         }
     }
 }

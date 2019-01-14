@@ -6,7 +6,6 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
-    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -23,7 +22,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the PaymentSystemModel class.
         /// </summary>
-        public PaymentSystemModel(string value)
+        public PaymentSystemModel(string value = default(string))
         {
             Value = value;
             CustomInit();
@@ -39,18 +38,5 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         [JsonProperty(PropertyName = "Value")]
         public string Value { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Value == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Value");
-            }
-        }
     }
 }

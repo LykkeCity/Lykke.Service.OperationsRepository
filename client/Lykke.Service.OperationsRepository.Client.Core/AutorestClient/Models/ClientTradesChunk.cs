@@ -6,7 +6,6 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
-    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Collections;
     using System.Collections.Generic;
@@ -25,7 +24,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the ClientTradesChunk class.
         /// </summary>
-        public ClientTradesChunk(IList<ClientTrade> trades, string continuationToken)
+        public ClientTradesChunk(IList<ClientTrade> trades = default(IList<ClientTrade>), string continuationToken = default(string))
         {
             Trades = trades;
             ContinuationToken = continuationToken;
@@ -47,32 +46,5 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         [JsonProperty(PropertyName = "ContinuationToken")]
         public string ContinuationToken { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Trades == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Trades");
-            }
-            if (ContinuationToken == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "ContinuationToken");
-            }
-            if (Trades != null)
-            {
-                foreach (var element in Trades)
-                {
-                    if (element != null)
-                    {
-                        element.Validate();
-                    }
-                }
-            }
-        }
     }
 }
