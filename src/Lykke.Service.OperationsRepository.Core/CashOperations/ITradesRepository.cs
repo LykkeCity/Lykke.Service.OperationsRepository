@@ -40,6 +40,11 @@ namespace Lykke.Service.OperationsRepository.Core.CashOperations
 
         Task<IEnumerable<IClientTrade>> GetAsync(DateTime from, DateTime to);
 
+        Task<(IEnumerable<IClientTrade>, string)> GetByDatesAsync(
+            DateTime from,
+            DateTime to,
+            string continuationToken);
+
         Task<IClientTrade> GetAsync(string clientId, string recordId);
         Task<IClientTrade> UpdateBlockChainHashAsync(string clientId, string recordId, string hash);
         Task<IClientTrade> SetDetectionTimeAndConfirmations(string clientId, string recordId, DateTime detectTime, int confirmations);

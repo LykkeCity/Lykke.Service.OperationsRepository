@@ -67,6 +67,19 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// <summary>
         /// Initializes a new instance of the OperationsRepositoryAPI class.
         /// </summary>
+        /// <param name='httpClient'>
+        /// HttpClient to be used
+        /// </param>
+        /// <param name='disposeHttpClient'>
+        /// True: will dispose the provided httpClient on calling OperationsRepositoryAPI.Dispose(). False: will not dispose provided httpClient</param>
+        public OperationsRepositoryAPI(HttpClient httpClient, bool disposeHttpClient) : base(httpClient, disposeHttpClient)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the OperationsRepositoryAPI class.
+        /// </summary>
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
@@ -149,7 +162,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             LimitOrders = new LimitOrders(this);
             LimitTradeEventOperations = new LimitTradeEventOperations(this);
             TransferOperations = new TransferOperations(this);
-            BaseUri = new System.Uri("http://localhost/");
+            BaseUri = new System.Uri("http://localhost");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,

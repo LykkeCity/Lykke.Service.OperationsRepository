@@ -6,6 +6,7 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
+    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -26,7 +27,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// </summary>
         /// <param name="tradeSystem">Possible values include: 'Spot',
         /// 'Margin'</param>
-        public CashOutAttemptInsertRequest(CashOutRequestTradeSystem tradeSystem, CashOutAttemptEntity request = default(CashOutAttemptEntity), PaymentSystemModel paymentSystem = default(PaymentSystemModel), object paymentFields = default(object))
+        public CashOutAttemptInsertRequest(CashOutAttemptEntity request, PaymentSystemModel paymentSystem, object paymentFields, CashOutRequestTradeSystem tradeSystem)
         {
             Request = request;
             PaymentSystem = paymentSystem;
@@ -64,14 +65,30 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Validate the object.
         /// </summary>
-        /// <exception cref="Microsoft.Rest.ValidationException">
+        /// <exception cref="ValidationException">
         /// Thrown if validation fails
         /// </exception>
         public virtual void Validate()
         {
+            if (Request == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "Request");
+            }
+            if (PaymentSystem == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "PaymentSystem");
+            }
+            if (PaymentFields == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "PaymentFields");
+            }
             if (Request != null)
             {
                 Request.Validate();
+            }
+            if (PaymentSystem != null)
+            {
+                PaymentSystem.Validate();
             }
         }
     }

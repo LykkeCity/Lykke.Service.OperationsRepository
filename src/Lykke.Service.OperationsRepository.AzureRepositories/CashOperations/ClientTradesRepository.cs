@@ -228,6 +228,20 @@ namespace Lykke.Service.OperationsRepository.AzureRepositories.CashOperations
             return await _tableStorage.GetDataAsync(itm => @from <= itm.DateTime && itm.DateTime < to);
         }
 
+        public async Task<(IEnumerable<IClientTrade>, string)> GetByDatesAsync(
+            DateTime from,
+            DateTime to,
+            string continuationToken)
+        {
+            var rangeQuery = AzureStorageUtils.QueryGenerator<ClientTradeEntity>
+                .PartitionKeyOnly.BetweenQuery(
+                    ClientTradeEntity.ByDate.GeneratePartitionKey(from),
+                    ClientTradeEntity.ByDate.GeneratePartitionKey(to),
+                    ToIntervalOption.IncludeTo);
+
+            return await _tableStorage.GetDataWithContinuationTokenAsync(rangeQuery, continuationToken);
+        }
+
         public async Task<IClientTrade> GetAsync(string clientId, string recordId)
         {
             var partitionKey = ClientTradeEntity.ByClientId.GeneratePartitionKey(clientId);

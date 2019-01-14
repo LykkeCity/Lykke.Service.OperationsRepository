@@ -6,6 +6,7 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
+    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -30,7 +31,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// 'ReservedVolumeGreaterThanBalance', 'NoLiquidity', 'UnknownAsset',
         /// 'Dust', 'Cancelled', 'LeadToNegativeSpread', 'TooSmallVolume',
         /// 'Runtime', 'InvalidFee'</param>
-        public LimitTradeEventInsertRequest(OrderType type, double volume, double price, OrderStatus status, System.DateTime dateTime, string orderId = default(string), string clientId = default(string), string assetId = default(string), string assetPair = default(string))
+        public LimitTradeEventInsertRequest(string orderId, string clientId, OrderType type, double volume, string assetId, string assetPair, double price, OrderStatus status, System.DateTime dateTime)
         {
             OrderId = orderId;
             ClientId = clientId;
@@ -102,11 +103,27 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Validate the object.
         /// </summary>
-        /// <exception cref="Microsoft.Rest.ValidationException">
+        /// <exception cref="ValidationException">
         /// Thrown if validation fails
         /// </exception>
         public virtual void Validate()
         {
+            if (OrderId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "OrderId");
+            }
+            if (ClientId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "ClientId");
+            }
+            if (AssetId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "AssetId");
+            }
+            if (AssetPair == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "AssetPair");
+            }
         }
     }
 }

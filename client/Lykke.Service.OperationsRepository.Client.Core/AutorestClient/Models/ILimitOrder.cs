@@ -6,6 +6,7 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
+    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -22,7 +23,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the ILimitOrder class.
         /// </summary>
-        public ILimitOrder(System.DateTime createdAt, double volume, double price, bool straight, string id = default(string), string clientId = default(string), string assetPairId = default(string), string status = default(string), double? remainingVolume = default(double?), string matchingId = default(string))
+        public ILimitOrder(string id, string clientId, System.DateTime createdAt, double volume, double price, string assetPairId, string status, bool straight, double remainingVolume, string matchingId)
         {
             Id = id;
             ClientId = clientId;
@@ -85,7 +86,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "RemainingVolume")]
-        public double? RemainingVolume { get; set; }
+        public double RemainingVolume { get; set; }
 
         /// <summary>
         /// </summary>
@@ -95,12 +96,27 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Validate the object.
         /// </summary>
-        /// <exception cref="Microsoft.Rest.ValidationException">
+        /// <exception cref="ValidationException">
         /// Thrown if validation fails
         /// </exception>
         public virtual void Validate()
         {
-            //Nothing to validate
+            if (ClientId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "ClientId");
+            }
+            if (AssetPairId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "AssetPairId");
+            }
+            if (Status == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "Status");
+            }
+            if (MatchingId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "MatchingId");
+            }
         }
     }
 }

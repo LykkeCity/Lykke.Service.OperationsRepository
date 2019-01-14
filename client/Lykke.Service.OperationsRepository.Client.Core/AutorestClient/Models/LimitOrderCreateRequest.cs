@@ -6,6 +6,7 @@
 
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
+    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -22,7 +23,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the LimitOrderCreateRequest class.
         /// </summary>
-        public LimitOrderCreateRequest(double remainingVolume, System.DateTime createdAt, double volume, double price, bool straight, string matchingId = default(string), string id = default(string), string clientId = default(string), string assetPairId = default(string), string status = default(string))
+        public LimitOrderCreateRequest(double remainingVolume, string matchingId, string id, string clientId, System.DateTime createdAt, double volume, double price, string assetPairId, string status, bool straight)
         {
             RemainingVolume = remainingVolume;
             MatchingId = matchingId;
@@ -95,12 +96,31 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
         /// <summary>
         /// Validate the object.
         /// </summary>
-        /// <exception cref="Microsoft.Rest.ValidationException">
+        /// <exception cref="ValidationException">
         /// Thrown if validation fails
         /// </exception>
         public virtual void Validate()
         {
-            //Nothing to validate
+            if (MatchingId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "MatchingId");
+            }
+            if (Id == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "Id");
+            }
+            if (ClientId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "ClientId");
+            }
+            if (AssetPairId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "AssetPairId");
+            }
+            if (Status == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "Status");
+            }
         }
     }
 }

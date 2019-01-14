@@ -400,6 +400,10 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "clientId");
             }
+            if (model != null)
+            {
+                model.Validate();
+            }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
