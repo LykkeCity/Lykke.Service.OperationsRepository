@@ -102,6 +102,40 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            /// <param name='continuationToken'>
+            /// </param>
+            public static object GetByDatesWithChunks(this IClientTradeOperations operations, System.DateTime fromParameter, System.DateTime to, string continuationToken = default(string))
+            {
+                return operations.GetByDatesWithChunksAsync(fromParameter, to, continuationToken).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            /// <param name='continuationToken'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetByDatesWithChunksAsync(this IClientTradeOperations operations, System.DateTime fromParameter, System.DateTime to, string continuationToken = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetByDatesWithChunksWithHttpMessagesAsync(fromParameter, to, continuationToken, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
             /// <param name='clientId'>
             /// </param>
             /// <param name='recordId'>

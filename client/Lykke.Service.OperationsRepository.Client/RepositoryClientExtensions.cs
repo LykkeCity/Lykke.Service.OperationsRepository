@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Common.Log;
 using Lykke.Service.OperationsRepository.Client.CashOperations;
 
 namespace Lykke.Service.OperationsRepository.Client
@@ -33,13 +32,6 @@ namespace Lykke.Service.OperationsRepository.Client
                 ElapsedTime = watch.ElapsedMilliseconds,
                 ActionResult = actionResult
             };
-        }
-
-        public static async Task LogMeasureTime(this BaseRepositoryClient client, ILog logger, long duration,
-            string component, string process)
-        {
-            var logEntry = $"Method execution duration (ms): {duration}";
-            await logger.WriteInfoAsync(component, process, string.Empty, logEntry);
         }
     }
 }

@@ -7,25 +7,27 @@
 namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 {
     using Newtonsoft.Json;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
 
-    public partial class IssueIndicator
+    public partial class ClientTradesChunk
     {
         /// <summary>
-        /// Initializes a new instance of the IssueIndicator class.
+        /// Initializes a new instance of the ClientTradesChunk class.
         /// </summary>
-        public IssueIndicator()
+        public ClientTradesChunk()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the IssueIndicator class.
+        /// Initializes a new instance of the ClientTradesChunk class.
         /// </summary>
-        public IssueIndicator(string type = default(string), string value = default(string))
+        public ClientTradesChunk(IList<ClientTrade> trades = default(IList<ClientTrade>), string continuationToken = default(string))
         {
-            Type = type;
-            Value = value;
+            Trades = trades;
+            ContinuationToken = continuationToken;
             CustomInit();
         }
 
@@ -36,13 +38,13 @@ namespace Lykke.Service.OperationsRepository.AutorestClient.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "type")]
-        public string Type { get; set; }
+        [JsonProperty(PropertyName = "Trades")]
+        public IList<ClientTrade> Trades { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "value")]
-        public string Value { get; set; }
+        [JsonProperty(PropertyName = "ContinuationToken")]
+        public string ContinuationToken { get; set; }
 
     }
 }

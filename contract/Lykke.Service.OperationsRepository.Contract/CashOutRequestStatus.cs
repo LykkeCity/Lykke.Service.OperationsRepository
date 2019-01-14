@@ -2,14 +2,14 @@
 {
     public enum CashOutRequestStatus
     {
-        ClientConfirmation = 4,
         Pending = 0,
-        RequestForDocs = 7,
         Confirmed = 1,
         Declined = 2,
+        Processed = 3,
+        ClientConfirmation = 4,
         CanceledByClient = 5,
         CanceledByTimeout = 6,
-        Processed = 3,
+        RequestForDocs = 7,
     }
 
     public enum CashOutVolumeSize

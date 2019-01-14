@@ -9,7 +9,7 @@ using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Models.LimitTradeEvent;
 using Lykke.Service.OperationsRepository.Validation;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Lykke.Service.OperationsRepository.Controllers
 {

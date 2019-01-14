@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Lykke.Service.OperationsRepository.Core;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Net;
+﻿using System.Net;
 using System.Linq;
 using Lykke.Common;
 using Lykke.Common.Api.Contract.Responses;
+using Lykke.Service.OperationsRepository.Core;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using ErrorResponse = Lykke.Service.OperationsRepository.Models.ErrorResponse;
 
 namespace Lykke.Service.OperationsRepository.Controllers

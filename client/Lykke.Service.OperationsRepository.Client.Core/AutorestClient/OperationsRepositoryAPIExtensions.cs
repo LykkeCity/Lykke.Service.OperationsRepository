@@ -7,6 +7,8 @@
 namespace Lykke.Service.OperationsRepository.AutorestClient
 {
     using Models;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -18,9 +20,297 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static object IsAlive(this IOperationsRepositoryAPI operations)
+            /// <param name='operation'>
+            /// </param>
+            public static object Register(this IOperationsRepositoryAPI operations, CashInOutOperation operation = default(CashInOutOperation))
             {
-                return operations.IsAliveAsync().GetAwaiter().GetResult();
+                return operations.RegisterAsync(operation).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='operation'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> RegisterAsync(this IOperationsRepositoryAPI operations, CashInOutOperation operation = default(CashInOutOperation), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.RegisterWithHttpMessagesAsync(operation, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            public static object GetAsync(this IOperationsRepositoryAPI operations, string clientId = default(string))
+            {
+                return operations.GetAsyncAsync(clientId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetAsyncAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetAsyncWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='recordId'>
+            /// </param>
+            public static object GetAsync1(this IOperationsRepositoryAPI operations, string clientId = default(string), string recordId = default(string))
+            {
+                return operations.GetAsync1Async(clientId, recordId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='recordId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetAsync1Async(this IOperationsRepositoryAPI operations, string clientId = default(string), string recordId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetAsync1WithHttpMessagesAsync(clientId, recordId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='hash'>
+            /// </param>
+            public static ErrorResponse UpdateBlockchainHashAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), string hash = default(string))
+            {
+                return operations.UpdateBlockchainHashAsyncAsync(clientId, id, hash).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='hash'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> UpdateBlockchainHashAsyncAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), string hash = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.UpdateBlockchainHashAsyncWithHttpMessagesAsync(clientId, id, hash, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='bcnTransactionId'>
+            /// </param>
+            public static ErrorResponse SetBtcTransaction(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), string bcnTransactionId = default(string))
+            {
+                return operations.SetBtcTransactionAsync(clientId, id, bcnTransactionId);
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='bcnTransactionId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> SetBtcTransactionAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), string bcnTransactionId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetBtcTransactionWithHttpMessagesAsync(clientId, id, bcnTransactionId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='offchain'>
+            /// </param>
+            public static ErrorResponse SetIsSettledAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), bool? offchain = default(bool?))
+            {
+                return operations.SetIsSettledAsyncAsync(clientId, id, offchain).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='offchain'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> SetIsSettledAsyncAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), bool? offchain = default(bool?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetIsSettledAsyncWithHttpMessagesAsync(clientId, id, offchain, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='blockchainHash'>
+            /// </param>
+            public static object GetByHashAsync(this IOperationsRepositoryAPI operations, string blockchainHash = default(string))
+            {
+                return operations.GetByHashAsyncAsync(blockchainHash).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='blockchainHash'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetByHashAsyncAsync(this IOperationsRepositoryAPI operations, string blockchainHash = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetByHashAsyncWithHttpMessagesAsync(blockchainHash, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='multisig'>
+            /// </param>
+            public static object GetByMultisigAsync(this IOperationsRepositoryAPI operations, string multisig = default(string))
+            {
+                return operations.GetByMultisigAsyncAsync(multisig).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='multisig'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetByMultisigAsyncAsync(this IOperationsRepositoryAPI operations, string multisig = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetByMultisigAsyncWithHttpMessagesAsync(multisig, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='multisigs'>
+            /// </param>
+            public static object GetByMultisigsAsync(this IOperationsRepositoryAPI operations, IList<string> multisigs = default(IList<string>))
+            {
+                return operations.GetByMultisigsAsyncAsync(multisigs).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='multisigs'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetByMultisigsAsyncAsync(this IOperationsRepositoryAPI operations, IList<string> multisigs = default(IList<string>), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetByMultisigsAsyncWithHttpMessagesAsync(multisigs, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='request'>
+            /// </param>
+            public static object InsertRequestAsync(this IOperationsRepositoryAPI operations, CashOutAttemptInsertRequest request = default(CashOutAttemptInsertRequest))
+            {
+                return operations.InsertRequestAsyncAsync(request).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='request'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> InsertRequestAsyncAsync(this IOperationsRepositoryAPI operations, CashOutAttemptInsertRequest request = default(CashOutAttemptInsertRequest), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.InsertRequestAsyncWithHttpMessagesAsync(request, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            public static object GetAllAttempts(this IOperationsRepositoryAPI operations)
+            {
+                return operations.GetAllAttemptsAsync().GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -29,9 +319,1335 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> IsAliveAsync(this IOperationsRepositoryAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> GetAllAttemptsAsync(this IOperationsRepositoryAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.IsAliveWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetAllAttemptsWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='hash'>
+            /// </param>
+            public static ErrorResponse SetBlockchainHash(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), string hash = default(string))
+            {
+                return operations.SetBlockchainHashAsync(clientId, requestId, hash).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='hash'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> SetBlockchainHashAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), string hash = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetBlockchainHashWithHttpMessagesAsync(clientId, requestId, hash, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object SetPending(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string))
+            {
+                return operations.SetPendingAsync(clientId, requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SetPendingAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetPendingWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object SetConfirmed(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string))
+            {
+                return operations.SetConfirmedAsync(clientId, requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SetConfirmedAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetConfirmedWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object SetDocsRequested(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string))
+            {
+                return operations.SetDocsRequestedAsync(clientId, requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SetDocsRequestedAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetDocsRequestedWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object SetDeclined(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string))
+            {
+                return operations.SetDeclinedAsync(clientId, requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SetDeclinedAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetDeclinedWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object SetCanceledByClient(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string))
+            {
+                return operations.SetCanceledByClientAsync(clientId, requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SetCanceledByClientAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetCanceledByClientWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object SetCanceledByTimeout(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string))
+            {
+                return operations.SetCanceledByTimeoutAsync(clientId, requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SetCanceledByTimeoutAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetCanceledByTimeoutWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object SetProcessed(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string))
+            {
+                return operations.SetProcessedAsync(clientId, requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SetProcessedAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetProcessedWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object SetHighVolume(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string))
+            {
+                return operations.SetHighVolumeAsync(clientId, requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SetHighVolumeAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetHighVolumeWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static ErrorResponse SetIsSettledOffchain(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string))
+            {
+                return operations.SetIsSettledOffchainAsync(clientId, requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> SetIsSettledOffchainAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetIsSettledOffchainWithHttpMessagesAsync(clientId, requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            public static object GetHistoryRecordsAsync(this IOperationsRepositoryAPI operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?))
+            {
+                return operations.GetHistoryRecordsAsyncAsync(fromParameter, to).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetHistoryRecordsAsyncAsync(this IOperationsRepositoryAPI operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetHistoryRecordsAsyncWithHttpMessagesAsync(fromParameter, to, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            public static object GetRequestsAsync(this IOperationsRepositoryAPI operations, string clientId = default(string))
+            {
+                return operations.GetRequestsAsyncAsync(clientId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetRequestsAsyncAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetRequestsAsyncWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            public static object GetAsync2(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string))
+            {
+                return operations.GetAsync2Async(clientId, id).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetAsync2Async(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetAsync2WithHttpMessagesAsync(clientId, id, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            public static object GetRelatedRequestsAsync(this IOperationsRepositoryAPI operations, string requestId = default(string))
+            {
+                return operations.GetRelatedRequestsAsyncAsync(requestId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='requestId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetRelatedRequestsAsyncAsync(this IOperationsRepositoryAPI operations, string requestId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetRelatedRequestsAsyncWithHttpMessagesAsync(requestId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientTrades'>
+            /// </param>
+            public static object SaveAsync(this IOperationsRepositoryAPI operations, IList<ClientTrade> clientTrades = default(IList<ClientTrade>))
+            {
+                return operations.SaveAsyncAsync(clientTrades).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientTrades'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SaveAsyncAsync(this IOperationsRepositoryAPI operations, IList<ClientTrade> clientTrades = default(IList<ClientTrade>), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SaveAsyncWithHttpMessagesAsync(clientTrades, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            public static object GetAsync3(this IOperationsRepositoryAPI operations, string clientId = default(string))
+            {
+                return operations.GetAsync3Async(clientId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetAsync3Async(this IOperationsRepositoryAPI operations, string clientId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetAsync3WithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            public static object GetAsync4(this IOperationsRepositoryAPI operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?))
+            {
+                return operations.GetAsync4Async(fromParameter, to).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetAsync4Async(this IOperationsRepositoryAPI operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetAsync4WithHttpMessagesAsync(fromParameter, to, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            /// <param name='continuationToken'>
+            /// </param>
+            public static object GetByDatesAsync(this IOperationsRepositoryAPI operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?), string continuationToken = default(string))
+            {
+                return operations.GetByDatesAsyncAsync(fromParameter, to, continuationToken).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            /// <param name='continuationToken'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetByDatesAsyncAsync(this IOperationsRepositoryAPI operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?), string continuationToken = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetByDatesAsyncWithHttpMessagesAsync(fromParameter, to, continuationToken, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='recordId'>
+            /// </param>
+            public static object GetAsync5(this IOperationsRepositoryAPI operations, string clientId = default(string), string recordId = default(string))
+            {
+                return operations.GetAsync5Async(clientId, recordId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='recordId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetAsync5Async(this IOperationsRepositoryAPI operations, string clientId = default(string), string recordId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetAsync5WithHttpMessagesAsync(clientId, recordId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='recordId'>
+            /// </param>
+            /// <param name='hash'>
+            /// </param>
+            public static ErrorResponse UpdateBlockChainHashAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string recordId = default(string), string hash = default(string))
+            {
+                return operations.UpdateBlockChainHashAsyncAsync(clientId, recordId, hash).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='recordId'>
+            /// </param>
+            /// <param name='hash'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> UpdateBlockChainHashAsyncAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string recordId = default(string), string hash = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.UpdateBlockChainHashAsyncWithHttpMessagesAsync(clientId, recordId, hash, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='recordId'>
+            /// </param>
+            /// <param name='detectTime'>
+            /// </param>
+            /// <param name='confirmations'>
+            /// </param>
+            public static ErrorResponse SetDetectionTimeAndConfirmations(this IOperationsRepositoryAPI operations, string clientId = default(string), string recordId = default(string), System.DateTime? detectTime = default(System.DateTime?), int? confirmations = default(int?))
+            {
+                return operations.SetDetectionTimeAndConfirmationsAsync(clientId, recordId, detectTime, confirmations).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='recordId'>
+            /// </param>
+            /// <param name='detectTime'>
+            /// </param>
+            /// <param name='confirmations'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> SetDetectionTimeAndConfirmationsAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string recordId = default(string), System.DateTime? detectTime = default(System.DateTime?), int? confirmations = default(int?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetDetectionTimeAndConfirmationsWithHttpMessagesAsync(clientId, recordId, detectTime, confirmations, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='recordId'>
+            /// </param>
+            /// <param name='btcTransactionId'>
+            /// </param>
+            public static ErrorResponse SetBtcTransactionAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string recordId = default(string), string btcTransactionId = default(string))
+            {
+                return operations.SetBtcTransactionAsyncAsync(clientId, recordId, btcTransactionId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='recordId'>
+            /// </param>
+            /// <param name='btcTransactionId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> SetBtcTransactionAsyncAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string recordId = default(string), string btcTransactionId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetBtcTransactionAsyncWithHttpMessagesAsync(clientId, recordId, btcTransactionId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='offchain'>
+            /// </param>
+            public static ErrorResponse SetIsSettledAsync1(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), bool? offchain = default(bool?))
+            {
+                return operations.SetIsSettledAsync1Async(clientId, id, offchain).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='offchain'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> SetIsSettledAsync1Async(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), bool? offchain = default(bool?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetIsSettledAsync1WithHttpMessagesAsync(clientId, id, offchain, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            public static object ScanByDtAsync(this IOperationsRepositoryAPI operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?))
+            {
+                return operations.ScanByDtAsyncAsync(fromParameter, to).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='fromParameter'>
+            /// </param>
+            /// <param name='to'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> ScanByDtAsyncAsync(this IOperationsRepositoryAPI operations, System.DateTime? fromParameter = default(System.DateTime?), System.DateTime? to = default(System.DateTime?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.ScanByDtAsyncWithHttpMessagesAsync(fromParameter, to, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            public static object GetByOrderAsync(this IOperationsRepositoryAPI operations, string orderId = default(string))
+            {
+                return operations.GetByOrderAsyncAsync(orderId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetByOrderAsyncAsync(this IOperationsRepositoryAPI operations, string orderId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetByOrderAsyncWithHttpMessagesAsync(orderId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            public static object Get(this IOperationsRepositoryAPI operations)
+            {
+                return ((IOperationsRepositoryAPI)operations).GetWithHttpMessagesAsync().GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetAsync(this IOperationsRepositoryAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='order'>
+            /// </param>
+            public static object AddOrderAsync(this IOperationsRepositoryAPI operations, LimitOrderCreateRequest order = default(LimitOrderCreateRequest))
+            {
+                return operations.AddOrderAsyncAsync(order).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='order'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> AddOrderAsyncAsync(this IOperationsRepositoryAPI operations, LimitOrderCreateRequest order = default(LimitOrderCreateRequest), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.AddOrderAsyncWithHttpMessagesAsync(order, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            public static object CancelOrderByIdAsync(this IOperationsRepositoryAPI operations, string clientId, string orderId)
+            {
+                return operations.CancelOrderByIdAsyncAsync(clientId, orderId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> CancelOrderByIdAsyncAsync(this IOperationsRepositoryAPI operations, string clientId, string orderId, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.CancelOrderByIdAsyncWithHttpMessagesAsync(clientId, orderId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='model'>
+            /// </param>
+            public static ErrorResponse CancelMultipleOrdersByClientIdAsync(this IOperationsRepositoryAPI operations, string clientId, LimitOrderCancelMultipleRequest model = default(LimitOrderCancelMultipleRequest))
+            {
+                return operations.CancelMultipleOrdersByClientIdAsyncAsync(clientId, model).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='model'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> CancelMultipleOrdersByClientIdAsyncAsync(this IOperationsRepositoryAPI operations, string clientId, LimitOrderCancelMultipleRequest model = default(LimitOrderCancelMultipleRequest), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.CancelMultipleOrdersByClientIdAsyncWithHttpMessagesAsync(clientId, model, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            /// <param name='model'>
+            /// </param>
+            public static object FinalizeOrderAsync(this IOperationsRepositoryAPI operations, string clientId, string orderId, LimitOrderFinalizeRequest model = default(LimitOrderFinalizeRequest))
+            {
+                return operations.FinalizeOrderAsyncAsync(clientId, orderId, model).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            /// <param name='model'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> FinalizeOrderAsyncAsync(this IOperationsRepositoryAPI operations, string clientId, string orderId, LimitOrderFinalizeRequest model = default(LimitOrderFinalizeRequest), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.FinalizeOrderAsyncWithHttpMessagesAsync(clientId, orderId, model, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            public static ErrorResponse RemoveOrderByIdAsync(this IOperationsRepositoryAPI operations, string clientId, string orderId)
+            {
+                return operations.RemoveOrderByIdAsyncAsync(clientId, orderId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> RemoveOrderByIdAsyncAsync(this IOperationsRepositoryAPI operations, string clientId, string orderId, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.RemoveOrderByIdAsyncWithHttpMessagesAsync(clientId, orderId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            public static object GetOrderByIdAsync(this IOperationsRepositoryAPI operations, string clientId, string orderId)
+            {
+                return operations.GetOrderByIdAsyncAsync(clientId, orderId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='orderId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetOrderByIdAsyncAsync(this IOperationsRepositoryAPI operations, string clientId, string orderId, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetOrderByIdAsyncWithHttpMessagesAsync(clientId, orderId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            public static object GetOrdersByClientIdAsync(this IOperationsRepositoryAPI operations, string clientId)
+            {
+                return operations.GetOrdersByClientIdAsyncAsync(clientId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetOrdersByClientIdAsyncAsync(this IOperationsRepositoryAPI operations, string clientId, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetOrdersByClientIdAsyncWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            public static object GetActiveOrdersByClientIdAsync(this IOperationsRepositoryAPI operations, string clientId)
+            {
+                return operations.GetActiveOrdersByClientIdAsyncAsync(clientId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetActiveOrdersByClientIdAsyncAsync(this IOperationsRepositoryAPI operations, string clientId, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetActiveOrdersByClientIdAsyncWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// </param>
+            public static object CreateAsync(this IOperationsRepositoryAPI operations, LimitTradeEventInsertRequest model = default(LimitTradeEventInsertRequest))
+            {
+                return operations.CreateAsyncAsync(model).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> CreateAsyncAsync(this IOperationsRepositoryAPI operations, LimitTradeEventInsertRequest model = default(LimitTradeEventInsertRequest), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.CreateAsyncWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            public static object GetAsync6(this IOperationsRepositoryAPI operations, string clientId)
+            {
+                return operations.GetAsync6Async(clientId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetAsync6Async(this IOperationsRepositoryAPI operations, string clientId, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetAsync6WithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='transferEvent'>
+            /// </param>
+            public static object RegisterAsync(this IOperationsRepositoryAPI operations, TransferEvent transferEvent = default(TransferEvent))
+            {
+                return operations.RegisterAsyncAsync(transferEvent).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='transferEvent'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> RegisterAsyncAsync(this IOperationsRepositoryAPI operations, TransferEvent transferEvent = default(TransferEvent), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.RegisterAsyncWithHttpMessagesAsync(transferEvent, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            public static object GetAsync7(this IOperationsRepositoryAPI operations, string clientId = default(string))
+            {
+                return operations.GetAsync7Async(clientId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetAsync7Async(this IOperationsRepositoryAPI operations, string clientId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetAsync7WithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            public static object GetAsync8(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string))
+            {
+                return operations.GetAsync8Async(clientId, id).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetAsync8Async(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetAsync8WithHttpMessagesAsync(clientId, id, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='blockChainHash'>
+            /// </param>
+            public static ErrorResponse UpdateBlockChainHashAsync1(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), string blockChainHash = default(string))
+            {
+                return operations.UpdateBlockChainHashAsync1Async(clientId, id, blockChainHash).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='blockChainHash'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> UpdateBlockChainHashAsync1Async(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), string blockChainHash = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.UpdateBlockChainHashAsync1WithHttpMessagesAsync(clientId, id, blockChainHash, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='btcTransaction'>
+            /// </param>
+            public static ErrorResponse SetBtcTransactionAsync1(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), string btcTransaction = default(string))
+            {
+                return operations.SetBtcTransactionAsync1Async(clientId, id, btcTransaction).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='btcTransaction'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> SetBtcTransactionAsync1Async(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), string btcTransaction = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetBtcTransactionAsync1WithHttpMessagesAsync(clientId, id, btcTransaction, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='offchain'>
+            /// </param>
+            public static ErrorResponse SetIsSettledIfExistsAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), bool? offchain = default(bool?))
+            {
+                return operations.SetIsSettledIfExistsAsyncAsync(clientId, id, offchain).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='id'>
+            /// </param>
+            /// <param name='offchain'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> SetIsSettledIfExistsAsyncAsync(this IOperationsRepositoryAPI operations, string clientId = default(string), string id = default(string), bool? offchain = default(bool?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SetIsSettledIfExistsAsyncWithHttpMessagesAsync(clientId, id, offchain, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='blockchainHash'>
+            /// </param>
+            public static object GetByHashAsync1(this IOperationsRepositoryAPI operations, string blockchainHash = default(string))
+            {
+                return operations.GetByHashAsync1Async(blockchainHash).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='blockchainHash'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetByHashAsync1Async(this IOperationsRepositoryAPI operations, string blockchainHash = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetByHashAsync1WithHttpMessagesAsync(blockchainHash, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='multisig'>
+            /// </param>
+            public static object GetByMultisigAsync1(this IOperationsRepositoryAPI operations, string multisig = default(string))
+            {
+                return operations.GetByMultisigAsync1Async(multisig).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='multisig'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetByMultisigAsync1Async(this IOperationsRepositoryAPI operations, string multisig = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetByMultisigAsync1WithHttpMessagesAsync(multisig, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='multisigs'>
+            /// </param>
+            public static object GetByMultisigsAsync1(this IOperationsRepositoryAPI operations, IList<string> multisigs = default(IList<string>))
+            {
+                return operations.GetByMultisigsAsync1Async(multisigs).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='multisigs'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> GetByMultisigsAsync1Async(this IOperationsRepositoryAPI operations, IList<string> multisigs = default(IList<string>), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetByMultisigsAsync1WithHttpMessagesAsync(multisigs, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }

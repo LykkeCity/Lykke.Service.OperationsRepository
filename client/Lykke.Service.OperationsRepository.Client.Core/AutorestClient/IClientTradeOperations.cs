@@ -65,6 +65,25 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
         /// Thrown when unable to deserialize the response
         /// </exception>
         Task<HttpOperationResponse<object>> GetByDatesWithHttpMessagesAsync(System.DateTime fromParameter, System.DateTime to, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <param name='fromParameter'>
+        /// </param>
+        /// <param name='to'>
+        /// </param>
+        /// <param name='continuationToken'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        /// <exception cref="Microsoft.Rest.HttpOperationException">
+        /// Thrown when the operation returned an invalid status code
+        /// </exception>
+        /// <exception cref="Microsoft.Rest.SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
+        Task<HttpOperationResponse<object>> GetByDatesWithChunksWithHttpMessagesAsync(System.DateTime fromParameter, System.DateTime to, string continuationToken = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <param name='clientId'>
         /// </param>
         /// <param name='recordId'>

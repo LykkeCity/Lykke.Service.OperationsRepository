@@ -9,7 +9,7 @@ using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Validation;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Lykke.Service.OperationsRepository.Controllers
 {
@@ -74,6 +74,20 @@ namespace Lykke.Service.OperationsRepository.Controllers
         public async Task<IActionResult> GetAsync([FromQuery] DateTime from, [FromQuery] DateTime to)
         {
             return Ok(await _clientTradesRepo.GetAsync(from, to));
+        }
+
+        [HttpGet("GetByDatesWithChunks")]
+        [SwaggerOperation("ClientTradeOperations_GetByDatesWithChunks")]
+        [ProducesResponseType(typeof(ClientTradesChunk), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetByDatesAsync([FromQuery] DateTime from, [FromQuery] DateTime to, [FromQuery] string continuationToken)
+        {
+            var (trades, token) = await _clientTradesRepo.GetByDatesAsync(from, to, continuationToken);
+            return Ok(new ClientTradesChunk
+            {
+                Trades = trades.Cast<ClientTrade>(),
+                ContinuationToken = token,
+            });
         }
 
         [HttpGet("GetByRecordId")]
