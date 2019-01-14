@@ -613,7 +613,7 @@ namespace Lykke.Service.OperationsRepository.AutorestClient
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<ValueTupleIEnumerableClientTradeString>(_responseContent, Client.DeserializationSettings);
+                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<ClientTradesChunk>(_responseContent, Client.DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {

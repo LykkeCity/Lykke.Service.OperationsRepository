@@ -78,11 +78,16 @@ namespace Lykke.Service.OperationsRepository.Controllers
 
         [HttpGet("GetByDatesWithChunks")]
         [SwaggerOperation("ClientTradeOperations_GetByDatesWithChunks")]
-        [ProducesResponseType(typeof((IEnumerable<ClientTrade>, string)), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ClientTradesChunk), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetByDatesAsync([FromQuery] DateTime from, [FromQuery] DateTime to, [FromQuery] string continuationToken)
         {
-            return Ok(await _clientTradesRepo.GetByDatesAsync(from, to, continuationToken));
+            var (trades, token) = await _clientTradesRepo.GetByDatesAsync(from, to, continuationToken);
+            return Ok(new ClientTradesChunk
+            {
+                Trades = trades.Cast<ClientTrade>(),
+                ContinuationToken = token,
+            });
         }
 
         [HttpGet("GetByRecordId")]
