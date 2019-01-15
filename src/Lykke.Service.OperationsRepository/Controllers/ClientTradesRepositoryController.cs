@@ -85,7 +85,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
             var (trades, token) = await _clientTradesRepo.GetByDatesAsync(from, to, continuationToken);
             return Ok(new ClientTradesChunk
             {
-                Trades = trades.Cast<ClientTrade>(),
+                Trades = trades,
                 ContinuationToken = token,
             });
         }
