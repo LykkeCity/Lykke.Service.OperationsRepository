@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Common.Log;
-using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
 using Lykke.Service.OperationsRepository.Models;
 using Lykke.Service.OperationsRepository.Validation;
@@ -17,14 +14,10 @@ namespace Lykke.Service.OperationsRepository.Controllers
     public class ClientTradesRepositoryController: Controller
     {
         private readonly IClientTradesRepository _clientTradesRepo;
-        private readonly IOperationsHistoryPublisher _historyPublisher;
-        private readonly ILog _log;
 
-        public ClientTradesRepositoryController(IClientTradesRepository clientTradesRepo, IOperationsHistoryPublisher historyPublisher, ILog log)
+        public ClientTradesRepositoryController(IClientTradesRepository clientTradesRepo)
         {
             _clientTradesRepo = clientTradesRepo;
-            _historyPublisher = historyPublisher;
-            _log = log;
         }
 
         [HttpPost("Save")]
@@ -39,16 +32,6 @@ namespace Lykke.Service.OperationsRepository.Controllers
             }
 
             var result = await _clientTradesRepo.SaveAsync(clientTrades);
-
-            try
-            {
-                var tasks = clientTrades.Select(x => _historyPublisher.PublishAsync(this.MapFrom(x)));
-                await Task.WhenAll(tasks);
-            }
-            catch (Exception e)
-            {
-                await _log.WriteErrorAsync(GetType().Name, "SaveAsync", "", e);
-            }
 
             return Ok(result);
         }
@@ -135,19 +118,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(hash)));
             }
 
-            var updated = await _clientTradesRepo.UpdateBlockChainHashAsync(clientId, recordId, hash);
-
-            if (updated != null)
-            {
-                try
-                {
-                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
-                }
-                catch (Exception e)
-                {
-                    await _log.WriteErrorAsync(GetType().Name, "UpdateBlockChainHashAsync", "", e);
-                }
-            }
+            await _clientTradesRepo.UpdateBlockChainHashAsync(clientId, recordId, hash);
 
             return Ok();
         }
@@ -168,19 +139,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(recordId)));
             }
 
-            var updated = await _clientTradesRepo.SetDetectionTimeAndConfirmations(clientId, recordId, detectTime, confirmations);
-
-            if (updated != null)
-            {
-                try
-                {
-                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
-                }
-                catch (Exception e)
-                {
-                    await _log.WriteErrorAsync(GetType().Name, "SetDetectionTimeAndConfirmations", "", e);
-                }
-            }
+            await _clientTradesRepo.SetDetectionTimeAndConfirmations(clientId, recordId, detectTime, confirmations);
 
             return Ok();
         }
@@ -226,19 +185,7 @@ namespace Lykke.Service.OperationsRepository.Controllers
                 return BadRequest(ErrorResponse.InvalidParameter(nameof(id)));
             }
 
-            var updated = await _clientTradesRepo.SetIsSettledAsync(clientId, id, offchain);
-
-            if (updated != null)
-            {
-                try
-                {
-                    await _historyPublisher.PublishAsync(this.MapFrom(updated));
-                }
-                catch (Exception e)
-                {
-                    await _log.WriteErrorAsync(GetType().Name, "SetIsSettledAsync", "", e);
-                }
-            }
+            await _clientTradesRepo.SetIsSettledAsync(clientId, id, offchain);
 
             return Ok();
         }

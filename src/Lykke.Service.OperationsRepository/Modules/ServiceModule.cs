@@ -1,15 +1,12 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using AzureStorage.Tables;
 using AzureStorage.Tables.Templates.Index;
 using Common.Log;
 using Lykke.Service.OperationsRepository.AzureRepositories.CashOperations;
 using Lykke.Service.OperationsRepository.Core;
 using Lykke.Service.OperationsRepository.Core.CashOperations;
-using Lykke.Service.OperationsRepository.RabbitPublishers;
 using Lykke.Service.OperationsRepository.Services;
 using Lykke.SettingsReader;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Lykke.Service.OperationsRepository.Modules
 {
@@ -17,15 +14,11 @@ namespace Lykke.Service.OperationsRepository.Modules
     {
         private readonly IReloadingManager<OperationsRepositorySettings> _settings;
         private readonly ILog _log;
-        // NOTE: you can remove it if you don't need to use IServiceCollection extensions to register service specific dependencies
-        private readonly IServiceCollection _services;
 
         public ServiceModule(IReloadingManager<OperationsRepositorySettings> settings, ILog log)
         {
             _settings = settings;
             _log = log;
-
-            _services = new ServiceCollection();
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -45,22 +38,6 @@ namespace Lykke.Service.OperationsRepository.Modules
                 .As<IShutdownManager>();
 
             RegisterAzureRepositories(builder);
-
-            RegisterRabbitMqPublishers(builder);
-
-            builder.Populate(_services);
-        }
-
-        private void RegisterRabbitMqPublishers(ContainerBuilder builder)
-        {
-            // TODO: You should register each publisher in DI container as publisher specific interface and as IStartable,
-            // as singleton and do not autoactivate it
-
-            builder.RegisterType<OperationsHistoryPublisher>()
-                .As<IOperationsHistoryPublisher>()
-                .As<IStartable>()
-                .SingleInstance()
-                .WithParameter(TypedParameter.From(_settings.CurrentValue.Rabbit));
         }
 
         private void RegisterAzureRepositories(ContainerBuilder builder)
