@@ -9,7 +9,6 @@
     public class OperationsRepositorySettings
     {
         public DbSettings Db { get; set; }
-        public RabbitMqSettings Rabbit { get; set; }
     }
 
     public class DbSettings
@@ -36,11 +35,5 @@
         public string ConnectionString { get; set; }
 
         public string QueueName { get; set; }
-    }
-
-    public class RabbitMqSettings
-    {
-        public string ConnectionString { get; set; }
-        public string ExchangeName { get; set; }
     }
 }
